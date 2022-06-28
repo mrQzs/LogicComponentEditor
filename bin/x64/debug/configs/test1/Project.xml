@@ -144,8 +144,48 @@
     <tasks>
         <task id="1" name="新建任务#1" type="1" enable="1" execute_method="0">
             <processes>
-                <process id="2" name="绝对运动2" type="3" parent_id="1" parent_category="1" previous_id="0" next_id="0" sync_mode="0" module_pointer="2179644967920">
+                <process id="2" name="绝对运动2" type="3" parent_id="1" parent_category="1" previous_id="0" next_id="3" sync_mode="0" module_pointer="2245584555680">
                     <module device_id="0" axis_index="0" position_referid="0" velocity_referid="0" safeguard_referid="0" direction_referid="1" inplace_wait_type="0" inplace_wait_value="0"/>
+                </process>
+                <process id="3" name="相对运动3" type="4" parent_id="1" parent_category="1" previous_id="2" next_id="4" sync_mode="0" module_pointer="2245720512160">
+                    <module device_id="0" axis_index="0" distance_referid="0" velocity_referid="0" safeguard_referid="0" direction_referid="1" inplace_wait_type="0" inplace_wait_value="0"/>
+                </process>
+                <process id="4" name="Jog运动4" type="5" parent_id="1" parent_category="1" previous_id="3" next_id="5" sync_mode="0" module_pointer="2245692045584">
+                    <module device_id="0" axis_index="0" velocity_referid="0" safeguard_referid="0" direction_referid="1" inplace_wait_type="0" inplace_wait_value="0"/>
+                </process>
+                <process id="5" name="多轴运动5" type="6" parent_id="1" parent_category="1" previous_id="4" next_id="6" sync_mode="0" module_pointer="2245692045776">
+                    <module coords_referid="0" enabled_axisids="" safeguard_referid="0" inplace_wait_type="0" inplace_wait_value="0"/>
+                </process>
+                <process id="6" name="停止运动6" type="9" parent_id="1" parent_category="1" previous_id="5" next_id="7" sync_mode="0" module_pointer="2245588199296">
+                    <module device_id="0" axis_index="0" method_referid="0" safeguard_referid="0" inplace_wait_type="0" inplace_wait_value="0"/>
+                </process>
+                <process id="7" name="到位等待7" type="22" parent_id="1" parent_category="1" previous_id="6" next_id="9" sync_mode="0" module_pointer="2245729220848">
+                    <module logic_operator="1"/>
+                </process>
+                <process id="8" name="控制DO输出8" type="10" parent_id="1" parent_category="1" previous_id="9" next_id="10" sync_mode="0" module_pointer="2245720346352">
+                    <module device_id="0" do_index="0" do_status="0"/>
+                </process>
+                <process id="9" name="控制AO输出9" type="11" parent_id="1" parent_category="1" previous_id="7" next_id="8" sync_mode="0" module_pointer="2245722079392">
+                    <module device_id="0" ao_index="0" value_referid="0"/>
+                </process>
+                <process id="10" name="气油缸10" type="20" parent_id="1" parent_category="1" previous_id="8" next_id="11" sync_mode="0" module_pointer="2245729107872">
+                    <module device_id="0" control_direction="0"/>
+                </process>
+                <process id="11" name="新建控件#10" type="12" parent_id="1" parent_category="1" previous_id="10" next_id="13" sync_mode="0" module_pointer="2245716217024">
+                    <module>
+                        <condition ref_condition_id="12"/>
+                    </module>
+                </process>
+                <process id="12" name="条件列表-新建控件#10" type="21" parent_id="11" parent_category="1" previous_id="0" next_id="0" sync_mode="0" module_pointer="2245729249968">
+                    <module logic_operator="1"/>
+                </process>
+                <process id="13" name="新建控件#12" type="25" parent_id="1" parent_category="1" previous_id="11" next_id="0" sync_mode="0" module_pointer="2245729245328">
+                    <module>
+                        <condition ref_condition_id="14"/>
+                    </module>
+                </process>
+                <process id="14" name="条件列表-新建控件#12" type="21" parent_id="13" parent_category="1" previous_id="0" next_id="0" sync_mode="0" module_pointer="2245729241808">
+                    <module logic_operator="1"/>
                 </process>
             </processes>
         </task>

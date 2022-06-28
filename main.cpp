@@ -52,7 +52,7 @@ int main(int argc, char *argv[]) {
     auto pName =
         QString("%1: %2").arg(MainWindow::tr("工程"), dia.getProjectName());
     auto name = QString("%1  ---  %2")
-                    .arg(MainWindow::tr("宇道业务逻辑编辑软件 v:1.1.0"), pName);
+                    .arg(MainWindow::tr("业务逻辑编辑软件 v:1.1.0"), pName);
     w.setWindowTitle(name);
 
     YDLogger::setMessageWidget(w.getLogWidget());

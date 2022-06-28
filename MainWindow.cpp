@@ -1133,7 +1133,7 @@ void MainWindow::updateProjectName() {
   auto pName = QString("%1: %2").arg(MainWindow::tr("工程"),
                                      YDProjectManage::getCurrentProject());
   auto name = QString("%1  ---  %2")
-                  .arg(MainWindow::tr("宇道业务逻辑编辑软件 v:1.1.0"), pName);
+                  .arg(MainWindow::tr("业务逻辑编辑软件 v:1.1.0"), pName);
   setWindowTitle(name);
 }
 
