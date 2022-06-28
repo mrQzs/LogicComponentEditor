@@ -15,3 +15,7 @@
 /bin/x64/debug/scripts/PRO_可编程模块#314.vb
 /bin/x64/debug/scripts/clinfo/*.txt
 /bin/x64/debug/log/*.log
+/*.user
+/bin/x64/debug/LogicComponentEditor.ilk
+/bin/x64/debug/LogicComponentEditor.pdb
+/bin/x64/debug/LogicComponentEditor.exe
