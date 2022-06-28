@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<config>
+	<basics>
+		<version id="1"></version>
+		<log file="TestProject" level="3" console="1"/>
+		<project file="TestProject"/>
+	</basics>
+</config>

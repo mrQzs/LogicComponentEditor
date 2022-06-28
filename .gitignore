@@ -1,0 +1,17 @@
+/build
+/release
+/Makefile.Release
+/.qmake.stash
+/Makefile
+/Makefile.Debug
+/YDServiceLogicEditor.pro.user
+/bin/x64/debug/YDServiceLogicEditor.exe
+/bin/x64/debug/YDServiceLogicEditor.ilk
+/bin/x64/debug/YDServiceLogicEditor.pdb
+/bin/x64/debug/*.dmp
+/bin/x64/debug/scripts/PRO_code1.cs
+/bin/x64/debug/scripts/PRO_code1.vb
+/bin/x64/debug/scripts/PRO_可编程模块#314.cs
+/bin/x64/debug/scripts/PRO_可编程模块#314.vb
+/bin/x64/debug/scripts/clinfo/*.txt
+/bin/x64/debug/log/*.log

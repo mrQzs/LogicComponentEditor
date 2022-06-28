@@ -1,0 +1,639 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project>
+    <devices>
+        <device id="1" name="模拟运动#1设备#0卡" enable="true" type_id="101" type_name="mod:dev:mc" model="" vendor="运动控制器模拟器" library="modDev_ModbusController.dll" remarks="">
+            <card index="0" name="控制卡#0" config="configs/GTS800.cfg"/>
+            <axises>
+                <axis index="1" name="1#轴" enable="true" equivalent="1000" max_velocity="500" max_acceleration="1000" max_deceleration="1000" smooth_stop_deceleration="1000" urgent_stop_deceleration="1000" arrive_error="0.10000000000000001" arrive_timeout="4000" use_hw_encoder="true" use_abs_encoder="true" stoped_delay="1000" takeoff_velocity="0" smooth_time="0" smooth_factor="0" remarks="" home_logic_subtask="0" suspend_logic_subtask="0" restore_logic_subtask="0">
+                    <sw_limit enable="false" positive="99999" negative="-99999"/>
+                    <hw_limit positive_enable="true" negative_enable="true"/>
+                    <home priority="1" mode="0" move_velocity="10" search_distance="100" search_high_velocity="10" search_low_velocity="1" origin_offset="10" cap_elect_level="1"/>
+                </axis>
+                <axis index="2" name="2#轴" enable="true" equivalent="1000" max_velocity="500" max_acceleration="1000" max_deceleration="1000" smooth_stop_deceleration="1000" urgent_stop_deceleration="1000" arrive_error="0.10000000000000001" arrive_timeout="4000" use_hw_encoder="true" use_abs_encoder="true" stoped_delay="1000" takeoff_velocity="0" smooth_time="0" smooth_factor="0" remarks="" home_logic_subtask="0" suspend_logic_subtask="0" restore_logic_subtask="0">
+                    <sw_limit enable="false" positive="99999" negative="-99999"/>
+                    <hw_limit positive_enable="true" negative_enable="true"/>
+                    <home priority="1" mode="0" move_velocity="10" search_distance="100" search_high_velocity="10" search_low_velocity="1" origin_offset="10" cap_elect_level="1"/>
+                </axis>
+                <axis index="3" name="3#轴" enable="true" equivalent="1000" max_velocity="500" max_acceleration="1000" max_deceleration="1000" smooth_stop_deceleration="1000" urgent_stop_deceleration="1000" arrive_error="0.10000000000000001" arrive_timeout="4000" use_hw_encoder="true" use_abs_encoder="true" stoped_delay="1000" takeoff_velocity="0" smooth_time="0" smooth_factor="0" remarks="" home_logic_subtask="0" suspend_logic_subtask="0" restore_logic_subtask="0">
+                    <sw_limit enable="false" positive="99999" negative="-99999"/>
+                    <hw_limit positive_enable="true" negative_enable="true"/>
+                    <home priority="1" mode="0" move_velocity="10" search_distance="100" search_high_velocity="10" search_low_velocity="1" origin_offset="10" cap_elect_level="1"/>
+                </axis>
+                <axis index="4" name="4#轴" enable="true" equivalent="1000" max_velocity="1000" max_acceleration="1000" max_deceleration="1000" smooth_stop_deceleration="1000" urgent_stop_deceleration="1000" arrive_error="0.10000000000000001" arrive_timeout="4000" use_hw_encoder="true" use_abs_encoder="true" stoped_delay="1000" takeoff_velocity="0" smooth_time="0" smooth_factor="0" remarks="" home_logic_subtask="0" suspend_logic_subtask="0" restore_logic_subtask="0">
+                    <sw_limit enable="false" positive="99999" negative="-99999"/>
+                    <hw_limit positive_enable="true" negative_enable="true"/>
+                    <home priority="1" mode="0" move_velocity="10" search_distance="100" search_high_velocity="10" search_low_velocity="1" origin_offset="10" cap_elect_level="1"/>
+                </axis>
+                <axis index="5" name="5#轴" enable="true" equivalent="1000" max_velocity="2000" max_acceleration="1000" max_deceleration="1000" smooth_stop_deceleration="1000" urgent_stop_deceleration="1000" arrive_error="0.10000000000000001" arrive_timeout="4000" use_hw_encoder="true" use_abs_encoder="true" stoped_delay="1000" takeoff_velocity="0" smooth_time="0" smooth_factor="0" remarks="" home_logic_subtask="0" suspend_logic_subtask="0" restore_logic_subtask="0">
+                    <sw_limit enable="false" positive="99999" negative="-99999"/>
+                    <hw_limit positive_enable="true" negative_enable="true"/>
+                    <home priority="1" mode="0" move_velocity="10" search_distance="100" search_high_velocity="10" search_low_velocity="1" origin_offset="10" cap_elect_level="1"/>
+                </axis>
+                <axis index="6" name="6#轴" enable="true" equivalent="1000" max_velocity="1500" max_acceleration="1000" max_deceleration="1000" smooth_stop_deceleration="1000" urgent_stop_deceleration="1000" arrive_error="0.10000000000000001" arrive_timeout="4000" use_hw_encoder="true" use_abs_encoder="true" stoped_delay="1000" takeoff_velocity="0" smooth_time="0" smooth_factor="0" remarks="" home_logic_subtask="0" suspend_logic_subtask="0" restore_logic_subtask="0">
+                    <sw_limit enable="false" positive="99999" negative="-99999"/>
+                    <hw_limit positive_enable="true" negative_enable="true"/>
+                    <home priority="1" mode="0" move_velocity="10" search_distance="100" search_high_velocity="10" search_low_velocity="1" origin_offset="10" cap_elect_level="1"/>
+                </axis>
+                <axis index="7" name="7#轴" enable="true" equivalent="1000" max_velocity="7000" max_acceleration="1000" max_deceleration="1000" smooth_stop_deceleration="1000" urgent_stop_deceleration="1000" arrive_error="0.10000000000000001" arrive_timeout="4000" use_hw_encoder="true" use_abs_encoder="true" stoped_delay="1000" takeoff_velocity="0" smooth_time="0" smooth_factor="0" remarks="" home_logic_subtask="0" suspend_logic_subtask="0" restore_logic_subtask="0">
+                    <sw_limit enable="false" positive="99999" negative="-99999"/>
+                    <hw_limit positive_enable="true" negative_enable="true"/>
+                    <home priority="1" mode="0" move_velocity="10" search_distance="100" search_high_velocity="10" search_low_velocity="1" origin_offset="10" cap_elect_level="1"/>
+                </axis>
+                <axis index="8" name="8#轴" enable="true" equivalent="1000" max_velocity="300" max_acceleration="1000" max_deceleration="1000" smooth_stop_deceleration="1000" urgent_stop_deceleration="1000" arrive_error="0.10000000000000001" arrive_timeout="4000" use_hw_encoder="true" use_abs_encoder="true" stoped_delay="1000" takeoff_velocity="0" smooth_time="0" smooth_factor="0" remarks="" home_logic_subtask="0" suspend_logic_subtask="0" restore_logic_subtask="0">
+                    <sw_limit enable="false" positive="99999" negative="-99999"/>
+                    <hw_limit positive_enable="true" negative_enable="true"/>
+                    <home priority="1" mode="0" move_velocity="10" search_distance="100" search_high_velocity="10" search_low_velocity="1" origin_offset="10" cap_elect_level="1"/>
+                </axis>
+            </axises>
+            <dis>
+                <group type="0">
+                    <di index="1" type="0" name="通用输入_DI1" reverse="false" enable="false" label="" remarks=""/>
+                    <di index="2" type="0" name="通用输入_DI2" reverse="false" enable="false" label="" remarks=""/>
+                    <di index="3" type="0" name="通用输入_DI3" reverse="false" enable="false" label="" remarks=""/>
+                    <di index="4" type="0" name="通用输入_DI4" reverse="false" enable="false" label="" remarks=""/>
+                    <di index="5" type="0" name="通用输入_DI5" reverse="false" enable="false" label="" remarks=""/>
+                    <di index="6" type="0" name="通用输入_DI6" reverse="false" enable="false" label="" remarks=""/>
+                    <di index="7" type="0" name="通用输入_DI7" reverse="false" enable="false" label="" remarks=""/>
+                    <di index="8" type="0" name="通用输入_DI8" reverse="false" enable="false" label="" remarks=""/>
+                    <di index="9" type="0" name="通用输入_DI9" reverse="false" enable="false" label="" remarks=""/>
+                    <di index="10" type="0" name="通用输入_DI10" reverse="false" enable="false" label="" remarks=""/>
+                    <di index="11" type="0" name="通用输入_DI11" reverse="false" enable="false" label="" remarks=""/>
+                    <di index="12" type="0" name="通用输入_DI12" reverse="false" enable="false" label="" remarks=""/>
+                    <di index="13" type="0" name="通用输入_DI13" reverse="false" enable="false" label="" remarks=""/>
+                    <di index="14" type="0" name="通用输入_DI14" reverse="false" enable="false" label="" remarks=""/>
+                    <di index="15" type="0" name="通用输入_DI15" reverse="false" enable="false" label="" remarks=""/>
+                    <di index="16" type="0" name="通用输入_DI16" reverse="false" enable="false" label="" remarks=""/>
+                </group>
+                <group type="1">
+                    <di index="1" type="1" name="正向限位_DI1" reverse="false" enable="false" label="" remarks=""/>
+                    <di index="2" type="1" name="正向限位_DI2" reverse="false" enable="false" label="" remarks=""/>
+                    <di index="3" type="1" name="正向限位_DI3" reverse="false" enable="false" label="" remarks=""/>
+                    <di index="4" type="1" name="正向限位_DI4" reverse="false" enable="false" label="" remarks=""/>
+                    <di index="5" type="1" name="正向限位_DI5" reverse="false" enable="false" label="" remarks=""/>
+                    <di index="6" type="1" name="正向限位_DI6" reverse="false" enable="false" label="" remarks=""/>
+                    <di index="7" type="1" name="正向限位_DI7" reverse="false" enable="false" label="" remarks=""/>
+                    <di index="8" type="1" name="正向限位_DI8" reverse="false" enable="false" label="" remarks=""/>
+                    <di index="9" type="1" name="正向限位_DI9" reverse="false" enable="false" label="" remarks=""/>
+                    <di index="10" type="1" name="正向限位_DI10" reverse="false" enable="false" label="" remarks=""/>
+                    <di index="11" type="1" name="正向限位_DI11" reverse="false" enable="false" label="" remarks=""/>
+                    <di index="12" type="1" name="正向限位_DI12" reverse="false" enable="false" label="" remarks=""/>
+                    <di index="13" type="1" name="正向限位_DI13" reverse="false" enable="false" label="" remarks=""/>
+                    <di index="14" type="1" name="正向限位_DI14" reverse="false" enable="false" label="" remarks=""/>
+                    <di index="15" type="1" name="正向限位_DI15" reverse="false" enable="false" label="" remarks=""/>
+                    <di index="16" type="1" name="正向限位_DI16" reverse="false" enable="false" label="" remarks=""/>
+                </group>
+                <group type="2">
+                    <di index="1" type="2" name="负向限位_DI1" reverse="false" enable="false" label="" remarks=""/>
+                    <di index="2" type="2" name="负向限位_DI2" reverse="false" enable="false" label="" remarks=""/>
+                    <di index="3" type="2" name="负向限位_DI3" reverse="false" enable="false" label="" remarks=""/>
+                    <di index="4" type="2" name="负向限位_DI4" reverse="false" enable="false" label="" remarks=""/>
+                    <di index="5" type="2" name="负向限位_DI5" reverse="false" enable="false" label="" remarks=""/>
+                    <di index="6" type="2" name="负向限位_DI6" reverse="false" enable="false" label="" remarks=""/>
+                    <di index="7" type="2" name="负向限位_DI7" reverse="false" enable="false" label="" remarks=""/>
+                    <di index="8" type="2" name="负向限位_DI8" reverse="false" enable="false" label="" remarks=""/>
+                    <di index="9" type="2" name="负向限位_DI9" reverse="false" enable="false" label="" remarks=""/>
+                    <di index="10" type="2" name="负向限位_DI10" reverse="false" enable="false" label="" remarks=""/>
+                    <di index="11" type="2" name="负向限位_DI11" reverse="false" enable="false" label="" remarks=""/>
+                    <di index="12" type="2" name="负向限位_DI12" reverse="false" enable="false" label="" remarks=""/>
+                    <di index="13" type="2" name="负向限位_DI13" reverse="false" enable="false" label="" remarks=""/>
+                    <di index="14" type="2" name="负向限位_DI14" reverse="false" enable="false" label="" remarks=""/>
+                    <di index="15" type="2" name="负向限位_DI15" reverse="false" enable="false" label="" remarks=""/>
+                    <di index="16" type="2" name="负向限位_DI16" reverse="false" enable="false" label="" remarks=""/>
+                </group>
+            </dis>
+            <dos>
+                <group type="0">
+                    <do index="1" type="0" name="通用输出_DO1" reverse="false" enable="false" label="" remarks=""/>
+                    <do index="2" type="0" name="通用输出_DO2" reverse="false" enable="false" label="" remarks=""/>
+                    <do index="3" type="0" name="通用输出_DO3" reverse="false" enable="false" label="" remarks=""/>
+                    <do index="4" type="0" name="通用输出_DO4" reverse="false" enable="false" label="" remarks=""/>
+                    <do index="5" type="0" name="通用输出_DO5" reverse="false" enable="false" label="" remarks=""/>
+                    <do index="6" type="0" name="通用输出_DO6" reverse="false" enable="false" label="" remarks=""/>
+                    <do index="7" type="0" name="通用输出_DO7" reverse="false" enable="false" label="" remarks=""/>
+                    <do index="8" type="0" name="通用输出_DO8" reverse="false" enable="false" label="" remarks=""/>
+                    <do index="9" type="0" name="通用输出_DO9" reverse="false" enable="false" label="" remarks=""/>
+                    <do index="10" type="0" name="通用输出_DO10" reverse="false" enable="false" label="" remarks=""/>
+                    <do index="11" type="0" name="通用输出_DO11" reverse="false" enable="false" label="" remarks=""/>
+                    <do index="12" type="0" name="通用输出_DO12" reverse="false" enable="false" label="" remarks=""/>
+                    <do index="13" type="0" name="通用输出_DO13" reverse="false" enable="false" label="" remarks=""/>
+                    <do index="14" type="0" name="通用输出_DO14" reverse="false" enable="false" label="" remarks=""/>
+                    <do index="15" type="0" name="通用输出_DO15" reverse="false" enable="false" label="" remarks=""/>
+                    <do index="16" type="0" name="通用输出_DO16" reverse="false" enable="false" label="" remarks=""/>
+                </group>
+                <group type="1">
+                    <do index="1" type="1" name="驱动使能_DO1" reverse="false" enable="false" label="" remarks=""/>
+                    <do index="2" type="1" name="驱动使能_DO2" reverse="false" enable="false" label="" remarks=""/>
+                    <do index="3" type="1" name="驱动使能_DO3" reverse="false" enable="false" label="" remarks=""/>
+                    <do index="4" type="1" name="驱动使能_DO4" reverse="false" enable="false" label="" remarks=""/>
+                    <do index="5" type="1" name="驱动使能_DO5" reverse="false" enable="false" label="" remarks=""/>
+                    <do index="6" type="1" name="驱动使能_DO6" reverse="false" enable="false" label="" remarks=""/>
+                    <do index="7" type="1" name="驱动使能_DO7" reverse="false" enable="false" label="" remarks=""/>
+                    <do index="8" type="1" name="驱动使能_DO8" reverse="false" enable="false" label="" remarks=""/>
+                    <do index="9" type="1" name="驱动使能_DO9" reverse="false" enable="false" label="" remarks=""/>
+                    <do index="10" type="1" name="驱动使能_DO10" reverse="false" enable="false" label="" remarks=""/>
+                    <do index="11" type="1" name="驱动使能_DO11" reverse="false" enable="false" label="" remarks=""/>
+                    <do index="12" type="1" name="驱动使能_DO12" reverse="false" enable="false" label="" remarks=""/>
+                    <do index="13" type="1" name="驱动使能_DO13" reverse="false" enable="false" label="" remarks=""/>
+                    <do index="14" type="1" name="驱动使能_DO14" reverse="false" enable="false" label="" remarks=""/>
+                    <do index="15" type="1" name="驱动使能_DO15" reverse="false" enable="false" label="" remarks=""/>
+                    <do index="16" type="1" name="驱动使能_DO16" reverse="false" enable="false" label="" remarks=""/>
+                </group>
+            </dos>
+        </device>
+        <cylinder id="5" name="气油缸#1" enable="true" type_id="103" type_name="mod:dev:cy" model="" vendor="" library="" remarks="">
+            <refer device_id="1" card="0" axis="1"/>
+            <input>
+                <ahead type="1" refer_device_id="0" refer_index="0" action_value="0" delay_time="5000" alarm_time="6000"/>
+                <back type="1" refer_device_id="0" refer_index="0" action_value="0" delay_time="3000" alarm_time="4000"/>
+            </input>
+            <output>
+                <ahead refer_device_id="1" refer_index="1" action_value="1"/>
+                <back refer_device_id="1" refer_index="1" action_value="0"/>
+            </output>
+        </cylinder>
+        <cylinder id="6" name="气油缸#2" enable="true" type_id="103" type_name="mod:dev:cy" model="" vendor="" library="" remarks="">
+            <refer device_id="2" card="0" axis="2"/>
+            <input>
+                <ahead type="2" refer_device_id="1" refer_index="1" action_value="1" delay_time="0" alarm_time="6000"/>
+                <back type="1" refer_device_id="1" refer_index="2" action_value="1" delay_time="0" alarm_time="4000"/>
+            </input>
+            <output>
+                <ahead refer_device_id="1" refer_index="2" action_value="1"/>
+                <back refer_device_id="1" refer_index="3" action_value="1"/>
+            </output>
+        </cylinder>
+        <cylinder id="7" name="气油缸#3" enable="true" type_id="103" type_name="mod:dev:cy" model="" vendor="" library="" remarks="">
+            <refer device_id="3" card="0" axis="3"/>
+            <input>
+                <ahead type="3" refer_device_id="1" refer_index="3" action_value="1" delay_time="2500" alarm_time="6000"/>
+                <back type="3" refer_device_id="1" refer_index="3" action_value="0" delay_time="1500" alarm_time="4000"/>
+            </input>
+            <output>
+                <ahead refer_device_id="1" refer_index="4" action_value="1"/>
+                <back refer_device_id="1" refer_index="4" action_value="0"/>
+            </output>
+        </cylinder>
+        <cylinder id="8" name="气油缸#4" enable="true" type_id="103" type_name="mod:dev:cy" model="" vendor="" library="" remarks="">
+            <refer device_id="4" card="0" axis="4"/>
+            <input>
+                <ahead type="4" refer_device_id="1" refer_index="3" action_value="80" delay_time="1000" alarm_time="2500"/>
+                <back type="4" refer_device_id="1" refer_index="3" action_value="0" delay_time="500" alarm_time="3000"/>
+            </input>
+            <output>
+                <ahead refer_device_id="1" refer_index="5" action_value="1"/>
+                <back refer_device_id="1" refer_index="6" action_value="1"/>
+            </output>
+        </cylinder>
+    </devices>
+    <tasks>
+        <task id="1" name="新建任务#1" type="1" enable="1" execute_method="0"/>
+    </tasks>
+    <variable_groups>
+        <variable_group parent_id="0" group_id="1" group_name="全局变量一级组"/>
+        <variable_group parent_id="1" group_id="2" group_name="全局变量二级组"/>
+        <variable_group parent_id="0" group_id="3" group_name="工序#1"/>
+        <variable_group parent_id="3" group_id="4" group_name="工序#1控制变量"/>
+        <variable_group parent_id="3" group_id="5" group_name="工序#1轴变量"/>
+        <variable_group parent_id="0" group_id="6" group_name="工序#2"/>
+        <variable_group parent_id="6" group_id="7" group_name="工序#2控制变量"/>
+        <variable_group parent_id="6" group_id="8" group_name="工序#2轴变量"/>
+        <variable_group parent_id="0" group_id="9" group_name="工序#3"/>
+        <variable_group parent_id="9" group_id="10" group_name="工序#3控制变量"/>
+        <variable_group parent_id="9" group_id="11" group_name="工序#3轴变量"/>
+        <variable_group parent_id="1" group_id="12" group_name="变量次分组#12"/>
+    </variable_groups>
+    <safe_variables>
+        <safe_variable main_group_id="3" sub_group_id="5" variable_id="1210000000002001" variable_name="模拟运动#1设备#0卡.轴#1 零点检验" logic_operator="1"/>
+        <safe_variable main_group_id="3" sub_group_id="5" variable_id="1210000000002002" variable_name="模拟运动#1设备#0卡.轴#1 位置1检验" logic_operator="1"/>
+        <safe_variable main_group_id="3" sub_group_id="5" variable_id="1210000000002003" variable_name="模拟运动#1设备#0卡.轴#1 位置2检验" logic_operator="1"/>
+        <safe_variable main_group_id="3" sub_group_id="5" variable_id="1210000000002004" variable_name="模拟运动#1设备#0卡.轴#2 零点检验" logic_operator="1"/>
+        <safe_variable main_group_id="3" sub_group_id="5" variable_id="1210000000002005" variable_name="模拟运动#1设备#0卡.轴#2 位置1检验" logic_operator="1"/>
+        <safe_variable main_group_id="3" sub_group_id="5" variable_id="1210000000002006" variable_name="模拟运动#1设备#0卡.轴#2 位置2检验" logic_operator="1"/>
+        <safe_variable main_group_id="3" sub_group_id="5" variable_id="1210000000002007" variable_name="模拟运动#1设备#0卡.轴#3 零点检验" logic_operator="1"/>
+        <safe_variable main_group_id="3" sub_group_id="5" variable_id="1210000000002008" variable_name="模拟运动#1设备#0卡.轴#3 位置1检验" logic_operator="1"/>
+        <safe_variable main_group_id="3" sub_group_id="5" variable_id="1210000000002009" variable_name="模拟运动#1设备#0卡.轴#3 位置2检验" logic_operator="1"/>
+        <safe_variable main_group_id="3" sub_group_id="4" variable_id="1210000000002010" variable_name="工序#1安全变量" logic_operator="1"/>
+        <safe_variable main_group_id="6" sub_group_id="7" variable_id="1210000000002011" variable_name="工序#2安全变量" logic_operator="1"/>
+        <safe_variable main_group_id="9" sub_group_id="10" variable_id="1210000000002012" variable_name="工序#3安全变量" logic_operator="1"/>
+    </safe_variables>
+    <variables>
+        <variable main_group_id="0" sub_group_id="0" parent_id="10000" variable_id="1" variable_type="5" value_type="4" access_type="3" parent_name="系统变量" variable_name="工作状态" init_value="0" min_value="0" max_value="1000"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="10000" variable_id="2" variable_type="5" value_type="4" access_type="3" parent_name="系统变量" variable_name="控制模式" init_value="0" min_value="0" max_value="1000"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="10000" variable_id="3" variable_type="5" value_type="12" access_type="3" parent_name="系统变量" variable_name="全局速度百分比" init_value="50" min_value="0" max_value="100"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="10000" variable_id="101" variable_type="5" value_type="17" access_type="3" parent_name="系统变量" variable_name="运动坐标缓存" init_value="" min_value="" max_value=""/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="100001000000001" variable_type="1" value_type="2" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="通用输入_DI1" init_value="0" min_value="0" max_value="1"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="100001000000002" variable_type="1" value_type="2" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="通用输入_DI2" init_value="0" min_value="0" max_value="1"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="100001000000003" variable_type="1" value_type="2" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="通用输入_DI3" init_value="0" min_value="0" max_value="1"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="100001000000004" variable_type="1" value_type="2" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="通用输入_DI4" init_value="0" min_value="0" max_value="1"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="100001000000005" variable_type="1" value_type="2" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="通用输入_DI5" init_value="0" min_value="0" max_value="1"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="100001000000006" variable_type="1" value_type="2" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="通用输入_DI6" init_value="0" min_value="0" max_value="1"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="100001000000007" variable_type="1" value_type="2" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="通用输入_DI7" init_value="0" min_value="0" max_value="1"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="100001000000008" variable_type="1" value_type="2" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="通用输入_DI8" init_value="0" min_value="0" max_value="1"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="100001000000009" variable_type="1" value_type="2" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="通用输入_DI9" init_value="0" min_value="0" max_value="1"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="100001000000010" variable_type="1" value_type="2" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="通用输入_DI10" init_value="0" min_value="0" max_value="1"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="100001000000011" variable_type="1" value_type="2" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="通用输入_DI11" init_value="0" min_value="0" max_value="1"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="100001000000012" variable_type="1" value_type="2" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="通用输入_DI12" init_value="0" min_value="0" max_value="1"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="100001000000013" variable_type="1" value_type="2" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="通用输入_DI13" init_value="0" min_value="0" max_value="1"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="100001000000014" variable_type="1" value_type="2" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="通用输入_DI14" init_value="0" min_value="0" max_value="1"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="100001000000015" variable_type="1" value_type="2" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="通用输入_DI15" init_value="0" min_value="0" max_value="1"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="100001000000016" variable_type="1" value_type="2" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="通用输入_DI16" init_value="0" min_value="0" max_value="1"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="100001000001001" variable_type="1" value_type="2" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="正向限位_DI1" init_value="0" min_value="0" max_value="1"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="100001000001002" variable_type="1" value_type="2" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="正向限位_DI2" init_value="0" min_value="0" max_value="1"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="100001000001003" variable_type="1" value_type="2" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="正向限位_DI3" init_value="0" min_value="0" max_value="1"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="100001000001004" variable_type="1" value_type="2" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="正向限位_DI4" init_value="0" min_value="0" max_value="1"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="100001000001005" variable_type="1" value_type="2" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="正向限位_DI5" init_value="0" min_value="0" max_value="1"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="100001000001006" variable_type="1" value_type="2" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="正向限位_DI6" init_value="0" min_value="0" max_value="1"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="100001000001007" variable_type="1" value_type="2" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="正向限位_DI7" init_value="0" min_value="0" max_value="1"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="100001000001008" variable_type="1" value_type="2" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="正向限位_DI8" init_value="0" min_value="0" max_value="1"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="100001000001009" variable_type="1" value_type="2" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="正向限位_DI9" init_value="0" min_value="0" max_value="1"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="100001000001010" variable_type="1" value_type="2" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="正向限位_DI10" init_value="0" min_value="0" max_value="1"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="100001000001011" variable_type="1" value_type="2" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="正向限位_DI11" init_value="0" min_value="0" max_value="1"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="100001000001012" variable_type="1" value_type="2" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="正向限位_DI12" init_value="0" min_value="0" max_value="1"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="100001000001013" variable_type="1" value_type="2" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="正向限位_DI13" init_value="0" min_value="0" max_value="1"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="100001000001014" variable_type="1" value_type="2" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="正向限位_DI14" init_value="0" min_value="0" max_value="1"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="100001000001015" variable_type="1" value_type="2" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="正向限位_DI15" init_value="0" min_value="0" max_value="1"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="100001000001016" variable_type="1" value_type="2" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="正向限位_DI16" init_value="0" min_value="0" max_value="1"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="100001000002001" variable_type="1" value_type="2" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="负向限位_DI1" init_value="0" min_value="0" max_value="1"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="100001000002002" variable_type="1" value_type="2" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="负向限位_DI2" init_value="0" min_value="0" max_value="1"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="100001000002003" variable_type="1" value_type="2" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="负向限位_DI3" init_value="0" min_value="0" max_value="1"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="100001000002004" variable_type="1" value_type="2" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="负向限位_DI4" init_value="0" min_value="0" max_value="1"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="100001000002005" variable_type="1" value_type="2" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="负向限位_DI5" init_value="0" min_value="0" max_value="1"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="100001000002006" variable_type="1" value_type="2" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="负向限位_DI6" init_value="0" min_value="0" max_value="1"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="100001000002007" variable_type="1" value_type="2" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="负向限位_DI7" init_value="0" min_value="0" max_value="1"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="100001000002008" variable_type="1" value_type="2" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="负向限位_DI8" init_value="0" min_value="0" max_value="1"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="100001000002009" variable_type="1" value_type="2" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="负向限位_DI9" init_value="0" min_value="0" max_value="1"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="100001000002010" variable_type="1" value_type="2" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="负向限位_DI10" init_value="0" min_value="0" max_value="1"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="100001000002011" variable_type="1" value_type="2" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="负向限位_DI11" init_value="0" min_value="0" max_value="1"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="100001000002012" variable_type="1" value_type="2" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="负向限位_DI12" init_value="0" min_value="0" max_value="1"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="100001000002013" variable_type="1" value_type="2" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="负向限位_DI13" init_value="0" min_value="0" max_value="1"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="100001000002014" variable_type="1" value_type="2" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="负向限位_DI14" init_value="0" min_value="0" max_value="1"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="100001000002015" variable_type="1" value_type="2" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="负向限位_DI15" init_value="0" min_value="0" max_value="1"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="100001000002016" variable_type="1" value_type="2" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="负向限位_DI16" init_value="0" min_value="0" max_value="1"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="200001000000001" variable_type="2" value_type="2" access_type="3" parent_name="模拟运动#1设备#0卡" variable_name="通用输出_DO1" init_value="0" min_value="0" max_value="1"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="200001000000002" variable_type="2" value_type="2" access_type="3" parent_name="模拟运动#1设备#0卡" variable_name="通用输出_DO2" init_value="0" min_value="0" max_value="1"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="200001000000003" variable_type="2" value_type="2" access_type="3" parent_name="模拟运动#1设备#0卡" variable_name="通用输出_DO3" init_value="0" min_value="0" max_value="1"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="200001000000004" variable_type="2" value_type="2" access_type="3" parent_name="模拟运动#1设备#0卡" variable_name="通用输出_DO4" init_value="0" min_value="0" max_value="1"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="200001000000005" variable_type="2" value_type="2" access_type="3" parent_name="模拟运动#1设备#0卡" variable_name="通用输出_DO5" init_value="0" min_value="0" max_value="1"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="200001000000006" variable_type="2" value_type="2" access_type="3" parent_name="模拟运动#1设备#0卡" variable_name="通用输出_DO6" init_value="0" min_value="0" max_value="1"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="200001000000007" variable_type="2" value_type="2" access_type="3" parent_name="模拟运动#1设备#0卡" variable_name="通用输出_DO7" init_value="0" min_value="0" max_value="1"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="200001000000008" variable_type="2" value_type="2" access_type="3" parent_name="模拟运动#1设备#0卡" variable_name="通用输出_DO8" init_value="0" min_value="0" max_value="1"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="200001000000009" variable_type="2" value_type="2" access_type="3" parent_name="模拟运动#1设备#0卡" variable_name="通用输出_DO9" init_value="0" min_value="0" max_value="1"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="200001000000010" variable_type="2" value_type="2" access_type="3" parent_name="模拟运动#1设备#0卡" variable_name="通用输出_DO10" init_value="0" min_value="0" max_value="1"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="200001000000011" variable_type="2" value_type="2" access_type="3" parent_name="模拟运动#1设备#0卡" variable_name="通用输出_DO11" init_value="0" min_value="0" max_value="1"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="200001000000012" variable_type="2" value_type="2" access_type="3" parent_name="模拟运动#1设备#0卡" variable_name="通用输出_DO12" init_value="0" min_value="0" max_value="1"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="200001000000013" variable_type="2" value_type="2" access_type="3" parent_name="模拟运动#1设备#0卡" variable_name="通用输出_DO13" init_value="0" min_value="0" max_value="1"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="200001000000014" variable_type="2" value_type="2" access_type="3" parent_name="模拟运动#1设备#0卡" variable_name="通用输出_DO14" init_value="0" min_value="0" max_value="1"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="200001000000015" variable_type="2" value_type="2" access_type="3" parent_name="模拟运动#1设备#0卡" variable_name="通用输出_DO15" init_value="0" min_value="0" max_value="1"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="200001000000016" variable_type="2" value_type="2" access_type="3" parent_name="模拟运动#1设备#0卡" variable_name="通用输出_DO16" init_value="0" min_value="0" max_value="1"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="200001000001001" variable_type="2" value_type="2" access_type="3" parent_name="模拟运动#1设备#0卡" variable_name="驱动使能_DO1" init_value="0" min_value="0" max_value="1"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="200001000001002" variable_type="2" value_type="2" access_type="3" parent_name="模拟运动#1设备#0卡" variable_name="驱动使能_DO2" init_value="0" min_value="0" max_value="1"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="200001000001003" variable_type="2" value_type="2" access_type="3" parent_name="模拟运动#1设备#0卡" variable_name="驱动使能_DO3" init_value="0" min_value="0" max_value="1"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="200001000001004" variable_type="2" value_type="2" access_type="3" parent_name="模拟运动#1设备#0卡" variable_name="驱动使能_DO4" init_value="0" min_value="0" max_value="1"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="200001000001005" variable_type="2" value_type="2" access_type="3" parent_name="模拟运动#1设备#0卡" variable_name="驱动使能_DO5" init_value="0" min_value="0" max_value="1"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="200001000001006" variable_type="2" value_type="2" access_type="3" parent_name="模拟运动#1设备#0卡" variable_name="驱动使能_DO6" init_value="0" min_value="0" max_value="1"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="200001000001007" variable_type="2" value_type="2" access_type="3" parent_name="模拟运动#1设备#0卡" variable_name="驱动使能_DO7" init_value="0" min_value="0" max_value="1"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="200001000001008" variable_type="2" value_type="2" access_type="3" parent_name="模拟运动#1设备#0卡" variable_name="驱动使能_DO8" init_value="0" min_value="0" max_value="1"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="200001000001009" variable_type="2" value_type="2" access_type="3" parent_name="模拟运动#1设备#0卡" variable_name="驱动使能_DO9" init_value="0" min_value="0" max_value="1"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="200001000001010" variable_type="2" value_type="2" access_type="3" parent_name="模拟运动#1设备#0卡" variable_name="驱动使能_DO10" init_value="0" min_value="0" max_value="1"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="200001000001011" variable_type="2" value_type="2" access_type="3" parent_name="模拟运动#1设备#0卡" variable_name="驱动使能_DO11" init_value="0" min_value="0" max_value="1"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="200001000001012" variable_type="2" value_type="2" access_type="3" parent_name="模拟运动#1设备#0卡" variable_name="驱动使能_DO12" init_value="0" min_value="0" max_value="1"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="200001000001013" variable_type="2" value_type="2" access_type="3" parent_name="模拟运动#1设备#0卡" variable_name="驱动使能_DO13" init_value="0" min_value="0" max_value="1"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="200001000001014" variable_type="2" value_type="2" access_type="3" parent_name="模拟运动#1设备#0卡" variable_name="驱动使能_DO14" init_value="0" min_value="0" max_value="1"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="200001000001015" variable_type="2" value_type="2" access_type="3" parent_name="模拟运动#1设备#0卡" variable_name="驱动使能_DO15" init_value="0" min_value="0" max_value="1"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="200001000001016" variable_type="2" value_type="2" access_type="3" parent_name="模拟运动#1设备#0卡" variable_name="驱动使能_DO16" init_value="0" min_value="0" max_value="1"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="600001001000001" variable_type="6" value_type="2" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="1#轴 驱动器报警标志" init_value="0" min_value="0" max_value="1"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="600001001000002" variable_type="6" value_type="2" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="1#轴 跟随误差标志" init_value="0" min_value="0" max_value="1"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="600001001000003" variable_type="6" value_type="2" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="1#轴 正限位触发标志" init_value="0" min_value="0" max_value="1"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="600001001000004" variable_type="6" value_type="2" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="1#轴 负限位触发标志" init_value="0" min_value="0" max_value="1"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="600001001000005" variable_type="6" value_type="2" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="1#轴 平滑停止标志" init_value="0" min_value="0" max_value="1"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="600001001000006" variable_type="6" value_type="2" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="1#轴 紧急停止标志" init_value="0" min_value="0" max_value="1"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="600001001000007" variable_type="6" value_type="2" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="1#轴 伺服使能标志" init_value="0" min_value="0" max_value="1"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="600001001000008" variable_type="6" value_type="2" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="1#轴 规划运动标志" init_value="0" min_value="0" max_value="1"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="600001001000009" variable_type="6" value_type="2" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="1#轴 电机到位标志" init_value="0" min_value="0" max_value="1"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="600001001000020" variable_type="6" value_type="8" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="1#轴 运动模式" init_value="0" min_value="0" max_value="1000"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="600001001000021" variable_type="6" value_type="12" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="1#轴 规划位置" init_value="0" min_value="-999999" max_value="999999"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="600001001000022" variable_type="6" value_type="12" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="1#轴 规划速度" init_value="0" min_value="-999999" max_value="999999"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="600001001000023" variable_type="6" value_type="12" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="1#轴 规划加速度" init_value="0" min_value="-999999" max_value="999999"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="600001001000024" variable_type="6" value_type="12" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="1#轴 规划减速度" init_value="0" min_value="-999999" max_value="999999"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="600001001000025" variable_type="6" value_type="12" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="1#轴 编码器位置" init_value="0" min_value="-999999" max_value="999999"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="600001001000026" variable_type="6" value_type="12" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="1#轴 编码器速度" init_value="0" min_value="-999999" max_value="999999"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="600001001000027" variable_type="6" value_type="12" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="1#轴 编码器加速度" init_value="0" min_value="-999999" max_value="999999"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="600001001000028" variable_type="6" value_type="12" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="1#轴 编码器减速度" init_value="0" min_value="-999999" max_value="999999"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="600001001000029" variable_type="6" value_type="12" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="1#轴 编码器与规划位置差" init_value="0" min_value="-999999" max_value="999999"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="600001001000030" variable_type="6" value_type="8" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="1#轴 编码器捕获方式" init_value="0" min_value="0" max_value="600000"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="600001001000031" variable_type="6" value_type="8" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="1#轴 编码器捕获状态" init_value="0" min_value="0" max_value="600000"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="600001001000032" variable_type="6" value_type="12" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="1#轴 编码器捕获值" init_value="0" min_value="-999999" max_value="999999"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="600001002000001" variable_type="6" value_type="2" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="2#轴 驱动器报警标志" init_value="0" min_value="0" max_value="1"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="600001002000002" variable_type="6" value_type="2" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="2#轴 跟随误差标志" init_value="0" min_value="0" max_value="1"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="600001002000003" variable_type="6" value_type="2" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="2#轴 正限位触发标志" init_value="0" min_value="0" max_value="1"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="600001002000004" variable_type="6" value_type="2" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="2#轴 负限位触发标志" init_value="0" min_value="0" max_value="1"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="600001002000005" variable_type="6" value_type="2" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="2#轴 平滑停止标志" init_value="0" min_value="0" max_value="1"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="600001002000006" variable_type="6" value_type="2" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="2#轴 紧急停止标志" init_value="0" min_value="0" max_value="1"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="600001002000007" variable_type="6" value_type="2" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="2#轴 伺服使能标志" init_value="0" min_value="0" max_value="1"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="600001002000008" variable_type="6" value_type="2" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="2#轴 规划运动标志" init_value="0" min_value="0" max_value="1"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="600001002000009" variable_type="6" value_type="2" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="2#轴 电机到位标志" init_value="0" min_value="0" max_value="1"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="600001002000020" variable_type="6" value_type="8" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="2#轴 运动模式" init_value="0" min_value="0" max_value="1000"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="600001002000021" variable_type="6" value_type="12" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="2#轴 规划位置" init_value="0" min_value="-999999" max_value="999999"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="600001002000022" variable_type="6" value_type="12" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="2#轴 规划速度" init_value="0" min_value="-999999" max_value="999999"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="600001002000023" variable_type="6" value_type="12" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="2#轴 规划加速度" init_value="0" min_value="-999999" max_value="999999"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="600001002000024" variable_type="6" value_type="12" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="2#轴 规划减速度" init_value="0" min_value="-999999" max_value="999999"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="600001002000025" variable_type="6" value_type="12" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="2#轴 编码器位置" init_value="0" min_value="-999999" max_value="999999"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="600001002000026" variable_type="6" value_type="12" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="2#轴 编码器速度" init_value="0" min_value="-999999" max_value="999999"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="600001002000027" variable_type="6" value_type="12" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="2#轴 编码器加速度" init_value="0" min_value="-999999" max_value="999999"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="600001002000028" variable_type="6" value_type="12" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="2#轴 编码器减速度" init_value="0" min_value="-999999" max_value="999999"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="600001002000029" variable_type="6" value_type="12" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="2#轴 编码器与规划位置差" init_value="0" min_value="-999999" max_value="999999"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="600001002000030" variable_type="6" value_type="8" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="2#轴 编码器捕获方式" init_value="0" min_value="0" max_value="600000"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="600001002000031" variable_type="6" value_type="8" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="2#轴 编码器捕获状态" init_value="0" min_value="0" max_value="600000"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="600001002000032" variable_type="6" value_type="12" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="2#轴 编码器捕获值" init_value="0" min_value="-999999" max_value="999999"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="600001003000001" variable_type="6" value_type="2" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="3#轴 驱动器报警标志" init_value="0" min_value="0" max_value="1"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="600001003000002" variable_type="6" value_type="2" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="3#轴 跟随误差标志" init_value="0" min_value="0" max_value="1"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="600001003000003" variable_type="6" value_type="2" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="3#轴 正限位触发标志" init_value="0" min_value="0" max_value="1"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="600001003000004" variable_type="6" value_type="2" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="3#轴 负限位触发标志" init_value="0" min_value="0" max_value="1"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="600001003000005" variable_type="6" value_type="2" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="3#轴 平滑停止标志" init_value="0" min_value="0" max_value="1"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="600001003000006" variable_type="6" value_type="2" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="3#轴 紧急停止标志" init_value="0" min_value="0" max_value="1"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="600001003000007" variable_type="6" value_type="2" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="3#轴 伺服使能标志" init_value="0" min_value="0" max_value="1"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="600001003000008" variable_type="6" value_type="2" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="3#轴 规划运动标志" init_value="0" min_value="0" max_value="1"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="600001003000009" variable_type="6" value_type="2" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="3#轴 电机到位标志" init_value="0" min_value="0" max_value="1"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="600001003000020" variable_type="6" value_type="8" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="3#轴 运动模式" init_value="0" min_value="0" max_value="1000"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="600001003000021" variable_type="6" value_type="12" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="3#轴 规划位置" init_value="0" min_value="-999999" max_value="999999"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="600001003000022" variable_type="6" value_type="12" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="3#轴 规划速度" init_value="0" min_value="-999999" max_value="999999"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="600001003000023" variable_type="6" value_type="12" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="3#轴 规划加速度" init_value="0" min_value="-999999" max_value="999999"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="600001003000024" variable_type="6" value_type="12" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="3#轴 规划减速度" init_value="0" min_value="-999999" max_value="999999"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="600001003000025" variable_type="6" value_type="12" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="3#轴 编码器位置" init_value="0" min_value="-999999" max_value="999999"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="600001003000026" variable_type="6" value_type="12" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="3#轴 编码器速度" init_value="0" min_value="-999999" max_value="999999"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="600001003000027" variable_type="6" value_type="12" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="3#轴 编码器加速度" init_value="0" min_value="-999999" max_value="999999"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="600001003000028" variable_type="6" value_type="12" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="3#轴 编码器减速度" init_value="0" min_value="-999999" max_value="999999"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="600001003000029" variable_type="6" value_type="12" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="3#轴 编码器与规划位置差" init_value="0" min_value="-999999" max_value="999999"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="600001003000030" variable_type="6" value_type="8" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="3#轴 编码器捕获方式" init_value="0" min_value="0" max_value="600000"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="600001003000031" variable_type="6" value_type="8" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="3#轴 编码器捕获状态" init_value="0" min_value="0" max_value="600000"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="600001003000032" variable_type="6" value_type="12" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="3#轴 编码器捕获值" init_value="0" min_value="-999999" max_value="999999"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="600001004000001" variable_type="6" value_type="2" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="4#轴 驱动器报警标志" init_value="0" min_value="0" max_value="1"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="600001004000002" variable_type="6" value_type="2" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="4#轴 跟随误差标志" init_value="0" min_value="0" max_value="1"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="600001004000003" variable_type="6" value_type="2" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="4#轴 正限位触发标志" init_value="0" min_value="0" max_value="1"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="600001004000004" variable_type="6" value_type="2" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="4#轴 负限位触发标志" init_value="0" min_value="0" max_value="1"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="600001004000005" variable_type="6" value_type="2" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="4#轴 平滑停止标志" init_value="0" min_value="0" max_value="1"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="600001004000006" variable_type="6" value_type="2" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="4#轴 紧急停止标志" init_value="0" min_value="0" max_value="1"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="600001004000007" variable_type="6" value_type="2" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="4#轴 伺服使能标志" init_value="0" min_value="0" max_value="1"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="600001004000008" variable_type="6" value_type="2" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="4#轴 规划运动标志" init_value="0" min_value="0" max_value="1"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="600001004000009" variable_type="6" value_type="2" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="4#轴 电机到位标志" init_value="0" min_value="0" max_value="1"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="600001004000020" variable_type="6" value_type="8" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="4#轴 运动模式" init_value="0" min_value="0" max_value="1000"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="600001004000021" variable_type="6" value_type="12" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="4#轴 规划位置" init_value="0" min_value="-999999" max_value="999999"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="600001004000022" variable_type="6" value_type="12" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="4#轴 规划速度" init_value="0" min_value="-999999" max_value="999999"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="600001004000023" variable_type="6" value_type="12" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="4#轴 规划加速度" init_value="0" min_value="-999999" max_value="999999"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="600001004000024" variable_type="6" value_type="12" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="4#轴 规划减速度" init_value="0" min_value="-999999" max_value="999999"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="600001004000025" variable_type="6" value_type="12" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="4#轴 编码器位置" init_value="0" min_value="-999999" max_value="999999"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="600001004000026" variable_type="6" value_type="12" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="4#轴 编码器速度" init_value="0" min_value="-999999" max_value="999999"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="600001004000027" variable_type="6" value_type="12" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="4#轴 编码器加速度" init_value="0" min_value="-999999" max_value="999999"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="600001004000028" variable_type="6" value_type="12" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="4#轴 编码器减速度" init_value="0" min_value="-999999" max_value="999999"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="600001004000029" variable_type="6" value_type="12" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="4#轴 编码器与规划位置差" init_value="0" min_value="-999999" max_value="999999"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="600001004000030" variable_type="6" value_type="8" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="4#轴 编码器捕获方式" init_value="0" min_value="0" max_value="600000"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="600001004000031" variable_type="6" value_type="8" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="4#轴 编码器捕获状态" init_value="0" min_value="0" max_value="600000"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="600001004000032" variable_type="6" value_type="12" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="4#轴 编码器捕获值" init_value="0" min_value="-999999" max_value="999999"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="600001005000001" variable_type="6" value_type="2" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="5#轴 驱动器报警标志" init_value="0" min_value="0" max_value="1"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="600001005000002" variable_type="6" value_type="2" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="5#轴 跟随误差标志" init_value="0" min_value="0" max_value="1"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="600001005000003" variable_type="6" value_type="2" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="5#轴 正限位触发标志" init_value="0" min_value="0" max_value="1"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="600001005000004" variable_type="6" value_type="2" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="5#轴 负限位触发标志" init_value="0" min_value="0" max_value="1"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="600001005000005" variable_type="6" value_type="2" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="5#轴 平滑停止标志" init_value="0" min_value="0" max_value="1"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="600001005000006" variable_type="6" value_type="2" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="5#轴 紧急停止标志" init_value="0" min_value="0" max_value="1"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="600001005000007" variable_type="6" value_type="2" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="5#轴 伺服使能标志" init_value="0" min_value="0" max_value="1"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="600001005000008" variable_type="6" value_type="2" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="5#轴 规划运动标志" init_value="0" min_value="0" max_value="1"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="600001005000009" variable_type="6" value_type="2" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="5#轴 电机到位标志" init_value="0" min_value="0" max_value="1"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="600001005000020" variable_type="6" value_type="8" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="5#轴 运动模式" init_value="0" min_value="0" max_value="1000"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="600001005000021" variable_type="6" value_type="12" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="5#轴 规划位置" init_value="0" min_value="-999999" max_value="999999"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="600001005000022" variable_type="6" value_type="12" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="5#轴 规划速度" init_value="0" min_value="-999999" max_value="999999"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="600001005000023" variable_type="6" value_type="12" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="5#轴 规划加速度" init_value="0" min_value="-999999" max_value="999999"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="600001005000024" variable_type="6" value_type="12" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="5#轴 规划减速度" init_value="0" min_value="-999999" max_value="999999"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="600001005000025" variable_type="6" value_type="12" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="5#轴 编码器位置" init_value="0" min_value="-999999" max_value="999999"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="600001005000026" variable_type="6" value_type="12" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="5#轴 编码器速度" init_value="0" min_value="-999999" max_value="999999"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="600001005000027" variable_type="6" value_type="12" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="5#轴 编码器加速度" init_value="0" min_value="-999999" max_value="999999"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="600001005000028" variable_type="6" value_type="12" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="5#轴 编码器减速度" init_value="0" min_value="-999999" max_value="999999"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="600001005000029" variable_type="6" value_type="12" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="5#轴 编码器与规划位置差" init_value="0" min_value="-999999" max_value="999999"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="600001005000030" variable_type="6" value_type="8" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="5#轴 编码器捕获方式" init_value="0" min_value="0" max_value="600000"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="600001005000031" variable_type="6" value_type="8" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="5#轴 编码器捕获状态" init_value="0" min_value="0" max_value="600000"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="600001005000032" variable_type="6" value_type="12" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="5#轴 编码器捕获值" init_value="0" min_value="-999999" max_value="999999"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="600001006000001" variable_type="6" value_type="2" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="6#轴 驱动器报警标志" init_value="0" min_value="0" max_value="1"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="600001006000002" variable_type="6" value_type="2" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="6#轴 跟随误差标志" init_value="0" min_value="0" max_value="1"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="600001006000003" variable_type="6" value_type="2" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="6#轴 正限位触发标志" init_value="0" min_value="0" max_value="1"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="600001006000004" variable_type="6" value_type="2" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="6#轴 负限位触发标志" init_value="0" min_value="0" max_value="1"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="600001006000005" variable_type="6" value_type="2" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="6#轴 平滑停止标志" init_value="0" min_value="0" max_value="1"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="600001006000006" variable_type="6" value_type="2" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="6#轴 紧急停止标志" init_value="0" min_value="0" max_value="1"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="600001006000007" variable_type="6" value_type="2" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="6#轴 伺服使能标志" init_value="0" min_value="0" max_value="1"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="600001006000008" variable_type="6" value_type="2" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="6#轴 规划运动标志" init_value="0" min_value="0" max_value="1"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="600001006000009" variable_type="6" value_type="2" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="6#轴 电机到位标志" init_value="0" min_value="0" max_value="1"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="600001006000020" variable_type="6" value_type="8" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="6#轴 运动模式" init_value="0" min_value="0" max_value="1000"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="600001006000021" variable_type="6" value_type="12" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="6#轴 规划位置" init_value="0" min_value="-999999" max_value="999999"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="600001006000022" variable_type="6" value_type="12" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="6#轴 规划速度" init_value="0" min_value="-999999" max_value="999999"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="600001006000023" variable_type="6" value_type="12" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="6#轴 规划加速度" init_value="0" min_value="-999999" max_value="999999"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="600001006000024" variable_type="6" value_type="12" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="6#轴 规划减速度" init_value="0" min_value="-999999" max_value="999999"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="600001006000025" variable_type="6" value_type="12" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="6#轴 编码器位置" init_value="0" min_value="-999999" max_value="999999"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="600001006000026" variable_type="6" value_type="12" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="6#轴 编码器速度" init_value="0" min_value="-999999" max_value="999999"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="600001006000027" variable_type="6" value_type="12" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="6#轴 编码器加速度" init_value="0" min_value="-999999" max_value="999999"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="600001006000028" variable_type="6" value_type="12" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="6#轴 编码器减速度" init_value="0" min_value="-999999" max_value="999999"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="600001006000029" variable_type="6" value_type="12" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="6#轴 编码器与规划位置差" init_value="0" min_value="-999999" max_value="999999"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="600001006000030" variable_type="6" value_type="8" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="6#轴 编码器捕获方式" init_value="0" min_value="0" max_value="600000"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="600001006000031" variable_type="6" value_type="8" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="6#轴 编码器捕获状态" init_value="0" min_value="0" max_value="600000"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="600001006000032" variable_type="6" value_type="12" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="6#轴 编码器捕获值" init_value="0" min_value="-999999" max_value="999999"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="600001007000001" variable_type="6" value_type="2" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="7#轴 驱动器报警标志" init_value="0" min_value="0" max_value="1"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="600001007000002" variable_type="6" value_type="2" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="7#轴 跟随误差标志" init_value="0" min_value="0" max_value="1"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="600001007000003" variable_type="6" value_type="2" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="7#轴 正限位触发标志" init_value="0" min_value="0" max_value="1"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="600001007000004" variable_type="6" value_type="2" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="7#轴 负限位触发标志" init_value="0" min_value="0" max_value="1"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="600001007000005" variable_type="6" value_type="2" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="7#轴 平滑停止标志" init_value="0" min_value="0" max_value="1"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="600001007000006" variable_type="6" value_type="2" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="7#轴 紧急停止标志" init_value="0" min_value="0" max_value="1"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="600001007000007" variable_type="6" value_type="2" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="7#轴 伺服使能标志" init_value="0" min_value="0" max_value="1"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="600001007000008" variable_type="6" value_type="2" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="7#轴 规划运动标志" init_value="0" min_value="0" max_value="1"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="600001007000009" variable_type="6" value_type="2" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="7#轴 电机到位标志" init_value="0" min_value="0" max_value="1"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="600001007000020" variable_type="6" value_type="8" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="7#轴 运动模式" init_value="0" min_value="0" max_value="1000"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="600001007000021" variable_type="6" value_type="12" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="7#轴 规划位置" init_value="0" min_value="-999999" max_value="999999"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="600001007000022" variable_type="6" value_type="12" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="7#轴 规划速度" init_value="0" min_value="-999999" max_value="999999"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="600001007000023" variable_type="6" value_type="12" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="7#轴 规划加速度" init_value="0" min_value="-999999" max_value="999999"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="600001007000024" variable_type="6" value_type="12" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="7#轴 规划减速度" init_value="0" min_value="-999999" max_value="999999"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="600001007000025" variable_type="6" value_type="12" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="7#轴 编码器位置" init_value="0" min_value="-999999" max_value="999999"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="600001007000026" variable_type="6" value_type="12" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="7#轴 编码器速度" init_value="0" min_value="-999999" max_value="999999"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="600001007000027" variable_type="6" value_type="12" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="7#轴 编码器加速度" init_value="0" min_value="-999999" max_value="999999"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="600001007000028" variable_type="6" value_type="12" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="7#轴 编码器减速度" init_value="0" min_value="-999999" max_value="999999"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="600001007000029" variable_type="6" value_type="12" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="7#轴 编码器与规划位置差" init_value="0" min_value="-999999" max_value="999999"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="600001007000030" variable_type="6" value_type="8" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="7#轴 编码器捕获方式" init_value="0" min_value="0" max_value="600000"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="600001007000031" variable_type="6" value_type="8" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="7#轴 编码器捕获状态" init_value="0" min_value="0" max_value="600000"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="600001007000032" variable_type="6" value_type="12" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="7#轴 编码器捕获值" init_value="0" min_value="-999999" max_value="999999"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="600001008000001" variable_type="6" value_type="2" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="8#轴 驱动器报警标志" init_value="0" min_value="0" max_value="1"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="600001008000002" variable_type="6" value_type="2" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="8#轴 跟随误差标志" init_value="0" min_value="0" max_value="1"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="600001008000003" variable_type="6" value_type="2" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="8#轴 正限位触发标志" init_value="0" min_value="0" max_value="1"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="600001008000004" variable_type="6" value_type="2" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="8#轴 负限位触发标志" init_value="0" min_value="0" max_value="1"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="600001008000005" variable_type="6" value_type="2" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="8#轴 平滑停止标志" init_value="0" min_value="0" max_value="1"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="600001008000006" variable_type="6" value_type="2" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="8#轴 紧急停止标志" init_value="0" min_value="0" max_value="1"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="600001008000007" variable_type="6" value_type="2" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="8#轴 伺服使能标志" init_value="0" min_value="0" max_value="1"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="600001008000008" variable_type="6" value_type="2" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="8#轴 规划运动标志" init_value="0" min_value="0" max_value="1"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="600001008000009" variable_type="6" value_type="2" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="8#轴 电机到位标志" init_value="0" min_value="0" max_value="1"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="600001008000020" variable_type="6" value_type="8" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="8#轴 运动模式" init_value="0" min_value="0" max_value="1000"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="600001008000021" variable_type="6" value_type="12" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="8#轴 规划位置" init_value="0" min_value="-999999" max_value="999999"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="600001008000022" variable_type="6" value_type="12" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="8#轴 规划速度" init_value="0" min_value="-999999" max_value="999999"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="600001008000023" variable_type="6" value_type="12" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="8#轴 规划加速度" init_value="0" min_value="-999999" max_value="999999"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="600001008000024" variable_type="6" value_type="12" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="8#轴 规划减速度" init_value="0" min_value="-999999" max_value="999999"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="600001008000025" variable_type="6" value_type="12" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="8#轴 编码器位置" init_value="0" min_value="-999999" max_value="999999"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="600001008000026" variable_type="6" value_type="12" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="8#轴 编码器速度" init_value="0" min_value="-999999" max_value="999999"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="600001008000027" variable_type="6" value_type="12" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="8#轴 编码器加速度" init_value="0" min_value="-999999" max_value="999999"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="600001008000028" variable_type="6" value_type="12" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="8#轴 编码器减速度" init_value="0" min_value="-999999" max_value="999999"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="600001008000029" variable_type="6" value_type="12" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="8#轴 编码器与规划位置差" init_value="0" min_value="-999999" max_value="999999"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="600001008000030" variable_type="6" value_type="8" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="8#轴 编码器捕获方式" init_value="0" min_value="0" max_value="600000"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="600001008000031" variable_type="6" value_type="8" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="8#轴 编码器捕获状态" init_value="0" min_value="0" max_value="600000"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="1" variable_id="600001008000032" variable_type="6" value_type="12" access_type="1" parent_name="模拟运动#1设备#0卡" variable_name="8#轴 编码器捕获值" init_value="0" min_value="-999999" max_value="999999"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="5" variable_id="700005000000001" variable_type="7" value_type="2" access_type="1" parent_name="气油缸#1" variable_name="气油缸#1 前进到位信号" init_value="0" min_value="0" max_value="1"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="5" variable_id="700005000000002" variable_type="7" value_type="2" access_type="1" parent_name="气油缸#1" variable_name="气油缸#1 后退到位信号" init_value="0" min_value="0" max_value="1"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="5" variable_id="700005000000003" variable_type="7" value_type="2" access_type="1" parent_name="气油缸#1" variable_name="气油缸#1 前进到位报警" init_value="0" min_value="0" max_value="1"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="5" variable_id="700005000000004" variable_type="7" value_type="2" access_type="1" parent_name="气油缸#1" variable_name="气油缸#1 后退到位报警" init_value="0" min_value="0" max_value="1"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="5" variable_id="700005000000005" variable_type="7" value_type="2" access_type="1" parent_name="气油缸#1" variable_name="气油缸#1 前进运动中" init_value="0" min_value="0" max_value="1"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="5" variable_id="700005000000006" variable_type="7" value_type="2" access_type="1" parent_name="气油缸#1" variable_name="气油缸#1 后退运动中" init_value="0" min_value="0" max_value="1"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="6" variable_id="700006000000001" variable_type="7" value_type="2" access_type="1" parent_name="气油缸#2" variable_name="气油缸#2 前进到位信号" init_value="0" min_value="0" max_value="1"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="6" variable_id="700006000000002" variable_type="7" value_type="2" access_type="1" parent_name="气油缸#2" variable_name="气油缸#2 后退到位信号" init_value="0" min_value="0" max_value="1"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="6" variable_id="700006000000003" variable_type="7" value_type="2" access_type="1" parent_name="气油缸#2" variable_name="气油缸#2 前进到位报警" init_value="0" min_value="0" max_value="1"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="6" variable_id="700006000000004" variable_type="7" value_type="2" access_type="1" parent_name="气油缸#2" variable_name="气油缸#2 后退到位报警" init_value="0" min_value="0" max_value="1"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="6" variable_id="700006000000005" variable_type="7" value_type="2" access_type="1" parent_name="气油缸#2" variable_name="气油缸#2 前进运动中" init_value="0" min_value="0" max_value="1"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="6" variable_id="700006000000006" variable_type="7" value_type="2" access_type="1" parent_name="气油缸#2" variable_name="气油缸#2 后退运动中" init_value="0" min_value="0" max_value="1"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="7" variable_id="700007000000001" variable_type="7" value_type="2" access_type="1" parent_name="气油缸#3" variable_name="气油缸#3 前进到位信号" init_value="0" min_value="0" max_value="1"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="7" variable_id="700007000000002" variable_type="7" value_type="2" access_type="1" parent_name="气油缸#3" variable_name="气油缸#3 后退到位信号" init_value="0" min_value="0" max_value="1"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="7" variable_id="700007000000003" variable_type="7" value_type="2" access_type="1" parent_name="气油缸#3" variable_name="气油缸#3 前进到位报警" init_value="0" min_value="0" max_value="1"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="7" variable_id="700007000000004" variable_type="7" value_type="2" access_type="1" parent_name="气油缸#3" variable_name="气油缸#3 后退到位报警" init_value="0" min_value="0" max_value="1"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="7" variable_id="700007000000005" variable_type="7" value_type="2" access_type="1" parent_name="气油缸#3" variable_name="气油缸#3 前进运动中" init_value="0" min_value="0" max_value="1"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="7" variable_id="700007000000006" variable_type="7" value_type="2" access_type="1" parent_name="气油缸#3" variable_name="气油缸#3 后退运动中" init_value="0" min_value="0" max_value="1"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="8" variable_id="700008000000001" variable_type="7" value_type="2" access_type="1" parent_name="气油缸#4" variable_name="气油缸#4 前进到位信号" init_value="0" min_value="0" max_value="1"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="8" variable_id="700008000000002" variable_type="7" value_type="2" access_type="1" parent_name="气油缸#4" variable_name="气油缸#4 后退到位信号" init_value="0" min_value="0" max_value="1"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="8" variable_id="700008000000003" variable_type="7" value_type="2" access_type="1" parent_name="气油缸#4" variable_name="气油缸#4 前进到位报警" init_value="0" min_value="0" max_value="1"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="8" variable_id="700008000000004" variable_type="7" value_type="2" access_type="1" parent_name="气油缸#4" variable_name="气油缸#4 后退到位报警" init_value="0" min_value="0" max_value="1"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="8" variable_id="700008000000005" variable_type="7" value_type="2" access_type="1" parent_name="气油缸#4" variable_name="气油缸#4 前进运动中" init_value="0" min_value="0" max_value="1"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="8" variable_id="700008000000006" variable_type="7" value_type="2" access_type="1" parent_name="气油缸#4" variable_name="气油缸#4 后退运动中" init_value="0" min_value="0" max_value="1"/>
+        <variable main_group_id="3" sub_group_id="4" parent_id="10001" variable_id="910000000017001" variable_type="9" value_type="17" access_type="3" parent_name="虚拟变量" variable_name="多轴运动坐标#1" init_value="" min_value="" max_value=""/>
+        <variable main_group_id="6" sub_group_id="7" parent_id="10001" variable_id="910000000017002" variable_type="9" value_type="17" access_type="3" parent_name="虚拟变量" variable_name="多轴运动坐标#2" init_value="" min_value="" max_value=""/>
+        <variable main_group_id="9" sub_group_id="10" parent_id="10001" variable_id="910000000017003" variable_type="9" value_type="17" access_type="3" parent_name="虚拟变量" variable_name="多轴运动坐标#3" init_value="" min_value="" max_value=""/>
+        <variable main_group_id="3" sub_group_id="4" parent_id="10001" variable_id="910000000017004" variable_type="9" value_type="2" access_type="3" parent_name="虚拟变量" variable_name="运动是否急停#1" init_value="0" min_value="0" max_value="1"/>
+        <variable main_group_id="6" sub_group_id="7" parent_id="10001" variable_id="910000000017005" variable_type="9" value_type="2" access_type="3" parent_name="虚拟变量" variable_name="运动是否急停#2" init_value="0" min_value="0" max_value="1"/>
+        <variable main_group_id="3" sub_group_id="4" parent_id="10001" variable_id="910000000017006" variable_type="9" value_type="12" access_type="3" parent_name="虚拟变量" variable_name="模拟量输出值#1" init_value="100" min_value="-999999" max_value="999999"/>
+        <variable main_group_id="6" sub_group_id="7" parent_id="10001" variable_id="910000000017007" variable_type="9" value_type="12" access_type="3" parent_name="虚拟变量" variable_name="模拟量输出值#2" init_value="200" min_value="-999999" max_value="999999"/>
+        <variable main_group_id="9" sub_group_id="10" parent_id="10001" variable_id="910000000017008" variable_type="9" value_type="12" access_type="3" parent_name="虚拟变量" variable_name="模拟量输出值#3" init_value="300" min_value="-999999" max_value="999999"/>
+        <variable main_group_id="1" sub_group_id="2" parent_id="10001" variable_id="910000000017009" variable_type="9" value_type="7" access_type="3" parent_name="虚拟变量" variable_name="循环条件变量" init_value="200" min_value="-999999" max_value="999999"/>
+        <variable main_group_id="1" sub_group_id="2" parent_id="10001" variable_id="910000000017010" variable_type="9" value_type="8" access_type="3" parent_name="虚拟变量" variable_name="循环次数变量" init_value="20" min_value="-999999" max_value="999999"/>
+        <variable main_group_id="1" sub_group_id="2" parent_id="10001" variable_id="910000000017011" variable_type="9" value_type="7" access_type="3" parent_name="虚拟变量" variable_name="手动复位变量" init_value="12" min_value="-999999" max_value="999999"/>
+        <variable main_group_id="1" sub_group_id="2" parent_id="10001" variable_id="910000000017012" variable_type="9" value_type="7" access_type="3" parent_name="虚拟变量" variable_name="跳出循环变量" init_value="25" min_value="-999999" max_value="999999"/>
+        <variable main_group_id="3" sub_group_id="5" parent_id="1" variable_id="910000000017013" variable_type="9" value_type="12" access_type="3" parent_name="模拟运动#1设备#0卡" variable_name="模拟运动#1设备#0卡.轴#1 零点位置设定1" init_value="10101" min_value="-999999" max_value="999999"/>
+        <variable main_group_id="3" sub_group_id="5" parent_id="1" variable_id="910000000017014" variable_type="9" value_type="12" access_type="3" parent_name="模拟运动#1设备#0卡" variable_name="模拟运动#1设备#0卡.轴#1 零点位置设定2" init_value="10102" min_value="-999999" max_value="999999"/>
+        <variable main_group_id="3" sub_group_id="5" parent_id="1" variable_id="910000000017015" variable_type="9" value_type="12" access_type="3" parent_name="模拟运动#1设备#0卡" variable_name="模拟运动#1设备#0卡.轴#1 目标位置设定1" init_value="10103" min_value="-999999" max_value="999999"/>
+        <variable main_group_id="3" sub_group_id="5" parent_id="1" variable_id="910000000017016" variable_type="9" value_type="12" access_type="3" parent_name="模拟运动#1设备#0卡" variable_name="模拟运动#1设备#0卡.轴#1 目标位置设定2" init_value="10104" min_value="-999999" max_value="999999"/>
+        <variable main_group_id="3" sub_group_id="5" parent_id="1" variable_id="910000000017017" variable_type="9" value_type="12" access_type="3" parent_name="模拟运动#1设备#0卡" variable_name="模拟运动#1设备#0卡.轴#1 目标位置设定3" init_value="10105" min_value="-999999" max_value="999999"/>
+        <variable main_group_id="3" sub_group_id="5" parent_id="1" variable_id="910000000017018" variable_type="9" value_type="12" access_type="3" parent_name="模拟运动#1设备#0卡" variable_name="模拟运动#1设备#0卡.轴#1 运动距离设定1" init_value="10106" min_value="-999999" max_value="999999"/>
+        <variable main_group_id="3" sub_group_id="5" parent_id="1" variable_id="910000000017019" variable_type="9" value_type="12" access_type="3" parent_name="模拟运动#1设备#0卡" variable_name="模拟运动#1设备#0卡.轴#1 运动距离设定2" init_value="10107" min_value="-999999" max_value="999999"/>
+        <variable main_group_id="3" sub_group_id="5" parent_id="1" variable_id="910000000017020" variable_type="9" value_type="12" access_type="3" parent_name="模拟运动#1设备#0卡" variable_name="模拟运动#1设备#0卡.轴#1 运动距离设定3" init_value="10108" min_value="-999999" max_value="999999"/>
+        <variable main_group_id="3" sub_group_id="5" parent_id="1" variable_id="910000000017021" variable_type="9" value_type="12" access_type="3" parent_name="模拟运动#1设备#0卡" variable_name="模拟运动#1设备#0卡.轴#1 运动速度设定1" init_value="10109" min_value="-999999" max_value="999999"/>
+        <variable main_group_id="3" sub_group_id="5" parent_id="1" variable_id="910000000017022" variable_type="9" value_type="12" access_type="3" parent_name="模拟运动#1设备#0卡" variable_name="模拟运动#1设备#0卡.轴#1 运动速度设定2" init_value="10110" min_value="-999999" max_value="999999"/>
+        <variable main_group_id="3" sub_group_id="5" parent_id="1" variable_id="910000000017023" variable_type="9" value_type="12" access_type="3" parent_name="模拟运动#1设备#0卡" variable_name="模拟运动#1设备#0卡.轴#1 运动速度设定3" init_value="10111" min_value="-999999" max_value="999999"/>
+        <variable main_group_id="3" sub_group_id="5" parent_id="1" variable_id="910000000017024" variable_type="9" value_type="7" access_type="3" parent_name="模拟运动#1设备#0卡" variable_name="模拟运动#1设备#0卡.轴#1 循环条件" init_value="10112" min_value="-999999" max_value="999999"/>
+        <variable main_group_id="3" sub_group_id="5" parent_id="1" variable_id="910000000017025" variable_type="9" value_type="8" access_type="3" parent_name="模拟运动#1设备#0卡" variable_name="模拟运动#1设备#0卡.轴#1 循环次数" init_value="10113" min_value="-999999" max_value="999999"/>
+        <variable main_group_id="3" sub_group_id="5" parent_id="1" variable_id="910000000017026" variable_type="9" value_type="7" access_type="3" parent_name="模拟运动#1设备#0卡" variable_name="模拟运动#1设备#0卡.轴#1 手动复位条件" init_value="10114" min_value="-999999" max_value="999999"/>
+        <variable main_group_id="3" sub_group_id="5" parent_id="1" variable_id="910000000017027" variable_type="9" value_type="12" access_type="3" parent_name="模拟运动#1设备#0卡" variable_name="模拟运动#1设备#0卡.轴#2 零点位置设定1" init_value="10201" min_value="-999999" max_value="999999"/>
+        <variable main_group_id="3" sub_group_id="5" parent_id="1" variable_id="910000000017028" variable_type="9" value_type="12" access_type="3" parent_name="模拟运动#1设备#0卡" variable_name="模拟运动#1设备#0卡.轴#2 零点位置设定2" init_value="10202" min_value="-999999" max_value="999999"/>
+        <variable main_group_id="3" sub_group_id="5" parent_id="1" variable_id="910000000017029" variable_type="9" value_type="12" access_type="3" parent_name="模拟运动#1设备#0卡" variable_name="模拟运动#1设备#0卡.轴#2 目标位置设定1" init_value="10203" min_value="-999999" max_value="999999"/>
+        <variable main_group_id="3" sub_group_id="5" parent_id="1" variable_id="910000000017030" variable_type="9" value_type="12" access_type="3" parent_name="模拟运动#1设备#0卡" variable_name="模拟运动#1设备#0卡.轴#2 目标位置设定2" init_value="10204" min_value="-999999" max_value="999999"/>
+        <variable main_group_id="3" sub_group_id="5" parent_id="1" variable_id="910000000017031" variable_type="9" value_type="12" access_type="3" parent_name="模拟运动#1设备#0卡" variable_name="模拟运动#1设备#0卡.轴#2 目标位置设定3" init_value="10205" min_value="-999999" max_value="999999"/>
+        <variable main_group_id="3" sub_group_id="5" parent_id="1" variable_id="910000000017032" variable_type="9" value_type="12" access_type="3" parent_name="模拟运动#1设备#0卡" variable_name="模拟运动#1设备#0卡.轴#2 运动距离设定1" init_value="10206" min_value="-999999" max_value="999999"/>
+        <variable main_group_id="3" sub_group_id="5" parent_id="1" variable_id="910000000017033" variable_type="9" value_type="12" access_type="3" parent_name="模拟运动#1设备#0卡" variable_name="模拟运动#1设备#0卡.轴#2 运动距离设定2" init_value="10207" min_value="-999999" max_value="999999"/>
+        <variable main_group_id="3" sub_group_id="5" parent_id="1" variable_id="910000000017034" variable_type="9" value_type="12" access_type="3" parent_name="模拟运动#1设备#0卡" variable_name="模拟运动#1设备#0卡.轴#2 运动距离设定3" init_value="10208" min_value="-999999" max_value="999999"/>
+        <variable main_group_id="3" sub_group_id="5" parent_id="1" variable_id="910000000017035" variable_type="9" value_type="12" access_type="3" parent_name="模拟运动#1设备#0卡" variable_name="模拟运动#1设备#0卡.轴#2 运动速度设定1" init_value="10209" min_value="-999999" max_value="999999"/>
+        <variable main_group_id="3" sub_group_id="5" parent_id="1" variable_id="910000000017036" variable_type="9" value_type="12" access_type="3" parent_name="模拟运动#1设备#0卡" variable_name="模拟运动#1设备#0卡.轴#2 运动速度设定2" init_value="10210" min_value="-999999" max_value="999999"/>
+        <variable main_group_id="3" sub_group_id="5" parent_id="1" variable_id="910000000017037" variable_type="9" value_type="12" access_type="3" parent_name="模拟运动#1设备#0卡" variable_name="模拟运动#1设备#0卡.轴#2 运动速度设定3" init_value="10211" min_value="-999999" max_value="999999"/>
+        <variable main_group_id="3" sub_group_id="5" parent_id="1" variable_id="910000000017038" variable_type="9" value_type="7" access_type="3" parent_name="模拟运动#1设备#0卡" variable_name="模拟运动#1设备#0卡.轴#2 循环条件" init_value="10212" min_value="-999999" max_value="999999"/>
+        <variable main_group_id="3" sub_group_id="5" parent_id="1" variable_id="910000000017039" variable_type="9" value_type="8" access_type="3" parent_name="模拟运动#1设备#0卡" variable_name="模拟运动#1设备#0卡.轴#2 循环次数" init_value="10213" min_value="-999999" max_value="999999"/>
+        <variable main_group_id="3" sub_group_id="5" parent_id="1" variable_id="910000000017040" variable_type="9" value_type="7" access_type="3" parent_name="模拟运动#1设备#0卡" variable_name="模拟运动#1设备#0卡.轴#2 手动复位条件" init_value="10214" min_value="-999999" max_value="999999"/>
+        <variable main_group_id="3" sub_group_id="5" parent_id="1" variable_id="910000000017041" variable_type="9" value_type="12" access_type="3" parent_name="模拟运动#1设备#0卡" variable_name="模拟运动#1设备#0卡.轴#3 零点位置设定1" init_value="10301" min_value="-999999" max_value="999999"/>
+        <variable main_group_id="3" sub_group_id="5" parent_id="1" variable_id="910000000017042" variable_type="9" value_type="12" access_type="3" parent_name="模拟运动#1设备#0卡" variable_name="模拟运动#1设备#0卡.轴#3 零点位置设定2" init_value="10302" min_value="-999999" max_value="999999"/>
+        <variable main_group_id="3" sub_group_id="5" parent_id="1" variable_id="910000000017043" variable_type="9" value_type="12" access_type="3" parent_name="模拟运动#1设备#0卡" variable_name="模拟运动#1设备#0卡.轴#3 目标位置设定1" init_value="10303" min_value="-999999" max_value="999999"/>
+        <variable main_group_id="3" sub_group_id="5" parent_id="1" variable_id="910000000017044" variable_type="9" value_type="12" access_type="3" parent_name="模拟运动#1设备#0卡" variable_name="模拟运动#1设备#0卡.轴#3 目标位置设定2" init_value="10304" min_value="-999999" max_value="999999"/>
+        <variable main_group_id="3" sub_group_id="5" parent_id="1" variable_id="910000000017045" variable_type="9" value_type="12" access_type="3" parent_name="模拟运动#1设备#0卡" variable_name="模拟运动#1设备#0卡.轴#3 目标位置设定3" init_value="10305" min_value="-999999" max_value="999999"/>
+        <variable main_group_id="3" sub_group_id="5" parent_id="1" variable_id="910000000017046" variable_type="9" value_type="12" access_type="3" parent_name="模拟运动#1设备#0卡" variable_name="模拟运动#1设备#0卡.轴#3 运动距离设定1" init_value="10306" min_value="-999999" max_value="999999"/>
+        <variable main_group_id="3" sub_group_id="5" parent_id="1" variable_id="910000000017047" variable_type="9" value_type="12" access_type="3" parent_name="模拟运动#1设备#0卡" variable_name="模拟运动#1设备#0卡.轴#3 运动距离设定2" init_value="10307" min_value="-999999" max_value="999999"/>
+        <variable main_group_id="3" sub_group_id="5" parent_id="1" variable_id="910000000017048" variable_type="9" value_type="12" access_type="3" parent_name="模拟运动#1设备#0卡" variable_name="模拟运动#1设备#0卡.轴#3 运动距离设定3" init_value="10308" min_value="-999999" max_value="999999"/>
+        <variable main_group_id="3" sub_group_id="5" parent_id="1" variable_id="910000000017049" variable_type="9" value_type="12" access_type="3" parent_name="模拟运动#1设备#0卡" variable_name="模拟运动#1设备#0卡.轴#3 运动速度设定1" init_value="10309" min_value="-999999" max_value="999999"/>
+        <variable main_group_id="3" sub_group_id="5" parent_id="1" variable_id="910000000017050" variable_type="9" value_type="12" access_type="3" parent_name="模拟运动#1设备#0卡" variable_name="模拟运动#1设备#0卡.轴#3 运动速度设定2" init_value="10310" min_value="-999999" max_value="999999"/>
+        <variable main_group_id="3" sub_group_id="5" parent_id="1" variable_id="910000000017051" variable_type="9" value_type="12" access_type="3" parent_name="模拟运动#1设备#0卡" variable_name="模拟运动#1设备#0卡.轴#3 运动速度设定3" init_value="10311" min_value="-999999" max_value="999999"/>
+        <variable main_group_id="3" sub_group_id="5" parent_id="1" variable_id="910000000017052" variable_type="9" value_type="7" access_type="3" parent_name="模拟运动#1设备#0卡" variable_name="模拟运动#1设备#0卡.轴#3 循环条件" init_value="10312" min_value="-999999" max_value="999999"/>
+        <variable main_group_id="3" sub_group_id="5" parent_id="1" variable_id="910000000017053" variable_type="9" value_type="8" access_type="3" parent_name="模拟运动#1设备#0卡" variable_name="模拟运动#1设备#0卡.轴#3 循环次数" init_value="10313" min_value="-999999" max_value="999999"/>
+        <variable main_group_id="3" sub_group_id="5" parent_id="1" variable_id="910000000017054" variable_type="9" value_type="7" access_type="3" parent_name="模拟运动#1设备#0卡" variable_name="模拟运动#1设备#0卡.轴#3 手动复位条件" init_value="10314" min_value="-999999" max_value="999999"/>
+        <variable main_group_id="3" sub_group_id="5" parent_id="1" variable_id="910000000017055" variable_type="9" value_type="12" access_type="3" parent_name="模拟运动#1设备#0卡" variable_name="模拟运动#1设备#0卡.轴#4 零点位置设定1" init_value="10401" min_value="-999999" max_value="999999"/>
+        <variable main_group_id="3" sub_group_id="5" parent_id="1" variable_id="910000000017056" variable_type="9" value_type="12" access_type="3" parent_name="模拟运动#1设备#0卡" variable_name="模拟运动#1设备#0卡.轴#4 零点位置设定2" init_value="10402" min_value="-999999" max_value="999999"/>
+        <variable main_group_id="3" sub_group_id="5" parent_id="1" variable_id="910000000017057" variable_type="9" value_type="12" access_type="3" parent_name="模拟运动#1设备#0卡" variable_name="模拟运动#1设备#0卡.轴#4 目标位置设定1" init_value="10403" min_value="-999999" max_value="999999"/>
+        <variable main_group_id="3" sub_group_id="5" parent_id="1" variable_id="910000000017058" variable_type="9" value_type="12" access_type="3" parent_name="模拟运动#1设备#0卡" variable_name="模拟运动#1设备#0卡.轴#4 目标位置设定2" init_value="10404" min_value="-999999" max_value="999999"/>
+        <variable main_group_id="3" sub_group_id="5" parent_id="1" variable_id="910000000017059" variable_type="9" value_type="12" access_type="3" parent_name="模拟运动#1设备#0卡" variable_name="模拟运动#1设备#0卡.轴#4 目标位置设定3" init_value="10405" min_value="-999999" max_value="999999"/>
+        <variable main_group_id="3" sub_group_id="5" parent_id="1" variable_id="910000000017060" variable_type="9" value_type="12" access_type="3" parent_name="模拟运动#1设备#0卡" variable_name="模拟运动#1设备#0卡.轴#4 运动距离设定1" init_value="10406" min_value="-999999" max_value="999999"/>
+        <variable main_group_id="3" sub_group_id="5" parent_id="1" variable_id="910000000017061" variable_type="9" value_type="12" access_type="3" parent_name="模拟运动#1设备#0卡" variable_name="模拟运动#1设备#0卡.轴#4 运动距离设定2" init_value="10407" min_value="-999999" max_value="999999"/>
+        <variable main_group_id="3" sub_group_id="5" parent_id="1" variable_id="910000000017062" variable_type="9" value_type="12" access_type="3" parent_name="模拟运动#1设备#0卡" variable_name="模拟运动#1设备#0卡.轴#4 运动距离设定3" init_value="10408" min_value="-999999" max_value="999999"/>
+        <variable main_group_id="3" sub_group_id="5" parent_id="1" variable_id="910000000017063" variable_type="9" value_type="12" access_type="3" parent_name="模拟运动#1设备#0卡" variable_name="模拟运动#1设备#0卡.轴#4 运动速度设定1" init_value="10409" min_value="-999999" max_value="999999"/>
+        <variable main_group_id="3" sub_group_id="5" parent_id="1" variable_id="910000000017064" variable_type="9" value_type="12" access_type="3" parent_name="模拟运动#1设备#0卡" variable_name="模拟运动#1设备#0卡.轴#4 运动速度设定2" init_value="10410" min_value="-999999" max_value="999999"/>
+        <variable main_group_id="3" sub_group_id="5" parent_id="1" variable_id="910000000017065" variable_type="9" value_type="12" access_type="3" parent_name="模拟运动#1设备#0卡" variable_name="模拟运动#1设备#0卡.轴#4 运动速度设定3" init_value="10411" min_value="-999999" max_value="999999"/>
+        <variable main_group_id="3" sub_group_id="5" parent_id="1" variable_id="910000000017066" variable_type="9" value_type="7" access_type="3" parent_name="模拟运动#1设备#0卡" variable_name="模拟运动#1设备#0卡.轴#4 循环条件" init_value="10412" min_value="-999999" max_value="999999"/>
+        <variable main_group_id="3" sub_group_id="5" parent_id="1" variable_id="910000000017067" variable_type="9" value_type="8" access_type="3" parent_name="模拟运动#1设备#0卡" variable_name="模拟运动#1设备#0卡.轴#4 循环次数" init_value="10413" min_value="-999999" max_value="999999"/>
+        <variable main_group_id="3" sub_group_id="5" parent_id="1" variable_id="910000000017068" variable_type="9" value_type="7" access_type="3" parent_name="模拟运动#1设备#0卡" variable_name="模拟运动#1设备#0卡.轴#4 手动复位条件" init_value="10414" min_value="-999999" max_value="999999"/>
+        <variable main_group_id="3" sub_group_id="5" parent_id="1" variable_id="910000000017069" variable_type="9" value_type="12" access_type="3" parent_name="模拟运动#1设备#0卡" variable_name="模拟运动#1设备#0卡.轴#5 零点位置设定1" init_value="10501" min_value="-999999" max_value="999999"/>
+        <variable main_group_id="3" sub_group_id="5" parent_id="1" variable_id="910000000017070" variable_type="9" value_type="12" access_type="3" parent_name="模拟运动#1设备#0卡" variable_name="模拟运动#1设备#0卡.轴#5 零点位置设定2" init_value="10502" min_value="-999999" max_value="999999"/>
+        <variable main_group_id="3" sub_group_id="5" parent_id="1" variable_id="910000000017071" variable_type="9" value_type="12" access_type="3" parent_name="模拟运动#1设备#0卡" variable_name="模拟运动#1设备#0卡.轴#5 目标位置设定1" init_value="10503" min_value="-999999" max_value="999999"/>
+        <variable main_group_id="3" sub_group_id="5" parent_id="1" variable_id="910000000017072" variable_type="9" value_type="12" access_type="3" parent_name="模拟运动#1设备#0卡" variable_name="模拟运动#1设备#0卡.轴#5 目标位置设定2" init_value="10504" min_value="-999999" max_value="999999"/>
+        <variable main_group_id="3" sub_group_id="5" parent_id="1" variable_id="910000000017073" variable_type="9" value_type="12" access_type="3" parent_name="模拟运动#1设备#0卡" variable_name="模拟运动#1设备#0卡.轴#5 目标位置设定3" init_value="10505" min_value="-999999" max_value="999999"/>
+        <variable main_group_id="3" sub_group_id="5" parent_id="1" variable_id="910000000017074" variable_type="9" value_type="12" access_type="3" parent_name="模拟运动#1设备#0卡" variable_name="模拟运动#1设备#0卡.轴#5 运动距离设定1" init_value="10506" min_value="-999999" max_value="999999"/>
+        <variable main_group_id="3" sub_group_id="5" parent_id="1" variable_id="910000000017075" variable_type="9" value_type="12" access_type="3" parent_name="模拟运动#1设备#0卡" variable_name="模拟运动#1设备#0卡.轴#5 运动距离设定2" init_value="10507" min_value="-999999" max_value="999999"/>
+        <variable main_group_id="3" sub_group_id="5" parent_id="1" variable_id="910000000017076" variable_type="9" value_type="12" access_type="3" parent_name="模拟运动#1设备#0卡" variable_name="模拟运动#1设备#0卡.轴#5 运动距离设定3" init_value="10508" min_value="-999999" max_value="999999"/>
+        <variable main_group_id="3" sub_group_id="5" parent_id="1" variable_id="910000000017077" variable_type="9" value_type="12" access_type="3" parent_name="模拟运动#1设备#0卡" variable_name="模拟运动#1设备#0卡.轴#5 运动速度设定1" init_value="10509" min_value="-999999" max_value="999999"/>
+        <variable main_group_id="3" sub_group_id="5" parent_id="1" variable_id="910000000017078" variable_type="9" value_type="12" access_type="3" parent_name="模拟运动#1设备#0卡" variable_name="模拟运动#1设备#0卡.轴#5 运动速度设定2" init_value="10510" min_value="-999999" max_value="999999"/>
+        <variable main_group_id="3" sub_group_id="5" parent_id="1" variable_id="910000000017079" variable_type="9" value_type="12" access_type="3" parent_name="模拟运动#1设备#0卡" variable_name="模拟运动#1设备#0卡.轴#5 运动速度设定3" init_value="10511" min_value="-999999" max_value="999999"/>
+        <variable main_group_id="3" sub_group_id="5" parent_id="1" variable_id="910000000017080" variable_type="9" value_type="7" access_type="3" parent_name="模拟运动#1设备#0卡" variable_name="模拟运动#1设备#0卡.轴#5 循环条件" init_value="10512" min_value="-999999" max_value="999999"/>
+        <variable main_group_id="3" sub_group_id="5" parent_id="1" variable_id="910000000017081" variable_type="9" value_type="8" access_type="3" parent_name="模拟运动#1设备#0卡" variable_name="模拟运动#1设备#0卡.轴#5 循环次数" init_value="10513" min_value="-999999" max_value="999999"/>
+        <variable main_group_id="3" sub_group_id="5" parent_id="1" variable_id="910000000017082" variable_type="9" value_type="7" access_type="3" parent_name="模拟运动#1设备#0卡" variable_name="模拟运动#1设备#0卡.轴#5 手动复位条件" init_value="10514" min_value="-999999" max_value="999999"/>
+        <variable main_group_id="3" sub_group_id="5" parent_id="1" variable_id="910000000017083" variable_type="9" value_type="12" access_type="3" parent_name="模拟运动#1设备#0卡" variable_name="模拟运动#1设备#0卡.轴#6 零点位置设定1" init_value="10601" min_value="-999999" max_value="999999"/>
+        <variable main_group_id="3" sub_group_id="5" parent_id="1" variable_id="910000000017084" variable_type="9" value_type="12" access_type="3" parent_name="模拟运动#1设备#0卡" variable_name="模拟运动#1设备#0卡.轴#6 零点位置设定2" init_value="10602" min_value="-999999" max_value="999999"/>
+        <variable main_group_id="3" sub_group_id="5" parent_id="1" variable_id="910000000017085" variable_type="9" value_type="12" access_type="3" parent_name="模拟运动#1设备#0卡" variable_name="模拟运动#1设备#0卡.轴#6 目标位置设定1" init_value="10603" min_value="-999999" max_value="999999"/>
+        <variable main_group_id="3" sub_group_id="5" parent_id="1" variable_id="910000000017086" variable_type="9" value_type="12" access_type="3" parent_name="模拟运动#1设备#0卡" variable_name="模拟运动#1设备#0卡.轴#6 目标位置设定2" init_value="10604" min_value="-999999" max_value="999999"/>
+        <variable main_group_id="3" sub_group_id="5" parent_id="1" variable_id="910000000017087" variable_type="9" value_type="12" access_type="3" parent_name="模拟运动#1设备#0卡" variable_name="模拟运动#1设备#0卡.轴#6 目标位置设定3" init_value="10605" min_value="-999999" max_value="999999"/>
+        <variable main_group_id="3" sub_group_id="5" parent_id="1" variable_id="910000000017088" variable_type="9" value_type="12" access_type="3" parent_name="模拟运动#1设备#0卡" variable_name="模拟运动#1设备#0卡.轴#6 运动距离设定1" init_value="10606" min_value="-999999" max_value="999999"/>
+        <variable main_group_id="3" sub_group_id="5" parent_id="1" variable_id="910000000017089" variable_type="9" value_type="12" access_type="3" parent_name="模拟运动#1设备#0卡" variable_name="模拟运动#1设备#0卡.轴#6 运动距离设定2" init_value="10607" min_value="-999999" max_value="999999"/>
+        <variable main_group_id="3" sub_group_id="5" parent_id="1" variable_id="910000000017090" variable_type="9" value_type="12" access_type="3" parent_name="模拟运动#1设备#0卡" variable_name="模拟运动#1设备#0卡.轴#6 运动距离设定3" init_value="10608" min_value="-999999" max_value="999999"/>
+        <variable main_group_id="3" sub_group_id="5" parent_id="1" variable_id="910000000017091" variable_type="9" value_type="12" access_type="3" parent_name="模拟运动#1设备#0卡" variable_name="模拟运动#1设备#0卡.轴#6 运动速度设定1" init_value="10609" min_value="-999999" max_value="999999"/>
+        <variable main_group_id="3" sub_group_id="5" parent_id="1" variable_id="910000000017092" variable_type="9" value_type="12" access_type="3" parent_name="模拟运动#1设备#0卡" variable_name="模拟运动#1设备#0卡.轴#6 运动速度设定2" init_value="10610" min_value="-999999" max_value="999999"/>
+        <variable main_group_id="3" sub_group_id="5" parent_id="1" variable_id="910000000017093" variable_type="9" value_type="12" access_type="3" parent_name="模拟运动#1设备#0卡" variable_name="模拟运动#1设备#0卡.轴#6 运动速度设定3" init_value="10611" min_value="-999999" max_value="999999"/>
+        <variable main_group_id="3" sub_group_id="5" parent_id="1" variable_id="910000000017094" variable_type="9" value_type="7" access_type="3" parent_name="模拟运动#1设备#0卡" variable_name="模拟运动#1设备#0卡.轴#6 循环条件" init_value="10612" min_value="-999999" max_value="999999"/>
+        <variable main_group_id="3" sub_group_id="5" parent_id="1" variable_id="910000000017095" variable_type="9" value_type="8" access_type="3" parent_name="模拟运动#1设备#0卡" variable_name="模拟运动#1设备#0卡.轴#6 循环次数" init_value="10613" min_value="-999999" max_value="999999"/>
+        <variable main_group_id="3" sub_group_id="5" parent_id="1" variable_id="910000000017096" variable_type="9" value_type="7" access_type="3" parent_name="模拟运动#1设备#0卡" variable_name="模拟运动#1设备#0卡.轴#6 手动复位条件" init_value="10614" min_value="-999999" max_value="999999"/>
+        <variable main_group_id="3" sub_group_id="5" parent_id="1" variable_id="910000000017097" variable_type="9" value_type="12" access_type="3" parent_name="模拟运动#1设备#0卡" variable_name="模拟运动#1设备#0卡.轴#7 零点位置设定1" init_value="10601" min_value="-999999" max_value="999999"/>
+        <variable main_group_id="3" sub_group_id="5" parent_id="1" variable_id="910000000017098" variable_type="9" value_type="12" access_type="3" parent_name="模拟运动#1设备#0卡" variable_name="模拟运动#1设备#0卡.轴#7 零点位置设定2" init_value="10602" min_value="-999999" max_value="999999"/>
+        <variable main_group_id="3" sub_group_id="5" parent_id="1" variable_id="910000000017099" variable_type="9" value_type="12" access_type="3" parent_name="模拟运动#1设备#0卡" variable_name="模拟运动#1设备#0卡.轴#7 目标位置设定1" init_value="10603" min_value="-999999" max_value="999999"/>
+        <variable main_group_id="3" sub_group_id="5" parent_id="1" variable_id="910000000017100" variable_type="9" value_type="12" access_type="3" parent_name="模拟运动#1设备#0卡" variable_name="模拟运动#1设备#0卡.轴#7 目标位置设定2" init_value="10604" min_value="-999999" max_value="999999"/>
+        <variable main_group_id="3" sub_group_id="5" parent_id="1" variable_id="910000000017101" variable_type="9" value_type="12" access_type="3" parent_name="模拟运动#1设备#0卡" variable_name="模拟运动#1设备#0卡.轴#7 目标位置设定3" init_value="10605" min_value="-999999" max_value="999999"/>
+        <variable main_group_id="3" sub_group_id="5" parent_id="1" variable_id="910000000017102" variable_type="9" value_type="12" access_type="3" parent_name="模拟运动#1设备#0卡" variable_name="模拟运动#1设备#0卡.轴#7 运动距离设定1" init_value="10606" min_value="-999999" max_value="999999"/>
+        <variable main_group_id="3" sub_group_id="5" parent_id="1" variable_id="910000000017103" variable_type="9" value_type="12" access_type="3" parent_name="模拟运动#1设备#0卡" variable_name="模拟运动#1设备#0卡.轴#7 运动距离设定2" init_value="10607" min_value="-999999" max_value="999999"/>
+        <variable main_group_id="3" sub_group_id="5" parent_id="1" variable_id="910000000017104" variable_type="9" value_type="12" access_type="3" parent_name="模拟运动#1设备#0卡" variable_name="模拟运动#1设备#0卡.轴#7 运动距离设定3" init_value="10608" min_value="-999999" max_value="999999"/>
+        <variable main_group_id="3" sub_group_id="5" parent_id="1" variable_id="910000000017105" variable_type="9" value_type="12" access_type="3" parent_name="模拟运动#1设备#0卡" variable_name="模拟运动#1设备#0卡.轴#7 运动速度设定1" init_value="10609" min_value="-999999" max_value="999999"/>
+        <variable main_group_id="3" sub_group_id="5" parent_id="1" variable_id="910000000017106" variable_type="9" value_type="12" access_type="3" parent_name="模拟运动#1设备#0卡" variable_name="模拟运动#1设备#0卡.轴#7 运动速度设定2" init_value="10610" min_value="-999999" max_value="999999"/>
+        <variable main_group_id="3" sub_group_id="5" parent_id="1" variable_id="910000000017107" variable_type="9" value_type="12" access_type="3" parent_name="模拟运动#1设备#0卡" variable_name="模拟运动#1设备#0卡.轴#7 运动速度设定3" init_value="10611" min_value="-999999" max_value="999999"/>
+        <variable main_group_id="3" sub_group_id="5" parent_id="1" variable_id="910000000017108" variable_type="9" value_type="7" access_type="3" parent_name="模拟运动#1设备#0卡" variable_name="模拟运动#1设备#0卡.轴#7 循环条件" init_value="10612" min_value="-999999" max_value="999999"/>
+        <variable main_group_id="3" sub_group_id="5" parent_id="1" variable_id="910000000017109" variable_type="9" value_type="8" access_type="3" parent_name="模拟运动#1设备#0卡" variable_name="模拟运动#1设备#0卡.轴#7 循环次数" init_value="10613" min_value="-999999" max_value="999999"/>
+        <variable main_group_id="3" sub_group_id="5" parent_id="1" variable_id="910000000017110" variable_type="9" value_type="7" access_type="3" parent_name="模拟运动#1设备#0卡" variable_name="模拟运动#1设备#0卡.轴#7 手动复位条件" init_value="10614" min_value="-999999" max_value="999999"/>
+        <variable main_group_id="3" sub_group_id="5" parent_id="1" variable_id="910000000017111" variable_type="9" value_type="12" access_type="3" parent_name="模拟运动#1设备#0卡" variable_name="模拟运动#1设备#0卡.轴#8 零点位置设定1" init_value="10601" min_value="-999999" max_value="999999"/>
+        <variable main_group_id="3" sub_group_id="5" parent_id="1" variable_id="910000000017112" variable_type="9" value_type="12" access_type="3" parent_name="模拟运动#1设备#0卡" variable_name="模拟运动#1设备#0卡.轴#8 零点位置设定2" init_value="10602" min_value="-999999" max_value="999999"/>
+        <variable main_group_id="3" sub_group_id="5" parent_id="1" variable_id="910000000017113" variable_type="9" value_type="12" access_type="3" parent_name="模拟运动#1设备#0卡" variable_name="模拟运动#1设备#0卡.轴#8 目标位置设定1" init_value="10603" min_value="-999999" max_value="999999"/>
+        <variable main_group_id="3" sub_group_id="5" parent_id="1" variable_id="910000000017114" variable_type="9" value_type="12" access_type="3" parent_name="模拟运动#1设备#0卡" variable_name="模拟运动#1设备#0卡.轴#8 目标位置设定2" init_value="10604" min_value="-999999" max_value="999999"/>
+        <variable main_group_id="3" sub_group_id="5" parent_id="1" variable_id="910000000017115" variable_type="9" value_type="12" access_type="3" parent_name="模拟运动#1设备#0卡" variable_name="模拟运动#1设备#0卡.轴#8 目标位置设定3" init_value="10605" min_value="-999999" max_value="999999"/>
+        <variable main_group_id="3" sub_group_id="5" parent_id="1" variable_id="910000000017116" variable_type="9" value_type="12" access_type="3" parent_name="模拟运动#1设备#0卡" variable_name="模拟运动#1设备#0卡.轴#8 运动距离设定1" init_value="10606" min_value="-999999" max_value="999999"/>
+        <variable main_group_id="3" sub_group_id="5" parent_id="1" variable_id="910000000017117" variable_type="9" value_type="12" access_type="3" parent_name="模拟运动#1设备#0卡" variable_name="模拟运动#1设备#0卡.轴#8 运动距离设定2" init_value="10607" min_value="-999999" max_value="999999"/>
+        <variable main_group_id="3" sub_group_id="5" parent_id="1" variable_id="910000000017118" variable_type="9" value_type="12" access_type="3" parent_name="模拟运动#1设备#0卡" variable_name="模拟运动#1设备#0卡.轴#8 运动距离设定3" init_value="10608" min_value="-999999" max_value="999999"/>
+        <variable main_group_id="3" sub_group_id="5" parent_id="1" variable_id="910000000017119" variable_type="9" value_type="12" access_type="3" parent_name="模拟运动#1设备#0卡" variable_name="模拟运动#1设备#0卡.轴#8 运动速度设定1" init_value="10609" min_value="-999999" max_value="999999"/>
+        <variable main_group_id="3" sub_group_id="5" parent_id="1" variable_id="910000000017120" variable_type="9" value_type="12" access_type="3" parent_name="模拟运动#1设备#0卡" variable_name="模拟运动#1设备#0卡.轴#8 运动速度设定2" init_value="10610" min_value="-999999" max_value="999999"/>
+        <variable main_group_id="3" sub_group_id="5" parent_id="1" variable_id="910000000017121" variable_type="9" value_type="12" access_type="3" parent_name="模拟运动#1设备#0卡" variable_name="模拟运动#1设备#0卡.轴#8 运动速度设定3" init_value="10611" min_value="-999999" max_value="999999"/>
+        <variable main_group_id="3" sub_group_id="5" parent_id="1" variable_id="910000000017122" variable_type="9" value_type="7" access_type="3" parent_name="模拟运动#1设备#0卡" variable_name="模拟运动#1设备#0卡.轴#8 循环条件" init_value="10612" min_value="-999999" max_value="999999"/>
+        <variable main_group_id="3" sub_group_id="5" parent_id="1" variable_id="910000000017123" variable_type="9" value_type="8" access_type="3" parent_name="模拟运动#1设备#0卡" variable_name="模拟运动#1设备#0卡.轴#8 循环次数" init_value="10613" min_value="-999999" max_value="999999"/>
+        <variable main_group_id="3" sub_group_id="5" parent_id="1" variable_id="910000000017124" variable_type="9" value_type="7" access_type="3" parent_name="模拟运动#1设备#0卡" variable_name="模拟运动#1设备#0卡.轴#8 手动复位条件" init_value="10614" min_value="-999999" max_value="999999"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="10000" variable_id="1100001000001000" variable_type="11" value_type="4" access_type="1" parent_name="" variable_name="新建任务#1 状态" init_value="0" min_value="0" max_value="100"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="10000" variable_id="1100005000001000" variable_type="11" value_type="4" access_type="1" parent_name="" variable_name="新建子任务#1 状态" init_value="0" min_value="0" max_value="100"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="10000" variable_id="1100015000001000" variable_type="11" value_type="4" access_type="1" parent_name="" variable_name="新建子任务#1 状态" init_value="0" min_value="0" max_value="100"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="10000" variable_id="1100021000001000" variable_type="11" value_type="4" access_type="1" parent_name="" variable_name="测试 状态" init_value="0" min_value="0" max_value="100"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="10000" variable_id="1100022000001000" variable_type="11" value_type="4" access_type="1" parent_name="" variable_name="123 状态" init_value="0" min_value="0" max_value="100"/>
+        <variable main_group_id="0" sub_group_id="0" parent_id="10000" variable_id="1100023000001000" variable_type="11" value_type="4" access_type="1" parent_name="" variable_name="456 状态" init_value="0" min_value="0" max_value="100"/>
+    </variables>
+</project>
+
+<project>
+    <local_server/>
+</project>

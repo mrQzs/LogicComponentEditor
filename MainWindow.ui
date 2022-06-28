@@ -1,0 +1,1382 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1920</width>
+    <height>1024</height>
+   </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>0</width>
+    <height>0</height>
+   </size>
+  </property>
+  <property name="windowTitle">
+   <string/>
+  </property>
+  <property name="styleSheet">
+   <string notr="true"/>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QHBoxLayout" name="horizontalLayout" stretch="0,0">
+    <property name="spacing">
+     <number>2</number>
+    </property>
+    <property name="leftMargin">
+     <number>0</number>
+    </property>
+    <property name="topMargin">
+     <number>0</number>
+    </property>
+    <property name="rightMargin">
+     <number>0</number>
+    </property>
+    <property name="bottomMargin">
+     <number>0</number>
+    </property>
+    <item>
+     <widget class="QToolBox" name="toolBox">
+      <property name="minimumSize">
+       <size>
+        <width>230</width>
+        <height>0</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>200</width>
+        <height>16777215</height>
+       </size>
+      </property>
+      <property name="toolTipDuration">
+       <number>-1</number>
+      </property>
+      <property name="currentIndex">
+       <number>2</number>
+      </property>
+      <widget class="QWidget" name="MoveTool">
+       <property name="geometry">
+        <rect>
+         <x>0</x>
+         <y>0</y>
+         <width>230</width>
+         <height>732</height>
+        </rect>
+       </property>
+       <attribute name="label">
+        <string>运动</string>
+       </attribute>
+       <layout class="QHBoxLayout" name="horizontalLayout_2">
+        <property name="spacing">
+         <number>0</number>
+        </property>
+        <property name="leftMargin">
+         <number>0</number>
+        </property>
+        <property name="topMargin">
+         <number>0</number>
+        </property>
+        <property name="rightMargin">
+         <number>0</number>
+        </property>
+        <property name="bottomMargin">
+         <number>0</number>
+        </property>
+        <item>
+         <widget class="YDModuleView" name="MoveListView">
+          <property name="maximumSize">
+           <size>
+            <width>16777215</width>
+            <height>16777215</height>
+           </size>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="IOTool">
+       <property name="geometry">
+        <rect>
+         <x>0</x>
+         <y>0</y>
+         <width>230</width>
+         <height>732</height>
+        </rect>
+       </property>
+       <attribute name="label">
+        <string>I/O</string>
+       </attribute>
+       <layout class="QHBoxLayout" name="horizontalLayout_4">
+        <property name="spacing">
+         <number>0</number>
+        </property>
+        <property name="leftMargin">
+         <number>0</number>
+        </property>
+        <property name="topMargin">
+         <number>0</number>
+        </property>
+        <property name="rightMargin">
+         <number>0</number>
+        </property>
+        <property name="bottomMargin">
+         <number>0</number>
+        </property>
+        <item>
+         <widget class="YDModuleView" name="IOListView"/>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="ControlTool">
+       <property name="geometry">
+        <rect>
+         <x>0</x>
+         <y>0</y>
+         <width>230</width>
+         <height>732</height>
+        </rect>
+       </property>
+       <attribute name="label">
+        <string>控制</string>
+       </attribute>
+       <layout class="QHBoxLayout" name="horizontalLayout_5">
+        <property name="spacing">
+         <number>0</number>
+        </property>
+        <property name="leftMargin">
+         <number>0</number>
+        </property>
+        <property name="topMargin">
+         <number>0</number>
+        </property>
+        <property name="rightMargin">
+         <number>0</number>
+        </property>
+        <property name="bottomMargin">
+         <number>0</number>
+        </property>
+        <item>
+         <widget class="YDModuleView" name="ControlListView"/>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="OtherTool">
+       <property name="geometry">
+        <rect>
+         <x>0</x>
+         <y>0</y>
+         <width>230</width>
+         <height>732</height>
+        </rect>
+       </property>
+       <attribute name="label">
+        <string>其他</string>
+       </attribute>
+       <layout class="QHBoxLayout" name="horizontalLayout_6">
+        <property name="spacing">
+         <number>0</number>
+        </property>
+        <property name="leftMargin">
+         <number>0</number>
+        </property>
+        <property name="topMargin">
+         <number>0</number>
+        </property>
+        <property name="rightMargin">
+         <number>0</number>
+        </property>
+        <property name="bottomMargin">
+         <number>0</number>
+        </property>
+        <item>
+         <widget class="YDModuleView" name="OtherListView"/>
+        </item>
+       </layout>
+      </widget>
+     </widget>
+    </item>
+    <item>
+     <widget class="QTabWidget" name="tabWidget">
+      <property name="minimumSize">
+       <size>
+        <width>400</width>
+        <height>0</height>
+       </size>
+      </property>
+      <property name="currentIndex">
+       <number>-1</number>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>1920</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="m_way">
+    <property name="title">
+     <string>配方</string>
+    </property>
+    <widget class="QMenu" name="a_openway">
+     <property name="title">
+      <string>打开配方</string>
+     </property>
+    </widget>
+    <widget class="QMenu" name="a_dellway">
+     <property name="title">
+      <string>删除配方</string>
+     </property>
+    </widget>
+    <addaction name="a_newway"/>
+    <addaction name="a_openway"/>
+    <addaction name="a_changeWay"/>
+    <addaction name="separator"/>
+    <addaction name="a_saveow"/>
+    <addaction name="a_saveway"/>
+    <addaction name="separator"/>
+    <addaction name="a_dellway"/>
+   </widget>
+   <widget class="QMenu" name="m_edit">
+    <property name="title">
+     <string>编辑</string>
+    </property>
+    <addaction name="a_ecopy"/>
+    <addaction name="a_ecut"/>
+    <addaction name="e_epaste"/>
+    <addaction name="a_edel"/>
+    <addaction name="separator"/>
+    <addaction name="a_eprop"/>
+   </widget>
+   <widget class="QMenu" name="m_window">
+    <property name="title">
+     <string>窗口</string>
+    </property>
+    <addaction name="a_wpromg"/>
+    <addaction name="a_wgbvar"/>
+    <addaction name="a_wwyvar"/>
+    <addaction name="a_wtpvar"/>
+    <addaction name="a_wsfvar"/>
+    <addaction name="a_wcylinder"/>
+    <addaction name="a_wfeida"/>
+    <addaction name="a_wtrayp"/>
+    <addaction name="a_wdanjia"/>
+   </widget>
+   <widget class="QMenu" name="m_debug">
+    <property name="title">
+     <string>调试</string>
+    </property>
+    <addaction name="a_dupload"/>
+    <addaction name="a_ddownload"/>
+    <addaction name="a_doldebug"/>
+    <addaction name="separator"/>
+    <addaction name="a_dstartz"/>
+    <addaction name="a_dstartm"/>
+    <addaction name="a_dpausem"/>
+    <addaction name="a_dstopm"/>
+   </widget>
+   <widget class="QMenu" name="m_tool">
+    <property name="title">
+     <string>工具</string>
+    </property>
+    <addaction name="a_ttalkset"/>
+   </widget>
+   <widget class="QMenu" name="m_help">
+    <property name="title">
+     <string>帮助</string>
+    </property>
+    <addaction name="a_hhelp"/>
+    <addaction name="a_habout"/>
+   </widget>
+   <widget class="QMenu" name="m_project">
+    <property name="title">
+     <string>项目</string>
+    </property>
+    <widget class="QMenu" name="a_open">
+     <property name="title">
+      <string>打开项目</string>
+     </property>
+    </widget>
+    <widget class="QMenu" name="a_del">
+     <property name="title">
+      <string>删除项目</string>
+     </property>
+    </widget>
+    <addaction name="a_new"/>
+    <addaction name="a_open"/>
+    <addaction name="a_close"/>
+    <addaction name="a_rename"/>
+    <addaction name="separator"/>
+    <addaction name="a_save"/>
+    <addaction name="a_saveall"/>
+    <addaction name="a_saveoth"/>
+    <addaction name="separator"/>
+    <addaction name="a_del"/>
+    <addaction name="separator"/>
+    <addaction name="a_exit"/>
+   </widget>
+   <addaction name="m_project"/>
+   <addaction name="m_way"/>
+   <addaction name="m_edit"/>
+   <addaction name="m_window"/>
+   <addaction name="m_debug"/>
+   <addaction name="m_tool"/>
+   <addaction name="m_help"/>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+  <widget class="QDockWidget" name="MenuDock">
+   <property name="minimumSize">
+    <size>
+     <width>230</width>
+     <height>296</height>
+    </size>
+   </property>
+   <property name="styleSheet">
+    <string notr="true"/>
+   </property>
+   <property name="windowTitle">
+    <string>项目管理器</string>
+   </property>
+   <attribute name="dockWidgetArea">
+    <number>1</number>
+   </attribute>
+   <widget class="QWidget" name="dockWidgetContents_0">
+    <layout class="QVBoxLayout" name="verticalLayout">
+     <property name="spacing">
+      <number>0</number>
+     </property>
+     <property name="leftMargin">
+      <number>0</number>
+     </property>
+     <property name="topMargin">
+      <number>0</number>
+     </property>
+     <property name="rightMargin">
+      <number>0</number>
+     </property>
+     <property name="bottomMargin">
+      <number>0</number>
+     </property>
+     <item>
+      <widget class="QScrollArea" name="scrollArea">
+       <property name="styleSheet">
+        <string notr="true">QScrollBar:vertical {
+border:1px solid #00ae9d;
+background: #78cdd1;
+width: 12px;
+margin:  10px 0px  10px 0px;
+}
+QScrollBar::handle:vertical {
+background: #008792;
+min-height:  10px;
+}
+QScrollBar::add-line:vertical {
+height:  10px;
+subcontrol-origin:margin;
+border-style:flat;
+}
+QScrollBar::sub-line:vertical {
+height:  10px;
+subcontrol-origin:margin;
+border-style:flat;
+}
+QScrollBar::down-arrow:vertical{
+subcontrol-origin: margin;
+height: 10px;
+background:#fedcbd;
+width:12px;
+border-image: url(:/Icon/arrow_down.png);
+}
+QScrollBar::up-arrow:vertical{
+background:#fedcbd;
+subcontrol-origin: margin;
+height: 10px;
+width:12px;
+border-image: url(:/Icon/arrow_up.png);
+padding:2px;
+}
+QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {
+background: #90d7ec;
+}</string>
+       </property>
+       <property name="widgetResizable">
+        <bool>true</bool>
+       </property>
+       <widget class="QWidget" name="scroa">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>0</y>
+          <width>228</width>
+          <height>831</height>
+         </rect>
+        </property>
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="MinimumExpanding">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+       </widget>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+  </widget>
+  <widget class="QDockWidget" name="PropertyDock">
+   <property name="minimumSize">
+    <size>
+     <width>120</width>
+     <height>89</height>
+    </size>
+   </property>
+   <property name="windowTitle">
+    <string>属性窗口</string>
+   </property>
+   <attribute name="dockWidgetArea">
+    <number>2</number>
+   </attribute>
+   <widget class="QWidget" name="dockWidgetContents_1">
+    <layout class="QHBoxLayout" name="horizontalLayout_8">
+     <property name="spacing">
+      <number>0</number>
+     </property>
+     <property name="leftMargin">
+      <number>0</number>
+     </property>
+     <property name="topMargin">
+      <number>0</number>
+     </property>
+     <property name="rightMargin">
+      <number>0</number>
+     </property>
+     <property name="bottomMargin">
+      <number>0</number>
+     </property>
+     <item>
+      <widget class="QTreeView" name="property_tree"/>
+     </item>
+    </layout>
+   </widget>
+  </widget>
+  <widget class="QDockWidget" name="VarDock">
+   <property name="minimumSize">
+    <size>
+     <width>520</width>
+     <height>124</height>
+    </size>
+   </property>
+   <property name="windowTitle">
+    <string>全局变量</string>
+   </property>
+   <attribute name="dockWidgetArea">
+    <number>2</number>
+   </attribute>
+   <widget class="QWidget" name="dockWidgetContents_2">
+    <property name="minimumSize">
+     <size>
+      <width>450</width>
+      <height>0</height>
+     </size>
+    </property>
+    <layout class="QVBoxLayout" name="verticalLayout_3">
+     <property name="spacing">
+      <number>0</number>
+     </property>
+     <property name="leftMargin">
+      <number>0</number>
+     </property>
+     <property name="topMargin">
+      <number>0</number>
+     </property>
+     <property name="rightMargin">
+      <number>0</number>
+     </property>
+     <property name="bottomMargin">
+      <number>0</number>
+     </property>
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout_9">
+       <item>
+        <widget class="QToolButton" name="AddVarG">
+         <property name="text">
+          <string>...</string>
+         </property>
+         <property name="icon">
+          <iconset resource="res/res.qrc">
+           <normaloff>:/Icon/addBtn.png</normaloff>:/Icon/addBtn.png</iconset>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>24</width>
+           <height>24</height>
+          </size>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QToolButton" name="DelVarG">
+         <property name="text">
+          <string>...</string>
+         </property>
+         <property name="icon">
+          <iconset resource="res/res.qrc">
+           <normaloff>:/Icon/delBtn.png</normaloff>:/Icon/delBtn.png</iconset>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>24</width>
+           <height>24</height>
+          </size>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QToolButton" name="addVar">
+         <property name="text">
+          <string/>
+         </property>
+         <property name="icon">
+          <iconset resource="res/res.qrc">
+           <normaloff>:/Icon/addBtn.png</normaloff>:/Icon/addBtn.png</iconset>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>24</width>
+           <height>24</height>
+          </size>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <spacer name="horizontalSpacer_2">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>40</width>
+           <height>24</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout_15">
+       <property name="spacing">
+        <number>0</number>
+       </property>
+       <item>
+        <widget class="YDTreeView" name="VarGroupView">
+         <property name="maximumSize">
+          <size>
+           <width>200</width>
+           <height>16777215</height>
+          </size>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="YDTableView" name="VarView"/>
+       </item>
+      </layout>
+     </item>
+    </layout>
+   </widget>
+  </widget>
+  <widget class="QToolBar" name="toolBar">
+   <property name="windowTitle">
+    <string>工具栏</string>
+   </property>
+   <attribute name="toolBarArea">
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+   <addaction name="separator"/>
+   <addaction name="a_save"/>
+  </widget>
+  <widget class="QDockWidget" name="CylinderDock">
+   <property name="windowTitle">
+    <string>气油缸</string>
+   </property>
+   <attribute name="dockWidgetArea">
+    <number>2</number>
+   </attribute>
+   <widget class="QWidget" name="dockWidgetContents">
+    <layout class="QVBoxLayout" name="verticalLayout_4">
+     <property name="spacing">
+      <number>0</number>
+     </property>
+     <property name="leftMargin">
+      <number>0</number>
+     </property>
+     <property name="topMargin">
+      <number>0</number>
+     </property>
+     <property name="rightMargin">
+      <number>0</number>
+     </property>
+     <property name="bottomMargin">
+      <number>0</number>
+     </property>
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout_11">
+       <item>
+        <widget class="QToolButton" name="GasAdd">
+         <property name="text">
+          <string>...</string>
+         </property>
+         <property name="icon">
+          <iconset resource="res/res.qrc">
+           <normaloff>:/Icon/addBtn.png</normaloff>:/Icon/addBtn.png</iconset>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>24</width>
+           <height>24</height>
+          </size>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QToolButton" name="GasDel">
+         <property name="text">
+          <string>...</string>
+         </property>
+         <property name="icon">
+          <iconset resource="res/res.qrc">
+           <normaloff>:/Icon/delBtn.png</normaloff>:/Icon/delBtn.png</iconset>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>24</width>
+           <height>24</height>
+          </size>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <spacer name="horizontalSpacer_4">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>40</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout_10">
+       <property name="spacing">
+        <number>0</number>
+       </property>
+       <item>
+        <widget class="YDListView" name="CylinderList">
+         <property name="maximumSize">
+          <size>
+           <width>200</width>
+           <height>16777215</height>
+          </size>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="YDCylinderInfo" name="CylinderInfo" native="true"/>
+       </item>
+      </layout>
+     </item>
+    </layout>
+   </widget>
+  </widget>
+  <widget class="QDockWidget" name="SafeVarDock">
+   <property name="windowTitle">
+    <string>安全变量</string>
+   </property>
+   <attribute name="dockWidgetArea">
+    <number>2</number>
+   </attribute>
+   <widget class="QWidget" name="widget">
+    <layout class="QVBoxLayout" name="verticalLayout_11">
+     <property name="spacing">
+      <number>0</number>
+     </property>
+     <property name="leftMargin">
+      <number>0</number>
+     </property>
+     <property name="topMargin">
+      <number>0</number>
+     </property>
+     <property name="rightMargin">
+      <number>0</number>
+     </property>
+     <property name="bottomMargin">
+      <number>0</number>
+     </property>
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout_17">
+       <item>
+        <widget class="QToolButton" name="AddSafeVarG">
+         <property name="text">
+          <string>...</string>
+         </property>
+         <property name="icon">
+          <iconset resource="res/res.qrc">
+           <normaloff>:/Icon/addBtn.png</normaloff>:/Icon/addBtn.png</iconset>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>24</width>
+           <height>24</height>
+          </size>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QToolButton" name="DelSafeVarG">
+         <property name="text">
+          <string>...</string>
+         </property>
+         <property name="icon">
+          <iconset resource="res/res.qrc">
+           <normaloff>:/Icon/delBtn.png</normaloff>:/Icon/delBtn.png</iconset>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>24</width>
+           <height>24</height>
+          </size>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QToolButton" name="addSafeVar">
+         <property name="text">
+          <string>...</string>
+         </property>
+         <property name="icon">
+          <iconset resource="res/res.qrc">
+           <normaloff>:/Icon/addBtn.png</normaloff>:/Icon/addBtn.png</iconset>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>24</width>
+           <height>24</height>
+          </size>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <spacer name="horizontalSpacer_7">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>40</width>
+           <height>24</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout_18">
+       <property name="spacing">
+        <number>0</number>
+       </property>
+       <item>
+        <widget class="YDTreeView" name="SafeGroupView">
+         <property name="maximumSize">
+          <size>
+           <width>200</width>
+           <height>16777215</height>
+          </size>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QTableView" name="SafeVarView"/>
+       </item>
+      </layout>
+     </item>
+    </layout>
+   </widget>
+  </widget>
+  <widget class="QDockWidget" name="InputDock">
+   <property name="windowTitle">
+    <string>日志输出</string>
+   </property>
+   <attribute name="dockWidgetArea">
+    <number>8</number>
+   </attribute>
+   <widget class="QWidget" name="dockWidgetContents_4">
+    <layout class="QVBoxLayout" name="verticalLayout_6">
+     <property name="spacing">
+      <number>0</number>
+     </property>
+     <property name="leftMargin">
+      <number>0</number>
+     </property>
+     <property name="topMargin">
+      <number>0</number>
+     </property>
+     <property name="rightMargin">
+      <number>0</number>
+     </property>
+     <property name="bottomMargin">
+      <number>0</number>
+     </property>
+     <item>
+      <widget class="QWidget" name="widget_2" native="true">
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
+         <height>70</height>
+        </size>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+  </widget>
+  <widget class="QDockWidget" name="PeiFVarDock">
+   <property name="windowTitle">
+    <string>配方变量</string>
+   </property>
+   <attribute name="dockWidgetArea">
+    <number>2</number>
+   </attribute>
+   <widget class="QWidget" name="dockWidgetContents_3">
+    <layout class="QVBoxLayout" name="verticalLayout_2">
+     <property name="spacing">
+      <number>0</number>
+     </property>
+     <property name="leftMargin">
+      <number>0</number>
+     </property>
+     <property name="topMargin">
+      <number>0</number>
+     </property>
+     <property name="rightMargin">
+      <number>0</number>
+     </property>
+     <property name="bottomMargin">
+      <number>0</number>
+     </property>
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout_12">
+       <item>
+        <widget class="QToolButton" name="AddVarG_2">
+         <property name="text">
+          <string>...</string>
+         </property>
+         <property name="icon">
+          <iconset resource="res/res.qrc">
+           <normaloff>:/Icon/addBtn.png</normaloff>:/Icon/addBtn.png</iconset>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>24</width>
+           <height>24</height>
+          </size>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QToolButton" name="DelVarG_2">
+         <property name="text">
+          <string>...</string>
+         </property>
+         <property name="icon">
+          <iconset resource="res/res.qrc">
+           <normaloff>:/Icon/delBtn.png</normaloff>:/Icon/delBtn.png</iconset>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>24</width>
+           <height>24</height>
+          </size>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QToolButton" name="addVar_2">
+         <property name="text">
+          <string/>
+         </property>
+         <property name="icon">
+          <iconset resource="res/res.qrc">
+           <normaloff>:/Icon/addBtn.png</normaloff>:/Icon/addBtn.png</iconset>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>24</width>
+           <height>24</height>
+          </size>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <spacer name="horizontalSpacer_3">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>40</width>
+           <height>24</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout_16">
+       <property name="spacing">
+        <number>0</number>
+       </property>
+       <item>
+        <widget class="YDTreeView" name="VarGroupView_2">
+         <property name="maximumSize">
+          <size>
+           <width>200</width>
+           <height>16777215</height>
+          </size>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="YDTableView" name="VarView_2"/>
+       </item>
+      </layout>
+     </item>
+    </layout>
+   </widget>
+  </widget>
+  <widget class="QDockWidget" name="DebugDock">
+   <property name="windowTitle">
+    <string>调试信息</string>
+   </property>
+   <attribute name="dockWidgetArea">
+    <number>8</number>
+   </attribute>
+   <widget class="QWidget" name="dockWidgetContents_5"/>
+  </widget>
+  <widget class="QDockWidget" name="TempVarDock">
+   <property name="windowTitle">
+    <string>临时变量</string>
+   </property>
+   <attribute name="dockWidgetArea">
+    <number>2</number>
+   </attribute>
+   <widget class="QWidget" name="dockWidgetContents_6">
+    <layout class="QVBoxLayout" name="verticalLayout_7">
+     <property name="spacing">
+      <number>0</number>
+     </property>
+     <property name="leftMargin">
+      <number>0</number>
+     </property>
+     <property name="topMargin">
+      <number>0</number>
+     </property>
+     <property name="rightMargin">
+      <number>0</number>
+     </property>
+     <property name="bottomMargin">
+      <number>0</number>
+     </property>
+     <item>
+      <layout class="QVBoxLayout" name="verticalLayout_5">
+       <property name="spacing">
+        <number>0</number>
+       </property>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_14">
+         <item>
+          <widget class="QToolButton" name="AddVarG_4">
+           <property name="text">
+            <string>...</string>
+           </property>
+           <property name="icon">
+            <iconset resource="res/res.qrc">
+             <normaloff>:/Icon/addBtn.png</normaloff>:/Icon/addBtn.png</iconset>
+           </property>
+           <property name="iconSize">
+            <size>
+             <width>24</width>
+             <height>24</height>
+            </size>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QToolButton" name="DelVarG_4">
+           <property name="text">
+            <string>...</string>
+           </property>
+           <property name="icon">
+            <iconset resource="res/res.qrc">
+             <normaloff>:/Icon/delBtn.png</normaloff>:/Icon/delBtn.png</iconset>
+           </property>
+           <property name="iconSize">
+            <size>
+             <width>24</width>
+             <height>24</height>
+            </size>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QToolButton" name="addVar_4">
+           <property name="text">
+            <string/>
+           </property>
+           <property name="icon">
+            <iconset resource="res/res.qrc">
+             <normaloff>:/Icon/addBtn.png</normaloff>:/Icon/addBtn.png</iconset>
+           </property>
+           <property name="iconSize">
+            <size>
+             <width>24</width>
+             <height>24</height>
+            </size>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <spacer name="horizontalSpacer_6">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>24</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_20">
+         <property name="spacing">
+          <number>0</number>
+         </property>
+         <item>
+          <widget class="YDTreeView" name="VarGroupView_4">
+           <property name="maximumSize">
+            <size>
+             <width>200</width>
+             <height>16777215</height>
+            </size>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="YDTableView" name="VarView_4"/>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </item>
+    </layout>
+   </widget>
+  </widget>
+  <action name="a_new">
+   <property name="icon">
+    <iconset resource="res/res.qrc">
+     <normaloff>:/Icon/add.png</normaloff>:/Icon/add.png</iconset>
+   </property>
+   <property name="text">
+    <string>新建项目</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+N</string>
+   </property>
+  </action>
+  <action name="a_save">
+   <property name="icon">
+    <iconset resource="res/res.qrc">
+     <normaloff>:/Icon/disk.png</normaloff>:/Icon/disk.png</iconset>
+   </property>
+   <property name="text">
+    <string>保存项目</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+S</string>
+   </property>
+  </action>
+  <action name="a_exit">
+   <property name="text">
+    <string>退出</string>
+   </property>
+  </action>
+  <action name="a_close">
+   <property name="text">
+    <string>关闭项目</string>
+   </property>
+  </action>
+  <action name="a_rename">
+   <property name="text">
+    <string>重命名项目</string>
+   </property>
+  </action>
+  <action name="a_saveall">
+   <property name="text">
+    <string>保存所有</string>
+   </property>
+  </action>
+  <action name="a_saveoth">
+   <property name="text">
+    <string>另存为...</string>
+   </property>
+  </action>
+  <action name="a_newway">
+   <property name="text">
+    <string>新建配方</string>
+   </property>
+  </action>
+  <action name="a_saveway">
+   <property name="text">
+    <string>另存为...</string>
+   </property>
+   <property name="toolTip">
+    <string>另存为...</string>
+   </property>
+  </action>
+  <action name="a_saveow">
+   <property name="text">
+    <string>保存配方</string>
+   </property>
+  </action>
+  <action name="a_ecopy">
+   <property name="text">
+    <string>复制</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+C</string>
+   </property>
+  </action>
+  <action name="a_ecut">
+   <property name="text">
+    <string>剪切</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+X</string>
+   </property>
+  </action>
+  <action name="e_epaste">
+   <property name="text">
+    <string>粘贴</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+V</string>
+   </property>
+  </action>
+  <action name="a_edel">
+   <property name="text">
+    <string>删除</string>
+   </property>
+   <property name="shortcut">
+    <string>Del</string>
+   </property>
+  </action>
+  <action name="a_eprop">
+   <property name="text">
+    <string>属性</string>
+   </property>
+  </action>
+  <action name="a_wpromg">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>项目管理器</string>
+   </property>
+  </action>
+  <action name="a_wgbvar">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>全局变量</string>
+   </property>
+  </action>
+  <action name="a_wwyvar">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>配方变量</string>
+   </property>
+  </action>
+  <action name="a_wtpvar">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>临时变量</string>
+   </property>
+  </action>
+  <action name="a_wsfvar">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>安全变量</string>
+   </property>
+  </action>
+  <action name="a_wcylinder">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>气油缸</string>
+   </property>
+  </action>
+  <action name="a_wfeida">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>飞达</string>
+   </property>
+  </action>
+  <action name="a_wtrayp">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Tray盘</string>
+   </property>
+  </action>
+  <action name="a_wdanjia">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>弹夹</string>
+   </property>
+  </action>
+  <action name="a_dupload">
+   <property name="text">
+    <string>上传项目</string>
+   </property>
+  </action>
+  <action name="a_ddownload">
+   <property name="text">
+    <string>下载项目</string>
+   </property>
+  </action>
+  <action name="a_doldebug">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>在线调试</string>
+   </property>
+  </action>
+  <action name="a_dstartz">
+   <property name="text">
+    <string>启动回零</string>
+   </property>
+  </action>
+  <action name="a_dstartm">
+   <property name="text">
+    <string>启动主任务</string>
+   </property>
+  </action>
+  <action name="a_dpausem">
+   <property name="text">
+    <string>暂停主任务</string>
+   </property>
+  </action>
+  <action name="a_dstopm">
+   <property name="text">
+    <string>结束主任务</string>
+   </property>
+  </action>
+  <action name="a_ttalkset">
+   <property name="icon">
+    <iconset resource="res/res.qrc">
+     <normaloff>:/Icon/Debug.png</normaloff>:/Icon/Debug.png</iconset>
+   </property>
+   <property name="text">
+    <string>通讯设置</string>
+   </property>
+  </action>
+  <action name="a_hhelp">
+   <property name="text">
+    <string>帮助文档</string>
+   </property>
+  </action>
+  <action name="a_habout">
+   <property name="text">
+    <string>关于</string>
+   </property>
+  </action>
+  <action name="a_changeWay">
+   <property name="text">
+    <string>重命名配方</string>
+   </property>
+   <property name="toolTip">
+    <string>重命名配方</string>
+   </property>
+  </action>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>YDModuleView</class>
+   <extends>QListView</extends>
+   <header>view/YDModuleView.h</header>
+  </customwidget>
+  <customwidget>
+   <class>YDTableView</class>
+   <extends>QTableView</extends>
+   <header>view/YDTableView.h</header>
+  </customwidget>
+  <customwidget>
+   <class>YDListView</class>
+   <extends>QListView</extends>
+   <header>view/YDListView.h</header>
+  </customwidget>
+  <customwidget>
+   <class>YDTreeView</class>
+   <extends>QTreeView</extends>
+   <header>view/YDTreeView.h</header>
+  </customwidget>
+  <customwidget>
+   <class>YDCylinderInfo</class>
+   <extends>QWidget</extends>
+   <header>widget/YDCylinderInfo.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
+ <resources>
+  <include location="res/res.qrc"/>
+ </resources>
+ <connections/>
+</ui>

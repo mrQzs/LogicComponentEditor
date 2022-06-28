@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<types>
+	<type id="1" name="mod:dev:mc" model="GTS-800-PV" vendor="固高" extended="0" library="modDev_GTSController.dll">
+		<card number="4" start="0" end="3"/>
+		<axis number="8" start="1" end="8"/>
+		<ditypes>
+			<item id="1" name="通用输入" number="16"/>
+			<item id="2" name="正向限位" number="8"/>
+			<item id="3" name="负向限位" number="8"/>
+			<item id="4" name="驱动报警" number="8"/>
+			<item id="5" name="原点开关" number="8"/>
+			<item id="6" name="电机到位" number="8"/>
+		</ditypes>
+		<dotypes>
+			<item id="1" name="通用输出" number="16"/>
+			<item id="2" name="驱动使能" number="8"/>
+			<item id="3" name="报警清除" number="8"/>
+		</dotypes>
+	</type>
+	<type id="2" name="mod:dev:mc" model="GTS-800-PG" vendor="固高" extended="0" library="modDev_GTSController.dll">
+		<card number="4" start="0" end="3"/>
+		<axis number="8" start="1" end="8"/>
+		<ditypes>
+			<item id="0" name="通用输入" number="16"/>
+			<item id="1" name="正向限位" number="8"/>
+			<item id="2" name="负向限位" number="8"/>
+			<item id="3" name="驱动报警" number="8"/>
+			<item id="4" name="原点开关" number="8"/>
+			<item id="5" name="电机到位" number="8"/>
+		</ditypes>
+		<dotypes>
+			<item id="0" name="通用输出" number="16"/>
+			<item id="1" name="驱动使能" number="8"/>
+			<item id="2" name="报警清除" number="8"/>
+		</dotypes>
+	</type>
+	<type id="3" name="mod:dev:mc" model="GTS-400-PV" vendor="固高" extended="0" library="modDev_GTSController.dll">
+		<card number="4" start="0" end="3"/>
+		<axis number="4" start="1" end="4"/>
+		<ditypes>
+			<item id="1" name="通用输入" number="16"/>
+			<item id="2" name="正向限位" number="8"/>
+			<item id="3" name="负向限位" number="8"/>
+			<item id="4" name="驱动报警" number="8"/>
+			<item id="5" name="原点开关" number="8"/>
+			<item id="6" name="电机到位" number="8"/>
+		</ditypes>
+		<dotypes>
+			<item id="1" name="通用输出" number="16"/>
+			<item id="2" name="驱动使能" number="8"/>
+			<item id="3" name="报警清除" number="8"/>
+		</dotypes>
+	</type>
+	<type id="4" name="mod:dev:mc" model="GTS-400-PG" vendor="固高" extended="0" library="modDev_GTSController.dll">
+		<card number="4" start="0" end="3"/>
+		<axis number="4" start="1" end="4"/>
+		<ditypes>
+			<item id="0" name="通用输入" number="16"/>
+			<item id="1" name="正向限位" number="8"/>
+			<item id="2" name="负向限位" number="8"/>
+			<item id="3" name="驱动报警" number="8"/>
+			<item id="4" name="原点开关" number="8"/>
+			<item id="5" name="电机到位" number="8"/>
+		</ditypes>
+		<dotypes>
+			<item id="0" name="通用输出" number="16"/>
+			<item id="1" name="驱动使能" number="8"/>
+			<item id="2" name="报警清除" number="8"/>
+		</dotypes>
+	</type>
+	<type id="5" name="mod:dev:cy" model="" vendor="" extended="1" library="">
+	</type>
+</types>

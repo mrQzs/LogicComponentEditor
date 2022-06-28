@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project>
+    <work_params>
+        <home_move_script type="0"/>
+        <default_recipe name=""/>
+    </work_params>
+    <devices>
+        <device id="1" name="te" enable="true" type_id="9294736" type_name="mod:dev:mc" model="GTS-800-PV" vendor="固高" library="modDev_GTSController.dll" remarks="">
+            <card index="1" name="" config="configs/GTS800.cfg"/>
+            <axises>
+                <axis index="1" name="te__轴1" enable="true" equivalent="1000" max_velocity="500" max_acceleration="1000" max_deceleration="1000" smooth_stop_deceleration="1000" urgent_stop_deceleration="1000" arrive_error="0.10000000000000001" arrive_timeout="4000" use_hw_encoder="true" use_abs_encoder="true" pause_mode="1" manual_control_mode="0" stoped_delay="1000" takeoff_velocity="1000" max_manual_velocity="500" smooth_time="0" smooth_factor="0" remarks="" home_logic_subtask="0" suspend_logic_subtask="0" restore_logic_subtask="0">
+                    <sw_limit enable="false" positive="99999" negative="-99999"/>
+                    <hw_limit positive_enable="true" negative_enable="true"/>
+                    <home priority="1" mode="0" move_velocity="10" search_distance="100" search_high_velocity="10" search_low_velocity="1" origin_offset="10" capture_electric_level="1"/>
+                </axis>
+                <axis index="2" name="te__轴2" enable="false" equivalent="1000" max_velocity="500" max_acceleration="1000" max_deceleration="1000" smooth_stop_deceleration="1000" urgent_stop_deceleration="1000" arrive_error="0.10000000000000001" arrive_timeout="4000" use_hw_encoder="true" use_abs_encoder="true" pause_mode="1" manual_control_mode="0" stoped_delay="1000" takeoff_velocity="1000" max_manual_velocity="500" smooth_time="0" smooth_factor="0" remarks="" home_logic_subtask="0" suspend_logic_subtask="0" restore_logic_subtask="0">
+                    <sw_limit enable="false" positive="99999" negative="-99999"/>
+                    <hw_limit positive_enable="true" negative_enable="true"/>
+                    <home priority="1" mode="0" move_velocity="10" search_distance="100" search_high_velocity="10" search_low_velocity="1" origin_offset="10" capture_electric_level="1"/>
+                </axis>
+                <axis index="3" name="te__轴3" enable="false" equivalent="1000" max_velocity="500" max_acceleration="1000" max_deceleration="1000" smooth_stop_deceleration="1000" urgent_stop_deceleration="1000" arrive_error="0.10000000000000001" arrive_timeout="4000" use_hw_encoder="true" use_abs_encoder="true" pause_mode="1" manual_control_mode="0" stoped_delay="1000" takeoff_velocity="1000" max_manual_velocity="500" smooth_time="0" smooth_factor="0" remarks="" home_logic_subtask="0" suspend_logic_subtask="0" restore_logic_subtask="0">
+                    <sw_limit enable="false" positive="99999" negative="-99999"/>
+                    <hw_limit positive_enable="true" negative_enable="true"/>
+                    <home priority="1" mode="0" move_velocity="10" search_distance="100" search_high_velocity="10" search_low_velocity="1" origin_offset="10" capture_electric_level="1"/>
+                </axis>
+                <axis index="4" name="te__轴4" enable="false" equivalent="1000" max_velocity="500" max_acceleration="1000" max_deceleration="1000" smooth_stop_deceleration="1000" urgent_stop_deceleration="1000" arrive_error="0.10000000000000001" arrive_timeout="4000" use_hw_encoder="true" use_abs_encoder="true" pause_mode="1" manual_control_mode="0" stoped_delay="1000" takeoff_velocity="1000" max_manual_velocity="500" smooth_time="0" smooth_factor="0" remarks="" home_logic_subtask="0" suspend_logic_subtask="0" restore_logic_subtask="0">
+                    <sw_limit enable="false" positive="99999" negative="-99999"/>
+                    <hw_limit positive_enable="true" negative_enable="true"/>
+                    <home priority="1" mode="0" move_velocity="10" search_distance="100" search_high_velocity="10" search_low_velocity="1" origin_offset="10" capture_electric_level="1"/>
+                </axis>
+                <axis index="5" name="te__轴5" enable="false" equivalent="1000" max_velocity="500" max_acceleration="1000" max_deceleration="1000" smooth_stop_deceleration="1000" urgent_stop_deceleration="1000" arrive_error="0.10000000000000001" arrive_timeout="4000" use_hw_encoder="true" use_abs_encoder="true" pause_mode="1" manual_control_mode="0" stoped_delay="1000" takeoff_velocity="1000" max_manual_velocity="500" smooth_time="0" smooth_factor="0" remarks="" home_logic_subtask="0" suspend_logic_subtask="0" restore_logic_subtask="0">
+                    <sw_limit enable="false" positive="99999" negative="-99999"/>
+                    <hw_limit positive_enable="true" negative_enable="true"/>
+                    <home priority="1" mode="0" move_velocity="10" search_distance="100" search_high_velocity="10" search_low_velocity="1" origin_offset="10" capture_electric_level="1"/>
+                </axis>
+                <axis index="6" name="te__轴6" enable="false" equivalent="1000" max_velocity="500" max_acceleration="1000" max_deceleration="1000" smooth_stop_deceleration="1000" urgent_stop_deceleration="1000" arrive_error="0.10000000000000001" arrive_timeout="4000" use_hw_encoder="true" use_abs_encoder="true" pause_mode="1" manual_control_mode="0" stoped_delay="1000" takeoff_velocity="1000" max_manual_velocity="500" smooth_time="0" smooth_factor="0" remarks="" home_logic_subtask="0" suspend_logic_subtask="0" restore_logic_subtask="0">
+                    <sw_limit enable="false" positive="99999" negative="-99999"/>
+                    <hw_limit positive_enable="true" negative_enable="true"/>
+                    <home priority="1" mode="0" move_velocity="10" search_distance="100" search_high_velocity="10" search_low_velocity="1" origin_offset="10" capture_electric_level="1"/>
+                </axis>
+                <axis index="7" name="te__轴7" enable="false" equivalent="1000" max_velocity="500" max_acceleration="1000" max_deceleration="1000" smooth_stop_deceleration="1000" urgent_stop_deceleration="1000" arrive_error="0.10000000000000001" arrive_timeout="4000" use_hw_encoder="true" use_abs_encoder="true" pause_mode="1" manual_control_mode="0" stoped_delay="1000" takeoff_velocity="1000" max_manual_velocity="500" smooth_time="0" smooth_factor="0" remarks="" home_logic_subtask="0" suspend_logic_subtask="0" restore_logic_subtask="0">
+                    <sw_limit enable="false" positive="99999" negative="-99999"/>
+                    <hw_limit positive_enable="true" negative_enable="true"/>
+                    <home priority="1" mode="0" move_velocity="10" search_distance="100" search_high_velocity="10" search_low_velocity="1" origin_offset="10" capture_electric_level="1"/>
+                </axis>
+                <axis index="8" name="te__轴8" enable="false" equivalent="1000" max_velocity="500" max_acceleration="1000" max_deceleration="1000" smooth_stop_deceleration="1000" urgent_stop_deceleration="1000" arrive_error="0.10000000000000001" arrive_timeout="4000" use_hw_encoder="true" use_abs_encoder="true" pause_mode="1" manual_control_mode="0" stoped_delay="1000" takeoff_velocity="1000" max_manual_velocity="500" smooth_time="0" smooth_factor="0" remarks="" home_logic_subtask="0" suspend_logic_subtask="0" restore_logic_subtask="0">
+                    <sw_limit enable="false" positive="99999" negative="-99999"/>
+                    <hw_limit positive_enable="true" negative_enable="true"/>
+                    <home priority="1" mode="0" move_velocity="10" search_distance="100" search_high_velocity="10" search_low_velocity="1" origin_offset="10" capture_electric_level="1"/>
+                </axis>
+            </axises>
+            <dis>
+                <group type="0">
+                    <di index="1" type="0" name="te__通用输入DI1" reverse="false" enable="true" label="" remarks=""/>
+                    <di index="2" type="0" name="te__通用输入DI2" reverse="false" enable="false" label="" remarks=""/>
+                    <di index="3" type="0" name="te__通用输入DI3" reverse="false" enable="false" label="" remarks=""/>
+                    <di index="4" type="0" name="te__通用输入DI4" reverse="false" enable="false" label="" remarks=""/>
+                    <di index="5" type="0" name="te__通用输入DI5" reverse="false" enable="false" label="" remarks=""/>
+                    <di index="6" type="0" name="te__通用输入DI6" reverse="false" enable="false" label="" remarks=""/>
+                    <di index="7" type="0" name="te__通用输入DI7" reverse="false" enable="false" label="" remarks=""/>
+                    <di index="8" type="0" name="te__通用输入DI8" reverse="false" enable="false" label="" remarks=""/>
+                    <di index="9" type="0" name="te__通用输入DI9" reverse="false" enable="false" label="" remarks=""/>
+                    <di index="10" type="0" name="te__通用输入DI10" reverse="false" enable="false" label="" remarks=""/>
+                    <di index="11" type="0" name="te__通用输入DI11" reverse="false" enable="false" label="" remarks=""/>
+                    <di index="12" type="0" name="te__通用输入DI12" reverse="false" enable="false" label="" remarks=""/>
+                    <di index="13" type="0" name="te__通用输入DI13" reverse="false" enable="false" label="" remarks=""/>
+                    <di index="14" type="0" name="te__通用输入DI14" reverse="false" enable="false" label="" remarks=""/>
+                    <di index="15" type="0" name="te__通用输入DI15" reverse="false" enable="false" label="" remarks=""/>
+                    <di index="16" type="0" name="te__通用输入DI16" reverse="false" enable="false" label="" remarks=""/>
+                </group>
+                <group type="1">
+                    <di index="1" type="1" name="te__正向限位DI1" reverse="false" enable="false" label="" remarks=""/>
+                    <di index="2" type="1" name="te__正向限位DI2" reverse="false" enable="false" label="" remarks=""/>
+                    <di index="3" type="1" name="te__正向限位DI3" reverse="false" enable="false" label="" remarks=""/>
+                    <di index="4" type="1" name="te__正向限位DI4" reverse="false" enable="false" label="" remarks=""/>
+                    <di index="5" type="1" name="te__正向限位DI5" reverse="false" enable="false" label="" remarks=""/>
+                    <di index="6" type="1" name="te__正向限位DI6" reverse="false" enable="false" label="" remarks=""/>
+                    <di index="7" type="1" name="te__正向限位DI7" reverse="false" enable="false" label="" remarks=""/>
+                    <di index="8" type="1" name="te__正向限位DI8" reverse="false" enable="false" label="" remarks=""/>
+                </group>
+                <group type="2">
+                    <di index="1" type="2" name="te__负向限位DI1" reverse="false" enable="false" label="" remarks=""/>
+                    <di index="2" type="2" name="te__负向限位DI2" reverse="false" enable="false" label="" remarks=""/>
+                    <di index="3" type="2" name="te__负向限位DI3" reverse="false" enable="false" label="" remarks=""/>
+                    <di index="4" type="2" name="te__负向限位DI4" reverse="false" enable="false" label="" remarks=""/>
+                    <di index="5" type="2" name="te__负向限位DI5" reverse="false" enable="false" label="" remarks=""/>
+                    <di index="6" type="2" name="te__负向限位DI6" reverse="false" enable="false" label="" remarks=""/>
+                    <di index="7" type="2" name="te__负向限位DI7" reverse="false" enable="false" label="" remarks=""/>
+                    <di index="8" type="2" name="te__负向限位DI8" reverse="false" enable="false" label="" remarks=""/>
+                </group>
+                <group type="3">
+                    <di index="1" type="3" name="te__驱动报警DI1" reverse="false" enable="false" label="" remarks=""/>
+                    <di index="2" type="3" name="te__驱动报警DI2" reverse="false" enable="false" label="" remarks=""/>
+                    <di index="3" type="3" name="te__驱动报警DI3" reverse="false" enable="false" label="" remarks=""/>
+                    <di index="4" type="3" name="te__驱动报警DI4" reverse="false" enable="false" label="" remarks=""/>
+                    <di index="5" type="3" name="te__驱动报警DI5" reverse="false" enable="false" label="" remarks=""/>
+                    <di index="6" type="3" name="te__驱动报警DI6" reverse="false" enable="false" label="" remarks=""/>
+                    <di index="7" type="3" name="te__驱动报警DI7" reverse="false" enable="false" label="" remarks=""/>
+                    <di index="8" type="3" name="te__驱动报警DI8" reverse="false" enable="false" label="" remarks=""/>
+                </group>
+                <group type="4">
+                    <di index="1" type="4" name="te__原点信号DI1" reverse="false" enable="false" label="" remarks=""/>
+                    <di index="2" type="4" name="te__原点信号DI2" reverse="false" enable="false" label="" remarks=""/>
+                    <di index="3" type="4" name="te__原点信号DI3" reverse="false" enable="false" label="" remarks=""/>
+                    <di index="4" type="4" name="te__原点信号DI4" reverse="false" enable="false" label="" remarks=""/>
+                    <di index="5" type="4" name="te__原点信号DI5" reverse="false" enable="false" label="" remarks=""/>
+                    <di index="6" type="4" name="te__原点信号DI6" reverse="false" enable="false" label="" remarks=""/>
+                    <di index="7" type="4" name="te__原点信号DI7" reverse="false" enable="false" label="" remarks=""/>
+                    <di index="8" type="4" name="te__原点信号DI8" reverse="false" enable="false" label="" remarks=""/>
+                </group>
+                <group type="5">
+                    <di index="1" type="5" name="te__电机到位DI1" reverse="false" enable="false" label="" remarks=""/>
+                    <di index="2" type="5" name="te__电机到位DI2" reverse="false" enable="false" label="" remarks=""/>
+                    <di index="3" type="5" name="te__电机到位DI3" reverse="false" enable="false" label="" remarks=""/>
+                    <di index="4" type="5" name="te__电机到位DI4" reverse="false" enable="false" label="" remarks=""/>
+                    <di index="5" type="5" name="te__电机到位DI5" reverse="false" enable="false" label="" remarks=""/>
+                    <di index="6" type="5" name="te__电机到位DI6" reverse="false" enable="false" label="" remarks=""/>
+                    <di index="7" type="5" name="te__电机到位DI7" reverse="false" enable="false" label="" remarks=""/>
+                    <di index="8" type="5" name="te__电机到位DI8" reverse="false" enable="false" label="" remarks=""/>
+                </group>
+            </dis>
+            <dos>
+                <group type="0">
+                    <do index="1" type="0" name="te__通用输出DO1" reverse="false" enable="true" label="" remarks=""/>
+                    <do index="2" type="0" name="te__通用输出DO2" reverse="false" enable="false" label="" remarks=""/>
+                    <do index="3" type="0" name="te__通用输出DO3" reverse="false" enable="false" label="" remarks=""/>
+                    <do index="4" type="0" name="te__通用输出DO4" reverse="false" enable="false" label="" remarks=""/>
+                    <do index="5" type="0" name="te__通用输出DO5" reverse="false" enable="false" label="" remarks=""/>
+                    <do index="6" type="0" name="te__通用输出DO6" reverse="false" enable="false" label="" remarks=""/>
+                    <do index="7" type="0" name="te__通用输出DO7" reverse="false" enable="false" label="" remarks=""/>
+                    <do index="8" type="0" name="te__通用输出DO8" reverse="false" enable="false" label="" remarks=""/>
+                    <do index="9" type="0" name="te__通用输出DO9" reverse="false" enable="false" label="" remarks=""/>
+                    <do index="10" type="0" name="te__通用输出DO10" reverse="false" enable="false" label="" remarks=""/>
+                    <do index="11" type="0" name="te__通用输出DO11" reverse="false" enable="false" label="" remarks=""/>
+                    <do index="12" type="0" name="te__通用输出DO12" reverse="false" enable="false" label="" remarks=""/>
+                    <do index="13" type="0" name="te__通用输出DO13" reverse="false" enable="false" label="" remarks=""/>
+                    <do index="14" type="0" name="te__通用输出DO14" reverse="false" enable="false" label="" remarks=""/>
+                    <do index="15" type="0" name="te__通用输出DO15" reverse="false" enable="false" label="" remarks=""/>
+                    <do index="16" type="0" name="te__通用输出DO16" reverse="false" enable="false" label="" remarks=""/>
+                </group>
+            </dos>
+        </device>
+    </devices>
+    <variable_groups/>
+    <global_variables/>
+    <recipe_variables/>
+    <local_variables/>
+    <safe_variables/>
+    <scripts/>
+</project>
