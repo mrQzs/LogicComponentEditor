@@ -3,6 +3,7 @@
 #include <QComboBox>
 #include <QStringDecoder>
 
+#include "common/YDHelper.h"
 #include "core/YDProjectManage.h"
 #include "modules/YDModules.h"
 
@@ -47,7 +48,7 @@ void YDPropertyDoVar::updateStrList() {
   m_enum << "";
   auto varList = YDProjectManage::getDOInfos();
   for (auto a : varList) {
-    QString name = QString::fromLocal8Bit(a->io_name.c_str());
+    QString name = STRTQSTR(a->io_name.c_str());
     m_enum << name;
   }
 }

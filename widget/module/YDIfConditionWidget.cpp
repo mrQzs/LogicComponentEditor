@@ -50,7 +50,7 @@ int YDIfConditionWidget::high() const {
 void YDIfConditionWidget::init() {
   auto text = m_root->name() + "  " + YDIfConditionWidget::tr("为真时");
   m_head->setText(text);
-  m_head->setBgColor("#939393");
+  m_head->setBgColor("#ec9400");
   m_head->setFtColor("#ffffff");
 
   m_ifWidget->setTask(m_root->getYDTask());
@@ -79,7 +79,8 @@ QList<uint32> YDIfConditionWidget::getTrueProcessIds(uint32 id) {
         nextcast.i =
             qvariant_cast<qintptr>(m_ifWidget->item(i + 1)->data(Qt::UserRole));
         m->setNextId(nextcast.ptr->getLogicProcessId());
-      }
+      } else
+        m->setNextId(0);
     } else if (i > 0 && i <= m_ifWidget->count() - 2) {
       YDModuleCast precast;
       YDModuleCast nextcast;
@@ -116,7 +117,8 @@ void YDIfConditionWidget::addTrueModules(
   }
 }
 
-void YDIfConditionWidget::setState(const QMap<uint32, yd::proto::ProcState> &map) {
+void YDIfConditionWidget::setState(
+    const QMap<uint32, yd::proto::ProcState> &map) {
   for (int i = 0; i < m_ifWidget->count(); ++i) {
     auto item = m_ifWidget->item(i);
     YDModuleCast cast;
@@ -141,7 +143,7 @@ void YDIfConditionWidget::paintEvent(QPaintEvent *) {
   QPainter p(this);
   p.save();
   p.setPen(Qt::NoPen);
-  p.setBrush(QBrush(QColor("#939393")));
+  p.setBrush(QBrush(QColor("#ec9400")));
 
   auto W = width();
   auto H = height();

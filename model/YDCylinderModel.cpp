@@ -1,5 +1,6 @@
 #include "YDCylinderModel.h"
 
+#include "common/YDHelper.h"
 #include "core/YDProjectManage.h"
 
 YDCylinderModel::YDCylinderModel(QObject *parent)
@@ -23,7 +24,6 @@ int YDCylinderModel::rowCount(const QModelIndex &) const {
 
 QVariant YDCylinderModel::data(const QModelIndex &index, int role) const {
   auto list = YDProjectManage::getCylinders();
-  if (Qt::DisplayRole == role)
-    return QString::fromLocal8Bit(list[index.row()]->base.name);
+  if (Qt::DisplayRole == role) return STRTQSTR(list[index.row()]->base.name);
   return QVariant();
 }

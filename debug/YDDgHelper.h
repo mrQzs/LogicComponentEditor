@@ -24,6 +24,9 @@ class YDDgHelper {
   static int32 getDIStates(uint32 uiDeviceId,
                            std::map<uint64, bool>& mapId2Status);
 
+  static int32 sendDOState(uint32 uiDeviceId, uint16 usIndex, uint16 usType,
+                           bool bStatus);
+
   static int32 getDOStates(uint32 uiDeviceId,
                            std::map<uint64, bool>& mapId2Status);
 
@@ -82,6 +85,30 @@ class YDDgHelper {
 
   static int32 getLogicStates(const std::vector<uint32>& ids,
                               yd::proto::LogicStates* states);
+
+  // 启动回原点
+  static int32 ExecuteHomeMove();
+
+  // 启动主任务
+  static int32 StartMainLogicTask();
+
+  // 暂停主任务
+  static int32 SuspendMainLogicTask();
+
+  // 结束主任务
+  static int32 StopMainLogicTask();
+
+  // 下载项目配置
+  static int32 DownloadProject(const std::string& strDirectory,
+                               const std::string& strProjectName);
+
+  // 上传项目配置
+  static int32 UploadProject(const std::string& strDirectory,
+                             std::string& strProjectName);
+
+  // 获取后台日志信息
+  static int32 GetLogMessages(uint64 ullBegin, uint64 ullEnd,
+                              std::vector<std::string>& listMessage);
 
  private:
   static YDDgHelper* s_i;

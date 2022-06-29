@@ -54,6 +54,7 @@ YDModule::YDModule()
       m_stopWay{0},
       m_doState{0},
       m_loopTimes{0},
+      m_callTask{0},
       m_inplaceWait{0},
       m_inplaceWaitValue{0},
       m_alarmLevel{0},
@@ -79,7 +80,7 @@ QPixmap YDModule::preview(int type) const {
 }
 
 QString YDModule::name() const {
-  return QString::fromLocal8Bit(m_logicProcess->name.c_str());
+  return STRTQSTR(m_logicProcess->name.c_str());
 }
 
 QWidget *YDModule::widget() const { return m_widget; }
@@ -180,7 +181,7 @@ lg::AxisInplaceWait *YDModule::getAXisWait(const QString &str) {
   auto axname = infos[0];
   auto list = YDProjectManage::getAxisList();
   for (auto a : list) {
-    auto name = QString::fromLocal8Bit(a->axis_name);
+    auto name = STRTQSTR(a->axis_name);
     if (name == axname) {
       tmp->device_id = a->device_id;
       tmp->axis_index = a->axis_index;
@@ -208,7 +209,7 @@ QString YDModule::getAxisWaitStr(yd::lg::AxisInplaceWait *axis) const {
   QString tmp;
   auto list = YDProjectManage::getAxisList();
   for (auto a : list) {
-    auto name = QString::fromLocal8Bit(a->axis_name);
+    auto name = STRTQSTR(a->axis_name);
     if ((a->device_id == axis->device_id) &&
         (a->axis_index == axis->axis_index)) {
       tmp += name + '@';
@@ -412,12 +413,12 @@ uint32 YDModule::getLoopTimes() const { return m_loopTimes; }
 
 int YDModule::getInplaceWait() const { return m_inplaceWait; }
 
-QString YDModule::getCallTask() const { return m_callTask; }
+uint32 YDModule::getCallTask() const { return m_callTask; }
 
 int YDModule::getAlarmLevel() const { return m_alarmLevel; }
 
 QString YDModule::getAlarmContent() const {
-  return QString::fromLocal8Bit(m_messageModule->content.c_str());
+  return STRTQSTR(m_messageModule->content.c_str());
 }
 
 QStringList YDModule::getAlarmActions() const { return m_alarmActions; }
@@ -605,7 +606,7 @@ void YDModule::setDelayTime(uint32 time) { m_delayModule->delay_time = time; }
 
 void YDModule::setLoopTimes(uint32 times) { m_loopTimes = times; }
 
-void YDModule::setTaskCall(const QString &str) { m_callTask = str; }
+void YDModule::setTaskCall(uint32 id) { m_callTask = id; }
 
 void YDModule::setAlarmLevel(int index) { m_alarmLevel = index; }
 

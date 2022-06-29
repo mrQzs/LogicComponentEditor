@@ -50,10 +50,10 @@ YDAlarmAction::YDAlarmAction(YDModule *m, QWidget *parent)
 
   m_actions = m->getActions();
 
-  m_cfEdit->setText(QString::fromLocal8Bit(m_actions[0]->action_name.c_str()));
-  m_igEdit->setText(QString::fromLocal8Bit(m_actions[1]->action_name.c_str()));
-  m_rtEdit->setText(QString::fromLocal8Bit(m_actions[2]->action_name.c_str()));
-  m_spEdit->setText(QString::fromLocal8Bit(m_actions[3]->action_name.c_str()));
+  m_cfEdit->setText(STRTQSTR(m_actions[0]->action_name.c_str()));
+  m_igEdit->setText(STRTQSTR(m_actions[1]->action_name.c_str()));
+  m_rtEdit->setText(STRTQSTR(m_actions[2]->action_name.c_str()));
+  m_spEdit->setText(STRTQSTR(m_actions[3]->action_name.c_str()));
 
   m_confirm->setChecked(m_actions[0]->selected);
   m_ignore->setChecked(m_actions[1]->selected);
@@ -118,7 +118,7 @@ void YDAlarmAction::slotcfChange(const QString &t) {
     m_actions[0]->action_name = QSTRTSTR(t);
   } else {
     m_cfEdit->setText(
-        QString::fromLocal8Bit(m_actions[0]->action_name.c_str()));
+        STRTQSTR(m_actions[0]->action_name.c_str()));
   }
 }
 
@@ -127,7 +127,7 @@ void YDAlarmAction::slotigChange(const QString &t) {
     m_actions[1]->action_name = QSTRTSTR(t);
   } else {
     m_igEdit->setText(
-        QString::fromLocal8Bit(m_actions[1]->action_name.c_str()));
+        STRTQSTR(m_actions[1]->action_name.c_str()));
   }
 }
 
@@ -136,7 +136,7 @@ void YDAlarmAction::slotrtChange(const QString &t) {
     m_actions[2]->action_name = QSTRTSTR(t);
   } else {
     m_rtEdit->setText(
-        QString::fromLocal8Bit(m_actions[2]->action_name.c_str()));
+        STRTQSTR(m_actions[2]->action_name.c_str()));
   }
 }
 
@@ -145,7 +145,7 @@ void YDAlarmAction::slotspChange(const QString &t) {
     m_actions[3]->action_name = QSTRTSTR(t);
   } else {
     m_spEdit->setText(
-        QString::fromLocal8Bit(m_actions[3]->action_name.c_str()));
+        STRTQSTR(m_actions[3]->action_name.c_str()));
   }
 }
 
@@ -158,10 +158,10 @@ void YDAlarmAction::slotrtChecked(bool b) { m_actions[2]->selected = b; }
 void YDAlarmAction::slotspChecked(bool b) { m_actions[3]->selected = b; }
 
 void YDAlarmAction::setChecked(const QString &str) {
-  auto an1 = QString::fromLocal8Bit(m_actions[0]->action_name.c_str());
-  auto an2 = QString::fromLocal8Bit(m_actions[1]->action_name.c_str());
-  auto an3 = QString::fromLocal8Bit(m_actions[2]->action_name.c_str());
-  auto an4 = QString::fromLocal8Bit(m_actions[3]->action_name.c_str());
+  auto an1 = STRTQSTR(m_actions[0]->action_name.c_str());
+  auto an2 = STRTQSTR(m_actions[1]->action_name.c_str());
+  auto an3 = STRTQSTR(m_actions[2]->action_name.c_str());
+  auto an4 = STRTQSTR(m_actions[3]->action_name.c_str());
 
   if (str == an1) m_confirm->setChecked(true);
   if (str == an2) m_ignore->setChecked(true);

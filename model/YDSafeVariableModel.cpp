@@ -45,7 +45,7 @@ QVariant YDSafeVariableModel::data(const QModelIndex &index, int role) const {
 
     switch (index.column()) {
       case 0:
-        return QString::fromLocal8Bit(var->variable_name.c_str());
+        return STRTQSTR(var->variable_name.c_str());
       case 1: {
         QString str;
         if (LOGIC_OPERATOR_AND == var->logic_operator)

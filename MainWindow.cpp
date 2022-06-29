@@ -2,20 +2,31 @@
 
 #include <QAbstractItemView>
 #include <QAction>
+#include <QDateTime>
 #include <QDebug>
 #include <QHeaderView>
+#include <QListWidget>
 #include <QMessageBox>
 #include <QPushButton>
+#include <QScrollArea>
 #include <QStandardItemModel>
+#include <QThread>
 #include <QTreeView>
 #include <QVBoxLayout>
 
 #include "RapidJsonHelper.h"
 #include "common/YDHelper.h"
+#include "common/YDLogThread.h"
 #include "common/YDLogger.h"
 #include "core/YDProjectManage.h"
 #include "core/YDTask.h"
+#include "core/YDTimer.h"
 #include "core/YDVariable.h"
+#include "debug/YDDAxisControl.h"
+#include "debug/YDDCylinderWidget.h"
+#include "debug/YDDInputWidget.h"
+#include "debug/YDDOutputWidget.h"
+#include "debug/YDDVarWidget.h"
 #include "debug/YDDebugDialog.h"
 #include "debug/YDDgHelper.h"
 #include "debug/YDNetSetDialog.h"
@@ -36,6 +47,9 @@
 #include "ui_MainWindow.h"
 #include "view/YDListView.h"
 #include "view/YDTreeView.h"
+#include "widget/YDAboutDialog.h"
+#include "widget/YDBPCodeManage.h"
+#include "widget/YDBackPointDialog.h"
 #include "widget/YDCodeManage.h"
 #include "widget/YDDeviceSetDialog.h"
 #include "widget/YDMenu.h"
@@ -111,7 +125,22 @@ MainWindow::MainWindow(QWidget *parent)
       m_saveasReciDlg{new YDNameDialog(this)},
       m_isShowReciWidget{false},
       m_logDlg{new YDShowMessage(this)},
-      m_infoDlg{new YDShowMessage(this)} {
+      m_infoDlg{new YDShowMessage(this)},
+      m_aboutDlg{new YDAboutDialog(this)},
+      m_backPDlg{new YDBackPointDialog(this)},
+      m_bpCodeManage{new YDBPCodeManage(this)},
+      m_axisWidget{nullptr},
+      m_cylinderWidget{nullptr},
+      m_inputWidget{nullptr},
+      m_outputWidget{nullptr},
+      m_varWidget{nullptr},
+      m_taskId{0},
+      m_debugWindowType{-1},
+      m_isLogicTaskStart{false},
+      m_timer{new YDTimer},
+      m_timerThread{new QThread},
+      m_timingSave{new YDTimer},
+      m_timingThread{new QThread} {
   ui->setupUi(this);
   m_menuModel = new YDMenuModel(YDProjectManage::getYDTaskRoot(), this);
 
@@ -119,6 +148,7 @@ MainWindow::MainWindow(QWidget *parent)
       new YDVariableGroupModel(YDProjectManage::getVarRoot(), this);
 
   YDHelper::setMainW(this);
+  initThread();
   initMenu();
   initRightMouseMenu();
   initMenuTree();
@@ -133,6 +163,20 @@ MainWindow::MainWindow(QWidget *parent)
 }
 
 MainWindow::~MainWindow() {
+  emit stop();
+  m_timerThread->requestInterruption();
+  m_timerThread->exit(0);
+  m_timerThread->wait();
+  delete m_timer;
+  delete m_timerThread;
+
+  emit stopTiming();
+  m_timingThread->requestInterruption();
+  m_timingThread->exit(0);
+  m_timingThread->wait();
+  delete m_timingSave;
+  delete m_timingThread;
+
   delete ui;
   delete YDProjectManage::getYDTaskRoot();
   delete YDProjectManage::getVarRoot();
@@ -203,6 +247,11 @@ void MainWindow::slotRemoveTask(bool) {
       MainWindow::tr("确认"), MainWindow::tr("取消"));
 
   if (0 == rb) {
+    if (selectModule &&
+        selectModule->getYDTask()->name() ==
+            m_menuModel->data(m_taskIndex, Qt::DisplayRole).toString()) {
+      selectModule = nullptr;
+    }
     m_menuModel->removeTree(m_taskIndex);
     m_taskIndex = QModelIndex();
     m_logicTree->setCurrentIndex(m_taskIndex);
@@ -249,16 +298,7 @@ void MainWindow::slotAddVarGroup(bool) {
   ui->VarGroupView->expand(m_varIndex);
 }
 
-void MainWindow::slotRemoveVarGroup(bool) {
-  auto rb = QMessageBox::information(
-      this, MainWindow::tr("提示"), MainWindow::tr("是否删除?"),
-      MainWindow::tr("确认"), MainWindow::tr("取消"));
-  if (0 == rb) {
-    m_varGroupModel->removeTree(m_varIndex);
-    m_varIndex = QModelIndex();
-    ui->VarGroupView->setCurrentIndex(m_varIndex);
-  }
-}
+void MainWindow::slotRemoveVarGroup(bool) { on_DelVarG_clicked(); }
 
 void MainWindow::slotAddVarSubGroup(bool) {
   m_varGroupModel->addTree(m_varIndex);
@@ -288,17 +328,7 @@ void MainWindow::slotAddSafeVarGroup(bool) {
   ui->SafeGroupView->expand(m_safeVarIndex);
 }
 
-void MainWindow::slotRemoveSafeVarGroup(bool) {
-  auto rb = QMessageBox::information(
-      this, MainWindow::tr("提示"), MainWindow::tr("是否删除?"),
-      MainWindow::tr("确认"), MainWindow::tr("取消"));
-
-  if (0 == rb) {
-    m_varGroupModel->removeTree(m_safeVarIndex);
-    m_safeVarIndex = QModelIndex();
-    ui->SafeGroupView->setCurrentIndex(m_safeVarIndex);
-  }
-}
+void MainWindow::slotRemoveSafeVarGroup(bool) { on_DelSafeVarG_clicked(); }
 
 void MainWindow::slotAddSafeVarSubGroup(bool) {
   m_varGroupModel->addTree(m_safeVarIndex);
@@ -328,17 +358,7 @@ void MainWindow::slotAddReciVarGroup(bool) {
   ui->VarGroupView_2->expand(m_reciVarIndex);
 }
 
-void MainWindow::slotRemoveReciVarGroup(bool) {
-  auto rb = QMessageBox::information(
-      this, MainWindow::tr("提示"), MainWindow::tr("是否删除?"),
-      MainWindow::tr("确认"), MainWindow::tr("取消"));
-
-  if (0 == rb) {
-    m_varGroupModel->removeTree(m_reciVarIndex);
-    m_reciVarIndex = QModelIndex();
-    ui->VarGroupView_2->setCurrentIndex(m_reciVarIndex);
-  }
-}
+void MainWindow::slotRemoveReciVarGroup(bool) { on_DelVarG_2_clicked(); }
 
 void MainWindow::slotAddReciVarSubGroup(bool) {
   m_varGroupModel->addTree(m_reciVarIndex);
@@ -368,17 +388,7 @@ void MainWindow::slotAddTempVarGroup(bool) {
   ui->VarGroupView_4->expand(m_tempVarIndex);
 }
 
-void MainWindow::slotRemoveTempVarGroup(bool) {
-  auto rb = QMessageBox::information(
-      this, MainWindow::tr("提示"), MainWindow::tr("是否删除?"),
-      MainWindow::tr("确认"), MainWindow::tr("取消"));
-
-  if (0 == rb) {
-    m_varGroupModel->removeTree(m_tempVarIndex);
-    m_tempVarIndex = QModelIndex();
-    ui->VarGroupView_4->setCurrentIndex(m_tempVarIndex);
-  }
-}
+void MainWindow::slotRemoveTempVarGroup(bool) { on_DelVarG_4_clicked(); }
 
 void MainWindow::slotAddTempVarSubGroup(bool) {
   m_varGroupModel->addTree(m_tempVarIndex);
@@ -395,9 +405,20 @@ void MainWindow::on_AddVarG_clicked() {
 }
 
 void MainWindow::on_DelVarG_clicked() {
-  m_varGroupModel->removeTree(m_varIndex);
-  m_varIndex = QModelIndex();
-  ui->VarGroupView->setCurrentIndex(m_varIndex);
+  if (m_varIndex.isValid()) {
+    auto rb = QMessageBox::information(
+        this, MainWindow::tr("提示"), MainWindow::tr("是否删除?"),
+        MainWindow::tr("确认"), MainWindow::tr("取消"));
+    if (0 == rb) {
+      m_varGroupModel->removeTree(m_varIndex);
+      m_varIndex = QModelIndex();
+      ui->VarGroupView->setCurrentIndex(m_varIndex);
+      m_variablModel->setGroupId(0);
+    }
+  } else {
+    QMessageBox::warning(nullptr, MainWindow::tr("提示"),
+                         MainWindow::tr("请选择要删除的分组!"));
+  }
 }
 
 void MainWindow::on_AddSafeVarG_clicked() {
@@ -406,9 +427,20 @@ void MainWindow::on_AddSafeVarG_clicked() {
 }
 
 void MainWindow::on_DelSafeVarG_clicked() {
-  m_varGroupModel->removeTree(m_safeVarIndex);
-  m_safeVarIndex = QModelIndex();
-  ui->SafeGroupView->setCurrentIndex(m_safeVarIndex);
+  if (m_safeVarIndex.isValid()) {
+    auto rb = QMessageBox::information(
+        this, MainWindow::tr("提示"), MainWindow::tr("是否删除?"),
+        MainWindow::tr("确认"), MainWindow::tr("取消"));
+    if (0 == rb) {
+      m_varGroupModel->removeTree(m_safeVarIndex);
+      m_safeVarIndex = QModelIndex();
+      ui->SafeGroupView->setCurrentIndex(m_safeVarIndex);
+      m_safeVarModel->setGroupId(0);
+    }
+  } else {
+    QMessageBox::warning(nullptr, MainWindow::tr("提示"),
+                         MainWindow::tr("请选择要删除的分组!"));
+  }
 }
 
 void MainWindow::on_AddVarG_2_clicked() {
@@ -417,9 +449,20 @@ void MainWindow::on_AddVarG_2_clicked() {
 }
 
 void MainWindow::on_DelVarG_2_clicked() {
-  m_varGroupModel->removeTree(m_reciVarIndex);
-  m_reciVarIndex = QModelIndex();
-  ui->VarGroupView_2->setCurrentIndex(m_reciVarIndex);
+  if (m_reciVarIndex.isValid()) {
+    auto rb = QMessageBox::information(
+        this, MainWindow::tr("提示"), MainWindow::tr("是否删除?"),
+        MainWindow::tr("确认"), MainWindow::tr("取消"));
+    if (0 == rb) {
+      m_varGroupModel->removeTree(m_reciVarIndex);
+      m_reciVarIndex = QModelIndex();
+      ui->VarGroupView_2->setCurrentIndex(m_reciVarIndex);
+      m_reciVarModel->setGroupId(0);
+    }
+  } else {
+    QMessageBox::warning(nullptr, MainWindow::tr("提示"),
+                         MainWindow::tr("请选择要删除的分组!"));
+  }
 }
 
 void MainWindow::on_AddVarG_4_clicked() {
@@ -428,9 +471,20 @@ void MainWindow::on_AddVarG_4_clicked() {
 }
 
 void MainWindow::on_DelVarG_4_clicked() {
-  m_varGroupModel->removeTree(m_tempVarIndex);
-  m_tempVarIndex = QModelIndex();
-  ui->VarGroupView_4->setCurrentIndex(m_tempVarIndex);
+  if (m_tempVarIndex.isValid()) {
+    auto rb = QMessageBox::information(
+        this, MainWindow::tr("提示"), MainWindow::tr("是否删除?"),
+        MainWindow::tr("确认"), MainWindow::tr("取消"));
+    if (0 == rb) {
+      m_varGroupModel->removeTree(m_tempVarIndex);
+      m_tempVarIndex = QModelIndex();
+      ui->VarGroupView_4->setCurrentIndex(m_tempVarIndex);
+      m_tempVarModel->setGroupId(0);
+    }
+  } else {
+    QMessageBox::warning(nullptr, MainWindow::tr("提示"),
+                         MainWindow::tr("请选择要删除的分组!"));
+  }
 }
 
 void MainWindow::slotTaskItemClick(const QModelIndex &index) {
@@ -449,8 +503,207 @@ void MainWindow::slotTaskItemDoubleClick(const QModelIndex &index) {
       return;
     }
   }
+
   tabW->addTab(w, name);
   tabW->setCurrentWidget(w);
+}
+
+void MainWindow::initThread() {
+  m_timer->moveToThread(m_timerThread);
+  QObject::connect(m_timer, &YDTimer::timeout, this, &MainWindow::updateData);
+  QObject::connect(this, &MainWindow::start, m_timer, &YDTimer::startrun);
+  QObject::connect(this, &MainWindow::stop, m_timer, &YDTimer::stop);
+  QObject::connect(this, &MainWindow::updateTime, m_timer, &YDTimer::setTime);
+
+  m_timerThread->start();
+
+  m_timingSave->moveToThread(m_timingThread);
+  QObject::connect(m_timingSave, &YDTimer::timeout, this,
+                   &MainWindow::SlotTimingSave);
+  QObject::connect(this, &MainWindow::startTiming, m_timingSave,
+                   &YDTimer::startrun);
+  QObject::connect(this, &MainWindow::stopTiming, m_timingSave, &YDTimer::stop);
+  QObject::connect(this, &MainWindow::updateTiming, m_timingSave,
+                   &YDTimer::setTime);
+  m_timingThread->start();
+}
+
+void MainWindow::initMenu() {
+  m_hdConfig->setText(MainWindow::tr("硬件配置"));
+  m_varManage->setText(MainWindow::tr("变量管理"));
+  m_scriptManage->setText(MainWindow::tr("脚本管理"));
+  m_cusModule->setText(MainWindow::tr("自定义组件"));
+  m_moveSystem->setText(MainWindow::tr("运动监控"));
+  m_moveLogic->setText(MainWindow::tr("动作逻辑编程"));
+
+  m_hdConfig->setIcon(":/Icon/Device.png");
+  m_varManage->setIcon(":/Icon/Variable.png");
+  m_scriptManage->setIcon(":/Icon/edit.png");
+  m_cusModule->setIcon(":/Icon/VarManage.png");
+  m_moveSystem->setIcon(":/Icon/MoveView.png");
+  m_moveLogic->setIcon(":/Icon/Code.png");
+
+  auto vlout = new QVBoxLayout(ui->scroa);
+  vlout->setContentsMargins(0, 0, 0, 0);
+  vlout->setSpacing(2);
+  vlout->addWidget(m_hdConfig);
+  vlout->addWidget(m_varManage);
+  vlout->addWidget(m_scriptManage);
+  vlout->addWidget(m_cusModule);
+  vlout->addWidget(m_moveSystem);
+  vlout->addWidget(m_moveLogic);
+  vlout->addStretch();
+
+  connect(m_hdConfig, &YDMenu::sigClicked, this, &MainWindow::showHardConfig);
+
+  auto vlay2 = new QVBoxLayout(m_varManageW);
+  vlay2->setContentsMargins(0, 0, 0, 0);
+  vlay2->setSpacing(0);
+
+  QStringList m_varlist;
+  m_varlist << MainWindow::tr("全局变量") << MainWindow::tr("配方变量")
+            << MainWindow::tr("临时变量") << MainWindow::tr("安全变量");
+
+  for (int i = 0; i < m_varlist.size(); ++i) {
+    auto item = new YDMenuItem(i, m_varManageW);
+    item->setText(m_varlist[i]);
+    item->setIcon(":/Icon/Bianliang.png");
+    vlay2->addWidget(item);
+    connect(item, &YDMenuItem::sigClicked, this, &MainWindow::showVarConfig);
+  }
+  vlay2->addSpacing(15);
+  m_varManage->setWidget(m_varManageW);
+
+  auto vlay3 = new QVBoxLayout(m_scriptMangeW);
+  vlay3->setContentsMargins(0, 0, 0, 0);
+  vlay3->setSpacing(0);
+
+  QStringList m_scriptlist;
+  m_scriptlist << MainWindow::tr("回原点脚本");
+
+  for (int i = 0; i < m_scriptlist.size(); ++i) {
+    auto item = new YDMenuItem(i, m_scriptMangeW);
+    item->setText(m_scriptlist[i]);
+    item->setIcon(":/Icon/Jiaoben.png");
+    vlay3->addWidget(item);
+    connect(item, &YDMenuItem::sigClicked, this, &MainWindow::showZeroScript);
+  }
+
+  m_scriptViewW->setObjectName("ScriptView");
+  m_scriptViewW->setStyleSheet("QWidget#ScriptView{background:white;}");
+  auto hlay3 = new QHBoxLayout(m_scriptViewW);
+  hlay3->setContentsMargins(0, 0, 0, 0);
+  hlay3->setSpacing(0);
+  hlay3->addSpacing(26);
+  hlay3->addWidget(m_scriptView);
+
+  m_cusScriptW->setIcon(":/Icon/Jiaoben.png");
+  m_cusScriptW->setWidget(m_scriptViewW);
+  m_cusScriptW->setItemModel(true);
+  vlay3->addWidget(m_cusScriptW);
+  vlay3->addSpacing(15);
+  m_scriptManage->setWidget(m_scriptMangeW);
+
+  auto vlay4 = new QVBoxLayout(m_cusModuleW);
+  vlay4->setContentsMargins(0, 0, 0, 0);
+  vlay4->setSpacing(0);
+
+  QStringList modulelist;
+  modulelist << MainWindow::tr("气油缸") << MainWindow::tr("飞达")
+             << MainWindow::tr("Tray盒") << MainWindow::tr("弹夹");
+
+  for (int i = 0; i < modulelist.size(); ++i) {
+    auto item = new YDMenuItem(i, m_cusModuleW);
+    item->setText(modulelist[i]);
+    item->setIcon(":/Icon/Zujian.png");
+    vlay4->addWidget(item);
+    connect(item, &YDMenuItem::sigClicked, this, &MainWindow::showCusModule);
+  }
+  vlay4->addSpacing(15);
+  m_cusModule->setWidget(m_cusModuleW);
+
+  auto vlay5 = new QVBoxLayout(m_moveSysW);
+  vlay5->setContentsMargins(0, 0, 0, 0);
+  vlay5->setSpacing(0);
+
+  QStringList watchlist;
+  watchlist << MainWindow::tr("轴控制") << MainWindow::tr("气油缸控制")
+            << MainWindow::tr("输入状态") << MainWindow::tr("输出状态")
+            << MainWindow::tr("变量监测");
+
+  for (int i = 0; i < watchlist.size(); ++i) {
+    auto item = new YDMenuItem(i, m_moveSysW);
+    item->setText(watchlist[i]);
+    item->setIcon(":/Icon/Jiankong.png");
+    item->setDebug(true);
+    vlay5->addWidget(item);
+    connect(item, &YDMenuItem::sigClicked, this,
+            &MainWindow::showMotionMonitoring);
+  }
+  vlay5->addSpacing(15);
+
+  m_moveSystem->setWidget(m_moveSysW);
+  m_moveLogic->setWidget(m_logicTree);
+
+  QVBoxLayout *logLayout = new QVBoxLayout(ui->widget_2);
+  logLayout->setSpacing(0);
+  logLayout->setContentsMargins(2, 0, 4, 1);
+  logLayout->addWidget(m_logDlg);
+
+  QVBoxLayout *debugLayout = new QVBoxLayout(ui->dockWidgetContents_5);
+  debugLayout->setSpacing(0);
+  debugLayout->setContentsMargins(2, 0, 4, 1);
+  debugLayout->addWidget(m_infoDlg);
+
+  ui->a_wpromg->setChecked(true);
+  ui->a_wgbvar->setChecked(true);
+  ui->a_wwyvar->setChecked(true);
+  ui->a_wtpvar->setChecked(true);
+  ui->a_wsfvar->setChecked(true);
+  ui->a_wcylinder->setChecked(true);
+  ui->a_wfeida->setChecked(true);
+  ui->a_wtrayp->setChecked(true);
+  ui->a_wdanjia->setChecked(true);
+
+  if (YDProjectManage::IsOnlineDebugOpened()) {
+    ui->a_doldebug->setChecked(true);
+    ui->a_startDebug->setEnabled(false);
+    ui->a_closeDebug->setEnabled(true);
+    initDebugActionEnable(true);
+  } else {
+    ui->a_doldebug->setChecked(false);
+    ui->a_startDebug->setEnabled(true);
+    ui->a_closeDebug->setEnabled(false);
+    initDebugActionEnable(false);
+  }
+
+  ui->a_ecopy->setEnabled(false);  //菜单栏编辑 功能缺失
+  ui->a_ecut->setEnabled(false);
+  ui->e_epaste->setEnabled(false);
+  ui->a_edel->setEnabled(false);
+  ui->a_eprop->setEnabled(false);
+
+  connect(ui->a_wpromg, &QAction::triggered, this,
+          &MainWindow::slotWidgetAction);
+  connect(ui->a_wgbvar, &QAction::triggered, this,
+          &MainWindow::slotWidgetAction);
+  connect(ui->a_wwyvar, &QAction::triggered, this,
+          &MainWindow::slotWidgetAction);
+  connect(ui->a_wtpvar, &QAction::triggered, this,
+          &MainWindow::slotWidgetAction);
+  connect(ui->a_wsfvar, &QAction::triggered, this,
+          &MainWindow::slotWidgetAction);
+  connect(ui->a_wcylinder, &QAction::triggered, this,
+          &MainWindow::slotWidgetAction);
+  connect(ui->a_wfeida, &QAction::triggered, this,
+          &MainWindow::slotWidgetAction);
+  connect(ui->a_wtrayp, &QAction::triggered, this,
+          &MainWindow::slotWidgetAction);
+  connect(ui->a_wdanjia, &QAction::triggered, this,
+          &MainWindow::slotWidgetAction);
+
+  connect(ui->a_doldebug, &QAction::triggered, this,
+          &MainWindow::slotDebugTrigger);
 }
 
 void MainWindow::initRightMouseMenu() {
@@ -525,6 +778,7 @@ void MainWindow::initRightMouseMenu() {
 
   m_scriptMenu1->addAction(QIcon(":/Icon/add.png"), MainWindow::tr("添加脚本"),
                            this, SLOT(slotAddScript(bool)));
+
   m_scriptMenu2->addAction(QIcon(":/Icon/edit.png"), MainWindow::tr("属性"),
                            this, SLOT(slotEditScriptProp(bool)));
   m_scriptMenu2->addAction(QIcon(":/Icon/delete.png"),
@@ -665,6 +919,7 @@ void MainWindow::initVariableTable() {
   ui->VarView->horizontalHeader()->setSectionResizeMode(
       QHeaderView::ResizeToContents);
   ui->VarView->setModel(m_variablModel);
+  ui->VarView->setSelectionBehavior(QTableView::SelectRows);
 
   ui->VarView_2->horizontalHeader()->setSectionResizeMode(
       QHeaderView::ResizeToContents);
@@ -672,10 +927,12 @@ void MainWindow::initVariableTable() {
   ui->VarView_4->horizontalHeader()->setSectionResizeMode(
       QHeaderView::ResizeToContents);
   ui->VarView_4->setModel(m_tempVarModel);
+  ui->VarView_4->setSelectionBehavior(QTableView::SelectRows);
 
   ui->SafeVarView->horizontalHeader()->setSectionResizeMode(
       QHeaderView::ResizeToContents);
   ui->SafeVarView->setModel(m_safeVarModel);
+  ui->SafeVarView->setSelectionBehavior(QTableView::SelectRows);
 
   ui->VarGroupView->setContextMenuPolicy(Qt::CustomContextMenu);
   connect(ui->VarGroupView, &QTreeView::customContextMenuRequested, this,
@@ -749,6 +1006,12 @@ void MainWindow::initConnect() {
 
   connect(m_saveasReciDlg, &YDNameDialog::finished, this,
           &MainWindow::slotSaveasReciFinished);
+
+  connect(m_backPDlg, &QDialog::finished, this,
+          &MainWindow::slotBPDialogFinished);
+
+  connect(ui->tabWidget, &QTabWidget::tabCloseRequested, this,
+          &MainWindow::slotTabClosed);
 }
 
 void MainWindow::initOtherSetting() {
@@ -777,15 +1040,41 @@ void MainWindow::initOtherSetting() {
   ui->PropertyDock->raise();
 
   ui->addVar->setDisabled(true);
+  ui->DelVar->setDisabled(true);
+
   ui->addSafeVar->setDisabled(true);
+  ui->DelSafeVar->setDisabled(true);
 
   ui->AddVarG_2->setDisabled(true);
   ui->DelVarG_2->setDisabled(true);
 
   ui->addVar_2->setDisabled(true);
+  ui->DelVa_2->setDisabled(true);
+
   ui->addVar_4->setDisabled(true);
+  ui->DelVar_4->setDisabled(true);
 
   m_codeManage->resize(1744, 970);
+
+  ui->a_LogicStart->setDisabled(true);
+  ui->a_LogicStop->setDisabled(true);
+
+  ui->tabWidget->setTabsClosable(true);
+
+  ui->a_notSave->setChecked(true);
+
+  //  ui->tabWidget->setStyleSheet(
+  //      "QTabBar::tab{background:white;  border-right:1px solid #bfbfbf;  "
+  //      "border-left:1px solid #bfbfbf;"
+  //      "border-bottom:1px solid #bfbfbf;  border-top: 1px solid #bfbfbf;  "
+  //      "padding-bottom:-1px;"
+  //      "min-width:126;  min-height:26px;  font-size:14px;  "
+  //      "font-family:Microsoft YaHei;}"
+  //      "QTabBar::tab:selected{background:white;color:black;}"
+  //      "QTabBar::tab:!selected{background:#f0f0f0;color:black;}"
+  //      "QTabBar::tab:hover{background:#e5f1fb;color:black;}"
+  //      "QTabBar::close-button {image:url(:/Icon/close_normal.png);}"
+  //      "QTabBar::close-button:hover {image:url(:/Icon/close_press.png);}");
 }
 
 void MainWindow::initOpenMenu() {
@@ -801,7 +1090,7 @@ void MainWindow::initOpenMenu() {
   YDProjectManage::enumuerateProjects(list);
   auto name = YDProjectManage::getCurrentProject();
   for (auto v : list) {
-    auto str = QString::fromLocal8Bit(v.c_str());
+    auto str = STRTQSTR(v.c_str());
     if (str == name) continue;
     auto a = m->addAction(str);
     connect(a, &QAction::triggered, this, &MainWindow::slotActionTriggered);
@@ -812,7 +1101,8 @@ void MainWindow::initOpenMenu() {
     m_delFiles.push_back(b);
   }
 
-  updateProjectName();
+  selectModule = nullptr;
+  initOpenWayMenu();
 }
 
 void MainWindow::initOpenWayMenu() {
@@ -827,7 +1117,7 @@ void MainWindow::initOpenWayMenu() {
   YDProjectManage::enumuerateRecipes(list);
   auto name = YDProjectManage::getCurrentRecipe();
   for (auto v : list) {
-    auto str = QString::fromLocal8Bit(v.c_str());
+    auto str = STRTQSTR(v.c_str());
     if (str == name) continue;
     auto a = m->addAction(str);
     connect(a, &QAction::triggered, this, &MainWindow::slotWayActionTriggered);
@@ -845,6 +1135,7 @@ void MainWindow::initReciWidget() {
     m_isShowReciWidget = true;
     ui->VarGroupView_2->setModel(m_varGroupModel);
     ui->VarView_2->setModel(m_reciVarModel);
+    ui->VarView_2->setSelectionBehavior(QTableView::SelectRows);
     ui->VarGroupView_2->setContextMenuPolicy(Qt::CustomContextMenu);
     connect(ui->VarGroupView_2, &QTreeView::customContextMenuRequested, this,
             &MainWindow::slotReciVarMenu);
@@ -852,6 +1143,19 @@ void MainWindow::initReciWidget() {
     ui->AddVarG_2->setEnabled(true);
     ui->DelVarG_2->setEnabled(true);
   }
+}
+
+void MainWindow::initDebugActionEnable(const bool &flag) {
+  ui->a_dstartz->setEnabled(flag);
+  ui->a_dstartm->setEnabled(flag);
+  ui->a_dpausem->setEnabled(flag);
+  ui->a_dstopm->setEnabled(flag);
+  ui->a_LogicStart->setEnabled(flag);
+  m_isLogicTaskStart = false;
+
+  setControlEnabled(!flag);
+  YDHelper::setDebugMode(flag);
+  m_moveSysW->update();
 }
 
 void MainWindow::updateVarGroupModel() {
@@ -882,7 +1186,7 @@ void MainWindow::updateCylinderInfos(yd::dev::Cylinder *cyl,
   auto AxisVars = YDProjectManage::getAxisList();
   if (infos[3] == "single") {
     for (auto v : DOVars) {
-      if (QString::fromLocal8Bit(v->io_name.c_str()) == infos[4]) {
+      if (STRTQSTR(v->io_name.c_str()) == infos[4]) {
         cyl->direction1_control.refer_device_id = v->device_id;
         cyl->direction1_control.refer_index = v->io_index;
         cyl->direction1_control.action_value = 0;
@@ -895,7 +1199,7 @@ void MainWindow::updateCylinderInfos(yd::dev::Cylinder *cyl,
   } else {
     index = 6;
     for (auto v : DOVars) {
-      auto name = QString::fromLocal8Bit(v->io_name.c_str());
+      auto name = STRTQSTR(v->io_name.c_str());
       if (name == infos[4]) {
         cyl->direction1_control.refer_device_id = v->device_id;
         cyl->direction1_control.refer_index = v->io_index;
@@ -918,7 +1222,7 @@ void MainWindow::updateCylinderInfos(yd::dev::Cylinder *cyl,
   } else if (3 == wayF) {
     cyl->direction1_inplace.type = CYLINDER_ARRIVE_IF_AXIS_ENCODER_TO;
     for (auto v : AxisVars) {
-      if (QString::fromLocal8Bit(v->axis_name.c_str()) == infos[index + 1]) {
+      if (STRTQSTR(v->axis_name.c_str()) == infos[index + 1]) {
         cyl->direction1_inplace.refer_device_id = v->device_id;
         cyl->direction1_inplace.refer_index = v->axis_index;
         cyl->direction1_inplace.action_value = infos[index + 2].toUInt();
@@ -931,7 +1235,7 @@ void MainWindow::updateCylinderInfos(yd::dev::Cylinder *cyl,
       cyl->direction1_inplace.type = CYLINDER_ARRIVE_IF_DITRIGGRED_T_DELAYED;
 
     for (auto v : DIVars) {
-      if (QString::fromLocal8Bit(v->io_name.c_str()) == infos[index + 1]) {
+      if (STRTQSTR(v->io_name.c_str()) == infos[index + 1]) {
         cyl->direction1_inplace.refer_device_id = v->device_id;
         cyl->direction1_inplace.refer_index = v->io_index;
         cyl->direction1_inplace.action_value = 1;
@@ -955,7 +1259,7 @@ void MainWindow::updateCylinderInfos(yd::dev::Cylinder *cyl,
   } else if (3 == wayF) {
     cyl->direction2_inplace.type = CYLINDER_ARRIVE_IF_AXIS_ENCODER_TO;
     for (auto v : AxisVars) {
-      if (QString::fromLocal8Bit(v->axis_name.c_str()) == infos[index + 1]) {
+      if (STRTQSTR(v->axis_name.c_str()) == infos[index + 1]) {
         cyl->direction2_inplace.refer_device_id = v->device_id;
         cyl->direction2_inplace.refer_index = v->axis_index;
         cyl->direction2_inplace.action_value = infos[index + 2].toUInt();
@@ -968,7 +1272,7 @@ void MainWindow::updateCylinderInfos(yd::dev::Cylinder *cyl,
       cyl->direction2_inplace.type = CYLINDER_ARRIVE_IF_DITRIGGRED_T_DELAYED;
 
     for (auto v : DIVars) {
-      if (QString::fromLocal8Bit(v->io_name.c_str()) == infos[index + 1]) {
+      if (STRTQSTR(v->io_name.c_str()) == infos[index + 1]) {
         cyl->direction2_inplace.refer_device_id = v->device_id;
         cyl->direction2_inplace.refer_index = v->io_index;
         cyl->direction2_inplace.action_value = 1;
@@ -990,9 +1294,9 @@ QStringList MainWindow::getCylinderInfos(yd::dev::Cylinder *cyl) const {
   auto DIVars = YDProjectManage::getDIInfos();
   auto AxisVars = YDProjectManage::getAxisList();
   QStringList infos;
-  infos << QString::fromLocal8Bit(cyl->base.name.c_str());
-  infos << QString::fromLocal8Bit(cyl->direction1_name.c_str());
-  infos << QString::fromLocal8Bit(cyl->direction2_name.c_str());
+  infos << STRTQSTR(cyl->base.name.c_str());
+  infos << STRTQSTR(cyl->direction1_name.c_str());
+  infos << STRTQSTR(cyl->direction2_name.c_str());
   if ((cyl->direction1_control.refer_device_id ==
        cyl->direction2_control.refer_device_id) &&
       (cyl->direction1_control.refer_index ==
@@ -1002,7 +1306,7 @@ QStringList MainWindow::getCylinderInfos(yd::dev::Cylinder *cyl) const {
     for (auto d : DOVars) {
       if (d->device_id == cyl->direction1_control.refer_device_id &&
           d->io_index == cyl->direction1_control.refer_index) {
-        doName = QString::fromLocal8Bit(d->io_name.c_str());
+        doName = STRTQSTR(d->io_name.c_str());
         break;
       }
     }
@@ -1014,7 +1318,7 @@ QStringList MainWindow::getCylinderInfos(yd::dev::Cylinder *cyl) const {
     for (auto d : DOVars) {
       if (d->device_id == cyl->direction1_control.refer_device_id &&
           d->io_index == cyl->direction1_control.refer_index) {
-        doName1 = QString::fromLocal8Bit(d->io_name.c_str());
+        doName1 = STRTQSTR(d->io_name.c_str());
         break;
       }
     }
@@ -1024,7 +1328,7 @@ QStringList MainWindow::getCylinderInfos(yd::dev::Cylinder *cyl) const {
     for (auto d : DOVars) {
       if (d->device_id == cyl->direction2_control.refer_device_id &&
           d->io_index == cyl->direction2_control.refer_index) {
-        doName2 = QString::fromLocal8Bit(d->io_name.c_str());
+        doName2 = STRTQSTR(d->io_name.c_str());
         break;
       }
     }
@@ -1044,7 +1348,7 @@ QStringList MainWindow::getCylinderInfos(yd::dev::Cylinder *cyl) const {
       for (auto d : DIVars) {
         if (d->device_id == cyl->direction1_inplace.refer_device_id &&
             d->io_index == cyl->direction1_inplace.refer_index) {
-          diName = QString::fromLocal8Bit(d->io_name.c_str());
+          diName = STRTQSTR(d->io_name.c_str());
           break;
         }
       }
@@ -1056,7 +1360,7 @@ QStringList MainWindow::getCylinderInfos(yd::dev::Cylinder *cyl) const {
       for (auto d : DIVars) {
         if (d->device_id == cyl->direction1_inplace.refer_device_id &&
             d->io_index == cyl->direction1_inplace.refer_index) {
-          diName = QString::fromLocal8Bit(d->io_name.c_str());
+          diName = STRTQSTR(d->io_name.c_str());
           break;
         }
       }
@@ -1068,7 +1372,7 @@ QStringList MainWindow::getCylinderInfos(yd::dev::Cylinder *cyl) const {
       for (auto ax : AxisVars) {
         if (ax->device_id == cyl->direction1_inplace.refer_device_id &&
             ax->axis_index == cyl->direction1_inplace.refer_index) {
-          axName = QString::fromLocal8Bit(ax->axis_name);
+          axName = STRTQSTR(ax->axis_name);
           break;
         }
         infos << axName;
@@ -1091,7 +1395,7 @@ QStringList MainWindow::getCylinderInfos(yd::dev::Cylinder *cyl) const {
       for (auto d : DIVars) {
         if (d->device_id == cyl->direction2_inplace.refer_device_id &&
             d->io_index == cyl->direction2_inplace.refer_index) {
-          diname = QString::fromLocal8Bit(d->io_name.c_str());
+          diname = STRTQSTR(d->io_name.c_str());
           break;
         }
       }
@@ -1103,7 +1407,7 @@ QStringList MainWindow::getCylinderInfos(yd::dev::Cylinder *cyl) const {
       for (auto d : DIVars) {
         if (d->device_id == cyl->direction2_inplace.refer_device_id &&
             d->io_index == cyl->direction2_inplace.refer_index) {
-          diname = QString::fromLocal8Bit(d->io_name.c_str());
+          diname = STRTQSTR(d->io_name.c_str());
           break;
         }
       }
@@ -1115,7 +1419,7 @@ QStringList MainWindow::getCylinderInfos(yd::dev::Cylinder *cyl) const {
       for (auto ax : AxisVars) {
         if (ax->device_id == cyl->direction2_inplace.refer_device_id &&
             ax->axis_index == cyl->direction2_inplace.refer_index) {
-          axName = QString::fromLocal8Bit(ax->axis_name);
+          axName = STRTQSTR(ax->axis_name);
           break;
         }
       }
@@ -1129,11 +1433,16 @@ QStringList MainWindow::getCylinderInfos(yd::dev::Cylinder *cyl) const {
   return infos;
 }
 
-void MainWindow::updateProjectName() {
-  auto pName = QString("%1: %2").arg(MainWindow::tr("工程"),
-                                     YDProjectManage::getCurrentProject());
-  auto name = QString("%1  ---  %2")
-                  .arg(MainWindow::tr("业务逻辑编辑软件 v:1.1.0"), pName);
+void MainWindow::updateProjectName(QString rName) {
+  QString name = MainWindow::tr("业务逻辑编辑软件");
+  QString project = YDProjectManage::getCurrentProject();
+  if (!project.isEmpty()) {
+    name = QString("%1  --  %2").arg(name, project);
+  }
+  if (rName != "") {
+    name.append("/").append(rName);
+  }
+
   setWindowTitle(name);
 }
 
@@ -1141,17 +1450,233 @@ void MainWindow::updateRecipName() {
   auto rname = YDProjectManage::getCurrentRecipe();
   auto name = QString("%1 - %2").arg(MainWindow::tr("配方变量"), rname);
   ui->PeiFVarDock->setWindowTitle(name);
+  updateProjectName(rname);
+}
+
+//运动监控时判断轴是否使能
+bool MainWindow::judgeAxisEnabled() {
+  bool isFlag = false;
+  auto list = YDProjectManage::getMotionDevices();
+  if (list.empty()) {
+    QMessageBox::warning(nullptr, MainWindow::tr("提示"),
+                         MainWindow::tr("需要添加设备!"));
+    return isFlag;
+  }
+  for (auto item : list) {
+    auto axises = item->listAxises;
+    if (axises.empty()) {
+      QMessageBox::warning(nullptr, MainWindow::tr("提示"),
+                           MainWindow::tr("轴列表不能为空!"));
+      return isFlag;
+    }
+    for (auto axis : axises) {
+      if (axis->enable) {
+        isFlag = true;
+        return isFlag;
+      }
+    }
+  }
+  QMessageBox::warning(nullptr, MainWindow::tr("提示"),
+                       MainWindow::tr("最少需要启用一个轴使能!"));
+  return isFlag;
+}
+
+//判断网络IP是否为空
+bool MainWindow::judgeNetWorkEmpty() {
+  bool flag = true;
+  if (!YDDgHelper::createInstance()) return flag;
+
+  std::string strAddress = "";
+  uint16 usPort = 0;
+  uint32 uiTimeout = 0;
+  YDProjectManage::GetDataGateway(strAddress, usPort, uiTimeout);
+
+  if (strAddress.empty()) {
+    auto rb = QMessageBox::information(this, MainWindow::tr("提示"),
+                                       MainWindow::tr("请先设置后台数据网关!"),
+                                       MainWindow::tr("确认"));
+    if (0 == rb) {
+      m_netSetDlg->open();
+      return flag;
+    }
+  }
+  auto filename = YDProjectManage::getFileName();
+  if (!YDDgHelper::isInitialized(filename, STRTQSTR(strAddress), usPort))
+    return flag;
+
+  if (!YDDgHelper::getIProtocolClient()) return flag;
+
+  if (!YDDgHelper::connect(3)) return flag;
+  YDLogger::info(MainWindow::tr("网络连接成功!"));
+  return false;
+}
+
+void MainWindow::updateData() {
+  switch (m_debugWindowType) {
+    case 0:
+      m_axisWidget->updateData();
+      break;
+    case 1:
+      m_cylinderWidget->updateData();
+      break;
+    case 2:
+      m_inputWidget->updateData();
+      break;
+    case 3:
+      m_outputWidget->updateData();
+      break;
+    case 4:
+      m_varWidget->updateData();
+      break;
+  }
+
+  updateTaskData();
+}
+
+void MainWindow::updateTaskData() {
+  if (m_isLogicTaskStart) {
+    auto index = m_logicTree->currentIndex();
+    YDTask *o = reinterpret_cast<YDTask *>(index.internalPointer());
+    if (o) {
+      auto id = o->id();
+      yd::proto::TaskState state;
+      state.id = 0;
+      state.state = 0;
+      state.process_states.clear();
+
+      YDDgHelper::getTaskState(id, &state);
+      o->setState(state);
+    }
+  }
+}
+
+void MainWindow::stopThread() { emit stop(); }
+
+/**
+ * @brief 调试时设置使能
+ * @param enable
+ */
+void MainWindow::setControlEnabled(bool enable) {
+  m_scriptMangeW->setEnabled(enable);
+  m_menuR1->setEnabled(enable);    //新建任务
+  m_menuR3->setEnabled(enable);    //子任务
+  m_varRMain->setEnabled(enable);  //一级变量分组
+  m_safeVRMenu->setEnabled(enable);
+  m_reciMenu->setEnabled(enable);
+  m_tempMenu->setEnabled(enable);
+  m_varRsubMenu->setEnabled(enable);  //二级变量分组
+  m_safeVRsubMenu->setEnabled(enable);
+  m_reciSubMenu->setEnabled(enable);
+  m_tempSubMenu->setEnabled(enable);
+  m_scriptMenu1->setEnabled(enable);  //脚本
+  m_scriptMenu2->setEnabled(enable);
+
+  ui->AddVarG->setEnabled(enable);  //全局变量
+  ui->DelVarG->setEnabled(enable);
+  ui->GasAdd->setEnabled(enable);  //气油缸
+  ui->GasDel->setEnabled(enable);
+  ui->AddSafeVarG->setEnabled(enable);  //安全变量
+  ui->DelSafeVarG->setEnabled(enable);
+  ui->AddVarG_2->setEnabled(enable);  //配方变量
+  ui->DelVarG_2->setEnabled(enable);
+  ui->AddVarG_4->setEnabled(enable);  //临时变量
+  ui->DelVarG_4->setEnabled(enable);
+
+  if (!enable) {
+    ui->addVar->setEnabled(enable);
+    ui->DelVar->setEnabled(enable);
+    ui->addSafeVar->setEnabled(enable);
+    ui->DelSafeVar->setEnabled(enable);
+    ui->addVar_2->setEnabled(enable);
+    ui->DelVa_2->setEnabled(enable);
+    ui->addVar_4->setEnabled(enable);
+    ui->DelVar_4->setEnabled(enable);
+    ui->a_notSave->trigger();
+  }
+
+  ui->VarView->setEnabled(enable);
+  ui->VarView_2->setEnabled(enable);
+  ui->VarView_4->setEnabled(enable);
+  ui->SafeVarView->setEnabled(enable);
+  ui->CylinderList->setEnabled(enable);
+
+  ui->a_new->setEnabled(enable);  //菜单栏
+  ui->a_open->setEnabled(enable);
+  ui->a_close->setEnabled(enable);
+  ui->a_rename->setEnabled(enable);
+  ui->a_save->setEnabled(enable);
+  ui->a_saveall->setEnabled(enable);
+  ui->a_saveoth->setEnabled(enable);
+  ui->a_del->setEnabled(enable);
+  ui->a_exit->setEnabled(enable);
+  ui->a_newway->setEnabled(enable);
+  ui->a_openway->setEnabled(enable);
+  ui->a_changeWay->setEnabled(enable);
+  ui->a_saveway->setEnabled(enable);
+  ui->a_saveow->setEnabled(enable);
+  ui->a_dellway->setEnabled(enable);
+  ui->a_ttalkset->setEnabled(enable);
+  ui->a_timingSave->setEnabled(enable);
+}
+
+void MainWindow::screenShot() {
+  auto w = static_cast<QListWidget *>(ui->tabWidget->currentWidget());
+  if (w) {
+    QPixmap pix = w->grab();
+    auto index = ui->tabWidget->currentIndex();
+    QString pre = QCoreApplication::applicationDirPath() + "/screenshot/";
+    QString text = ui->tabWidget->tabText(index);
+    QString time = QDateTime::currentDateTime().toString("yyMMdd_hhmmss");
+    QString file = QString("%1%2_%3.png").arg(pre, text, time);
+
+    pix.save(file, Q_NULLPTR, 100);
+  }
+}
+
+void MainWindow::setBtnState(bool b) {
+  auto root = YDProjectManage::getYDTaskRoot();
+  root->clear();
+
+  m_menuModel->updateModel();
+  setControlEnabled(b);
+  ui->a_startDebug->setEnabled(b);
+  ui->a_dupload->setEnabled(b);
+  ui->a_ddownload->setEnabled(b);
+  ui->a_doldebug->setEnabled(b);
+}
+
+void MainWindow::setSelectTime(int index) {
+  ui->a_notSave->setChecked(false);
+  ui->a_save5->setChecked(false);
+  ui->a_save10->setChecked(false);
+  ui->a_save20->setChecked(false);
+  ui->a_save30->setChecked(false);
+  switch (index) {
+    case 0:
+      ui->a_notSave->setChecked(true);
+      break;
+    case 1:
+      ui->a_save5->setChecked(true);
+      break;
+    case 2:
+      ui->a_save10->setChecked(true);
+      break;
+    case 3:
+      ui->a_save20->setChecked(true);
+      break;
+    case 4:
+      ui->a_save30->setChecked(true);
+      break;
+    default:
+      break;
+  }
 }
 
 void MainWindow::addVar(int type, const QStringList &list,
                         yd::vr::SystemVariable *var) {
   if (var) {
-    YDLogger::info(MainWindow::tr("创建变量: %1 成功")
-                       .arg(QString::fromLocal8Bit(var->variable_name)));
-
-    // INFO("TEST:{} {} {} {}", a, str, "adf", 2222);
-
     var->variable_name = std::string(list[0].toLocal8Bit().data());
+
     var->value_type = type;
     int index = list[1].toUInt();
 
@@ -1189,6 +1714,48 @@ void MainWindow::addVar(int type, const QStringList &list,
   }
 }
 
+void MainWindow::addReciVar(int type, const QStringList &list,
+                            yd::vr::SystemVariable *var) {
+  if (var) {
+    var->variable_name = std::string(list[0].toLocal8Bit().data());
+
+    var->value_type = type;
+    int index = list[1].toUInt();
+
+    switch (index) {
+      case 0:
+        var->current_value =
+            (list[2] == "False" ? std::string("0") : std::string("1"));
+        break;
+      case 1:
+      case 2:
+        var->current_value = std::string(list[2].toLocal8Bit().data());
+        var->min_value = std::string(list[3].toLocal8Bit().data());
+        var->max_value = std::string(list[4].toLocal8Bit().data());
+        break;
+      case 3:
+        var->current_value = std::string(list[2].toLocal8Bit().data());
+        break;
+      case 4: {
+        memset(&m_coords, 0, sizeof(yd::COORDS));
+        m_coords.ucCtrlType = 0;
+        QStringList grouplist = list[2].split(',');
+        for (int i = 0; i < grouplist.size(); ++i) {
+          if (!grouplist[i].isEmpty()) {
+            QStringList itemlist = grouplist[i].split('@');
+            YDHelper::updateCoorData(m_coords.arrCoords[i], itemlist);
+            m_coords.ucNumber = i + 1;
+          }
+        }
+
+        std::string stdjson;
+        yd::CRapidJsonHelper::AxisCoords2Json(&m_coords, stdjson);
+        var->current_value = stdjson;
+      } break;
+    }
+  }
+}
+
 void MainWindow::on_addVar_clicked() {
   if (m_addVarDlg) delete m_addVarDlg;
   m_addVarDlg = new YDAddVariableDialog(this);
@@ -1208,7 +1775,8 @@ void MainWindow::slotAddVarFinished() {
       YDProjectManage::createGlobalVar(subvg->parent()->groupId(),
                                        subvg->groupId(), type, var);
       addVar(type, list, var);
-      m_reciVarModel->setGroupId(subvg->groupId());
+      YDLogger::info(MainWindow::tr("创建全局变量: %1 成功").arg(list[0]));
+      m_variablModel->setGroupId(subvg->groupId());
     }
   }
 }
@@ -1232,7 +1800,8 @@ void MainWindow::slotAddReciVarFinished() {
       YDProjectManage::CreateReciVar(subvg->parent()->groupId(),
                                      subvg->groupId(), type, var);
 
-      addVar(type, list, var);
+      addReciVar(type, list, var);
+      YDLogger::info(MainWindow::tr("创建配方变量: %1 成功").arg(list[0]));
       m_reciVarModel->setGroupId(subvg->groupId());
     }
   }
@@ -1257,6 +1826,7 @@ void MainWindow::slotAddTempVarFinished() {
       YDProjectManage::CreateTempVar(subvg->parent()->groupId(),
                                      subvg->groupId(), type, var);
       addVar(type, list, var);
+      YDLogger::info(MainWindow::tr("创建临时变量: %1 成功").arg(list[0]));
       m_tempVarModel->setGroupId(subvg->groupId());
     }
   }
@@ -1268,7 +1838,7 @@ void MainWindow::slotUpdateVar() {
     YDVariable *vg =
         reinterpret_cast<YDVariable *>(m_varIndex.internalPointer());
     int row = m_varViewIndex.row();
-    auto vars = YDProjectManage::getAllVariables(vg->groupId());
+    auto vars = YDProjectManage::GetGroupedGlobalVars(vg->groupId());
 
     if (row < vars.size()) {
       auto var = vars[row];
@@ -1308,7 +1878,9 @@ void MainWindow::slotUpdateVar() {
         } break;
       }
 
+      YDLogger::info(MainWindow::tr("修改全局变量: %1 成功").arg(list[0]));
       m_variablModel->setGroupId(vg->groupId());
+      YDProjectManage::UpdateGlobalVarValue(var->variable_id, var->init_value);
     }
   }
 }
@@ -1318,7 +1890,7 @@ void MainWindow::slotUpdateReciVar() {
     auto list = m_addReciVarDlg->textList();
     YDVariable *vg =
         reinterpret_cast<YDVariable *>(m_reciVarIndex.internalPointer());
-    int row = m_reciVarIndex.row();
+    int row = m_reciViewIndex.row();
     auto vars = YDProjectManage::GetGroupedReciVars(vg->groupId());
 
     if (row < vars.size()) {
@@ -1358,8 +1930,9 @@ void MainWindow::slotUpdateReciVar() {
           var->init_value = stdjson;
         } break;
       }
-
+      YDLogger::info(MainWindow::tr("修改配方变量: %1 成功").arg(list[0]));
       m_reciVarModel->setGroupId(vg->groupId());
+      YDProjectManage::UpdateReciVarValue(var->variable_id, var->init_value);
     }
   }
 }
@@ -1369,7 +1942,7 @@ void MainWindow::slotUpdateTempVar() {
     auto list = m_addTempVarDlg->textList();
     YDVariable *vg =
         reinterpret_cast<YDVariable *>(m_tempVarIndex.internalPointer());
-    int row = m_varViewIndex.row();
+    int row = m_tempViewIndex.row();
     auto vars = YDProjectManage::GetGroupedTempVars(vg->groupId());
 
     if (row < vars.size()) {
@@ -1409,8 +1982,9 @@ void MainWindow::slotUpdateTempVar() {
           var->init_value = stdjson;
         } break;
       }
-
+      YDLogger::info(MainWindow::tr("修改临时变量: %1 成功").arg(list[0]));
       m_tempVarModel->setGroupId(vg->groupId());
+      YDProjectManage::UpdateTempVarValue(var->variable_id, var->init_value);
     }
   }
 }
@@ -1461,6 +2035,7 @@ void MainWindow::slotAddSafeVarFinished() {
             condition->judge_order = ++index;
           }
         }
+        YDLogger::info(MainWindow::tr("创建安全变量: %1 成功").arg(list[0]));
         updateSafeVarModel();
       }
     }
@@ -1500,6 +2075,7 @@ void MainWindow::slotUpdateSafeVar() {
             condition->judge_order = ++index;
           }
         }
+        YDLogger::info(MainWindow::tr("修改安全变量: %1 成功").arg(list[0]));
         updateSafeVarModel();
       }
     }
@@ -1530,6 +2106,7 @@ void MainWindow::slotAddCylinderFinished() {
       qDebug() << "Cylinder create sucessfule!";
       updateCylinderInfos(cyl, infos);
       ui->CylinderInfo->setTextList(infos);
+      YDLogger::info(MainWindow::tr("创建气油缸: %1 成功").arg(infos[0]));
     }
   }
 }
@@ -1543,6 +2120,7 @@ void MainWindow::slotChangeCylinderFinished() {
       auto infos = m_addCylinderDlg->textList();
       updateCylinderInfos(cyl, infos);
       ui->CylinderInfo->setTextList(infos);
+      YDLogger::info(MainWindow::tr("修改气油缸: %1 成功").arg(infos[0]));
     }
   }
 }
@@ -1579,10 +2157,13 @@ void MainWindow::slotVarGroupClick(const QModelIndex &index) {
   m_varIndex = index;
   YDVariable *var = reinterpret_cast<YDVariable *>(index.internalPointer());
   if (var) {
-    if (var->parent() == YDProjectManage::getVarRoot())
+    if (var->parent() == YDProjectManage::getVarRoot()) {
       ui->addVar->setDisabled(true);
-    else
+      ui->DelVar->setDisabled(true);
+    } else if (!YDProjectManage::IsOnlineDebugOpened()) {
       ui->addVar->setDisabled(false);
+      ui->DelVar->setDisabled(false);
+    }
 
     m_variablModel->setGroupId(var->groupId());
   }
@@ -1592,10 +2173,13 @@ void MainWindow::slotReciVarGroupClick(const QModelIndex &index) {
   m_reciVarIndex = index;
   YDVariable *var = reinterpret_cast<YDVariable *>(index.internalPointer());
   if (var) {
-    if (var->parent() == YDProjectManage::getVarRoot())
+    if (var->parent() == YDProjectManage::getVarRoot()) {
       ui->addVar_2->setDisabled(true);
-    else
+      ui->DelVa_2->setDisabled(true);
+    } else if (!YDProjectManage::IsOnlineDebugOpened()) {
       ui->addVar_2->setDisabled(false);
+      ui->DelVa_2->setDisabled(false);
+    }
 
     m_reciVarModel->setGroupId(var->groupId());
   }
@@ -1605,10 +2189,13 @@ void MainWindow::slotTempVarGroupClick(const QModelIndex &index) {
   m_tempVarIndex = index;
   YDVariable *var = reinterpret_cast<YDVariable *>(index.internalPointer());
   if (var) {
-    if (var->parent() == YDProjectManage::getVarRoot())
+    if (var->parent() == YDProjectManage::getVarRoot()) {
       ui->addVar_4->setDisabled(true);
-    else
+      ui->DelVar_4->setDisabled(true);
+    } else if (!YDProjectManage::IsOnlineDebugOpened()) {
       ui->addVar_4->setDisabled(false);
+      ui->DelVar_4->setDisabled(false);
+    }
 
     m_tempVarModel->setGroupId(var->groupId());
   }
@@ -1619,13 +2206,13 @@ void MainWindow::slotVarGroupDoubleClick(const QModelIndex &) {}
 void MainWindow::slotVarViewDoubleClick(const QModelIndex &index) {
   YDVariable *vg = reinterpret_cast<YDVariable *>(m_varIndex.internalPointer());
   int row = index.row();
-  auto list = YDProjectManage::getAllVariables(vg->groupId());
+  auto list = YDProjectManage::GetGroupedGlobalVars(vg->groupId());
 
   if (row < list.size()) {
     m_varViewIndex = index;
     auto var = list[row];
     QStringList infos;
-    infos << QString::fromLocal8Bit(var->variable_name);
+    infos << STRTQSTR(var->variable_name);
     switch (var->value_type) {
       case DATA_TYPE_BOOL: {
         infos << "0";
@@ -1641,20 +2228,20 @@ void MainWindow::slotVarViewDoubleClick(const QModelIndex &index) {
       case DATA_TYPE_INT64:
       case DATA_TYPE_UINT64: {
         infos << "1";
-        infos << QString::fromLocal8Bit(var->init_value.c_str());
-        infos << QString::fromLocal8Bit(var->min_value.c_str());
-        infos << QString::fromLocal8Bit(var->max_value.c_str());
+        infos << STRTQSTR(var->init_value.c_str());
+        infos << STRTQSTR(var->min_value.c_str());
+        infos << STRTQSTR(var->max_value.c_str());
       } break;
       case DATA_TYPE_FLOAT:
       case DATA_TYPE_DOUBLE: {
         infos << "2";
-        infos << QString::fromLocal8Bit(var->init_value.c_str());
-        infos << QString::fromLocal8Bit(var->min_value.c_str());
-        infos << QString::fromLocal8Bit(var->max_value.c_str());
+        infos << STRTQSTR(var->init_value.c_str());
+        infos << STRTQSTR(var->min_value.c_str());
+        infos << STRTQSTR(var->max_value.c_str());
       } break;
       case DATA_TYPE_STRING: {
         infos << "3";
-        infos << QString::fromLocal8Bit(var->init_value.c_str());
+        infos << STRTQSTR(var->init_value.c_str());
       } break;
       case DATA_TYPE_AXIS_COORD: {
         infos << "4";
@@ -1676,6 +2263,7 @@ void MainWindow::slotVarViewDoubleClick(const QModelIndex &index) {
     m_addVarDlg->setTextList(infos);
     connect(m_addVarDlg, &YDAddVariableDialog::finished, this,
             &MainWindow::slotUpdateVar);
+    m_addVarDlg->setUpdateParam(m_varIndex, m_varViewIndex, true);
     m_addVarDlg->open();
   }
 }
@@ -1687,14 +2275,14 @@ void MainWindow::slotReciVarViewDoubleClick(const QModelIndex &index) {
   auto list = YDProjectManage::GetGroupedReciVars(vg->groupId());
 
   if (row < list.size()) {
-    m_varViewIndex = index;
+    m_reciViewIndex = index;
     auto var = list[row];
     QStringList infos;
-    infos << QString::fromLocal8Bit(var->variable_name);
+    infos << STRTQSTR(var->variable_name);
     switch (var->value_type) {
       case DATA_TYPE_BOOL: {
         infos << "0";
-        QString boolstr = (var->init_value == "0" ? "False" : "True");
+        QString boolstr = (var->current_value == "0" ? "False" : "True");
         infos << boolstr;
       } break;
       case DATA_TYPE_INT8:
@@ -1706,25 +2294,25 @@ void MainWindow::slotReciVarViewDoubleClick(const QModelIndex &index) {
       case DATA_TYPE_INT64:
       case DATA_TYPE_UINT64: {
         infos << "1";
-        infos << QString::fromLocal8Bit(var->init_value.c_str());
-        infos << QString::fromLocal8Bit(var->min_value.c_str());
-        infos << QString::fromLocal8Bit(var->max_value.c_str());
+        infos << STRTQSTR(var->current_value.c_str());
+        infos << STRTQSTR(var->min_value.c_str());
+        infos << STRTQSTR(var->max_value.c_str());
       } break;
       case DATA_TYPE_FLOAT:
       case DATA_TYPE_DOUBLE: {
         infos << "2";
-        infos << QString::fromLocal8Bit(var->init_value.c_str());
-        infos << QString::fromLocal8Bit(var->min_value.c_str());
-        infos << QString::fromLocal8Bit(var->max_value.c_str());
+        infos << STRTQSTR(var->current_value.c_str());
+        infos << STRTQSTR(var->min_value.c_str());
+        infos << STRTQSTR(var->max_value.c_str());
       } break;
       case DATA_TYPE_STRING: {
         infos << "3";
-        infos << QString::fromLocal8Bit(var->init_value.c_str());
+        infos << STRTQSTR(var->current_value.c_str());
       } break;
       case DATA_TYPE_AXIS_COORD: {
         infos << "4";
         memset(&m_coords, 0, sizeof(yd::COORDS));
-        yd::CRapidJsonHelper::Json2AxisCoords(var->init_value, &m_coords);
+        yd::CRapidJsonHelper::Json2AxisCoords(var->current_value, &m_coords);
         QString axstr;
         for (int i = 0; i < m_coords.ucNumber; ++i) {
           axstr += QString("%1,").arg(
@@ -1739,8 +2327,9 @@ void MainWindow::slotReciVarViewDoubleClick(const QModelIndex &index) {
     if (m_addReciVarDlg) delete m_addReciVarDlg;
     m_addReciVarDlg = new YDAddReciVarDialog(this);
     m_addReciVarDlg->setTextList(infos);
-    connect(m_addVarDlg, &YDAddReciVarDialog::finished, this,
+    connect(m_addReciVarDlg, &YDAddReciVarDialog::finished, this,
             &MainWindow::slotUpdateReciVar);
+    m_addReciVarDlg->setUpdateParam(m_reciVarIndex, m_reciViewIndex, true);
     m_addReciVarDlg->open();
   }
 }
@@ -1752,10 +2341,10 @@ void MainWindow::slotTempVarViewDoubleClick(const QModelIndex &index) {
   auto list = YDProjectManage::GetGroupedTempVars(vg->groupId());
 
   if (row < list.size()) {
-    m_varViewIndex = index;
+    m_tempViewIndex = index;
     auto var = list[row];
     QStringList infos;
-    infos << QString::fromLocal8Bit(var->variable_name);
+    infos << STRTQSTR(var->variable_name);
     switch (var->value_type) {
       case DATA_TYPE_BOOL: {
         infos << "0";
@@ -1771,20 +2360,20 @@ void MainWindow::slotTempVarViewDoubleClick(const QModelIndex &index) {
       case DATA_TYPE_INT64:
       case DATA_TYPE_UINT64: {
         infos << "1";
-        infos << QString::fromLocal8Bit(var->init_value.c_str());
-        infos << QString::fromLocal8Bit(var->min_value.c_str());
-        infos << QString::fromLocal8Bit(var->max_value.c_str());
+        infos << STRTQSTR(var->init_value.c_str());
+        infos << STRTQSTR(var->min_value.c_str());
+        infos << STRTQSTR(var->max_value.c_str());
       } break;
       case DATA_TYPE_FLOAT:
       case DATA_TYPE_DOUBLE: {
         infos << "2";
-        infos << QString::fromLocal8Bit(var->init_value.c_str());
-        infos << QString::fromLocal8Bit(var->min_value.c_str());
-        infos << QString::fromLocal8Bit(var->max_value.c_str());
+        infos << STRTQSTR(var->init_value.c_str());
+        infos << STRTQSTR(var->min_value.c_str());
+        infos << STRTQSTR(var->max_value.c_str());
       } break;
       case DATA_TYPE_STRING: {
         infos << "3";
-        infos << QString::fromLocal8Bit(var->init_value.c_str());
+        infos << STRTQSTR(var->init_value.c_str());
       } break;
       case DATA_TYPE_AXIS_COORD: {
         infos << "4";
@@ -1806,6 +2395,7 @@ void MainWindow::slotTempVarViewDoubleClick(const QModelIndex &index) {
     m_addTempVarDlg->setTextList(infos);
     connect(m_addTempVarDlg, &YDAddTempVarDialog::finished, this,
             &MainWindow::slotUpdateTempVar);
+    m_addTempVarDlg->setUpdateParam(m_tempVarIndex, m_tempViewIndex, true);
     m_addTempVarDlg->open();
   }
 }
@@ -1813,10 +2403,15 @@ void MainWindow::slotTempVarViewDoubleClick(const QModelIndex &index) {
 void MainWindow::slotSafeGroupClick(const QModelIndex &index) {
   m_safeVarIndex = index;
   YDVariable *var = reinterpret_cast<YDVariable *>(index.internalPointer());
-  if (var->parent() == YDProjectManage::getVarRoot())
+  if (var->parent() == YDProjectManage::getVarRoot()) {
     ui->addSafeVar->setDisabled(true);
-  else
+    ui->DelSafeVar->setDisabled(true);
+  } else if (!YDProjectManage::IsOnlineDebugOpened()) {
     ui->addSafeVar->setDisabled(false);
+    ui->DelSafeVar->setDisabled(false);
+  }
+
+  m_safeVarModel->setGroupId(var->groupId());
 }
 
 void MainWindow::slotSafeGroupDoubleClick(const QModelIndex &index) {
@@ -1833,10 +2428,11 @@ void MainWindow::slotSafeVarDoubleClick(const QModelIndex &index) {
   std::vector<yd::vr::SafeVariable *> list;
   YDProjectManage::getGroupedSafeVariables(vg->groupId(), list);
   if (row < list.size()) {
+    m_safeVarViewIndex = index;
     auto var = list[row];
     m_selectSafeVar = var;
     QStringList textList;
-    textList << QString::fromLocal8Bit(var->variable_name.c_str());
+    textList << STRTQSTR(var->variable_name.c_str());
     textList << (var->logic_operator == LOGIC_OPERATOR_AND ? "0" : "1");
 
     auto condlist = var->listConditions;
@@ -1862,6 +2458,7 @@ void MainWindow::slotSafeVarDoubleClick(const QModelIndex &index) {
     m_addSafeVarDlg->setTextList(textList);
     connect(m_addSafeVarDlg, &YDAddSafeVarDialog::finished, this,
             &MainWindow::slotUpdateSafeVar);
+    m_addSafeVarDlg->setUpdateParam(m_safeVarIndex, m_safeVarViewIndex, true);
     m_addSafeVarDlg->open();
   }
 }
@@ -1870,27 +2467,23 @@ void MainWindow::slotDeviceSetDlgFinished() {}
 
 void MainWindow::slotNetSetFinished() {
   if (m_netSetDlg->result() == QDialog::Accepted) {
-    if (!YDDgHelper::createInstance()) return;
-
-    auto filename = YDProjectManage::getFileName();
     auto ip = m_netSetDlg->getIP();
     auto time = m_netSetDlg->getTime();
     uint16 port = m_netSetDlg->getPort().toUShort();
 
-    if (!YDDgHelper::isInitialized(filename, ip, port)) return;
+    YDProjectManage::SetDataGateway(QSTRTSTR(ip), port, time.toInt());
+    YDLogger::info(
+        MainWindow::tr("设置后台数据网关 地址: %1 端口: %2 超时时间: %3")
+            .arg(ip, QString::number(port), time));
+    //    if (m_debugDlg) delete m_debugDlg;
+    //    m_debugDlg = new YDDebugDialog(this);
+    //    connect(m_debugDlg, &QDialog::finished, this,
+    //            &MainWindow::slotDialogFinished);
 
-    if (!YDDgHelper::getIProtocolClient()) return;
-
-    if (!YDDgHelper::connect(3)) return;
-
-    if (m_debugDlg) delete m_debugDlg;
-    m_debugDlg = new YDDebugDialog(this);
-    connect(m_debugDlg, &QDialog::finished, this,
-            &MainWindow::slotDialogFinished);
-
-    YDProjectManage::setTabWNull();
-    YDHelper::setDebugMode(true);
-    m_debugDlg->open();
+    //    YDProjectManage::setTabWNull();
+    //    YDHelper::setDebugMode(true);
+    //    YDLogger::info(MainWindow::tr("IP连接(%1)成功").arg(ip));
+    //    m_debugDlg->open();
   }
 }
 
@@ -1906,10 +2499,10 @@ void MainWindow::slotCratePFinished() {
   if (QDialog::Accepted == m_createPDlg->result()) {
     YDProjectManage::closeProject();
     auto name = QSTRTSTR(m_createPDlg->getName());
+    setBtnState(true);
     YDProjectManage::CreateProject(name);
     YDProjectManage::openProject(name);
     initOpenMenu();
-    m_menuModel->updateModel();
   }
 }
 
@@ -1933,8 +2526,8 @@ void MainWindow::slotActionTriggered(bool) {
   QAction *ac = qobject_cast<QAction *>(sender());
   auto name = QSTRTSTR(ac->text());
   YDProjectManage::closeProject();
+  setBtnState(true);
   YDProjectManage::openProject(name);
-  m_menuModel->updateModel();
 
   initOpenMenu();
 }
@@ -1945,6 +2538,7 @@ void MainWindow::slotWayActionTriggered(bool) {
   YDProjectManage::openRecipe(name);
   initReciWidget();
   initOpenWayMenu();
+  m_reciVarModel->updateData();
 }
 
 void MainWindow::slotDelActionTriggered(bool) {
@@ -2000,6 +2594,22 @@ void MainWindow::slotSaveasReciFinished() {
 
 void MainWindow::slotDebugTrigger(bool) {}
 
+void MainWindow::slotBPDialogFinished() {
+  if (QDialog::Accepted == m_backPDlg->result()) {
+    auto type = m_backPDlg->getType();
+    YDProjectManage::SetHomeMoveScriptType(type);
+    m_bpCodeManage->resize(1400, 900);
+    m_bpCodeManage->setScript();
+    m_bpCodeManage->open();
+  }
+}
+
+void MainWindow::slotTabClosed(int index) {
+  if (index >= 0) {
+    ui->tabWidget->removeTab(index);
+  }
+}
+
 void MainWindow::showHardConfig() { m_deviceSetDlg->open(); }
 
 void MainWindow::showVarConfig(int type) {
@@ -2023,8 +2633,11 @@ void MainWindow::showVarConfig(int type) {
 
 void MainWindow::showZeroScript(int type) {
   switch (type) {
-    case 0:
-      break;
+    case 0: {
+      auto type = YDProjectManage::GetHomeMoveScriptType();
+      m_backPDlg->setType(type);
+      m_backPDlg->open();
+    } break;
     default:
       break;
   }
@@ -2040,13 +2653,8 @@ void MainWindow::slotScriptMenu(const QPoint &pos) {
 }
 
 void MainWindow::slotAddScript(bool) {
-  auto name = YDHelper::genarateName();
-  auto sname = QSTRTSTR(name);
-  adv::ExtendScript *esc = nullptr;
-  YDProjectManage::createScript(sname, esc);
-  Q_ASSERT(esc);
-  esc->script_type = SCRIPT_TYPE_VB_NET;
-  m_scriptModel->updatedata();
+  m_scriptProp->setAddOrUpdate(true);
+  m_scriptProp->open();
 }
 
 void MainWindow::slotEditScriptProp(bool) {
@@ -2055,6 +2663,7 @@ void MainWindow::slotEditScriptProp(bool) {
     auto list = YDProjectManage::getScripts();
     auto script = list[index.row()];
     m_scriptProp->setScritp(script);
+    m_scriptProp->setAddOrUpdate(false);
     m_scriptProp->open();
   }
 }
@@ -2069,6 +2678,8 @@ void MainWindow::slotRemoveScript(bool) {
         MainWindow::tr("确认"), MainWindow::tr("取消"));
     if (0 == rb) {
       YDProjectManage::deleteScript(script->script_name);
+      YDLogger::info(MainWindow::tr("删除脚本: %1 成功")
+                         .arg(STRTQSTR(script->script_name)));
     }
   }
 }
@@ -2078,6 +2689,7 @@ void MainWindow::slotScriptItemClicked(const QModelIndex &index) {
   auto list = YDProjectManage::getScripts();
   auto script = list[index.row()];
   m_codeManage->setScript(script);
+  m_codeManage->setWindowTitle("自定义脚本 - " + STRTQSTR(script->script_name));
   m_codeManage->open();
 }
 
@@ -2088,7 +2700,7 @@ void MainWindow::slotScriptItemDBClicked(const QModelIndex &) {
   //  m_scriptProp->open();
 }
 
-void MainWindow::slotScriptPropClose() {}
+void MainWindow::slotScriptPropClose() { m_scriptModel->updatedata(); }
 
 void MainWindow::showCusModule(int type) {
   switch (type) {
@@ -2160,167 +2772,61 @@ void MainWindow::slotWidgetAction(bool b) {
   }
 }
 
-void MainWindow::initMenu() {
-  m_hdConfig->setText(MainWindow::tr("硬件配置"));
-  m_varManage->setText(MainWindow::tr("变量管理"));
-  m_scriptManage->setText(MainWindow::tr("脚本管理"));
-  m_cusModule->setText(MainWindow::tr("自定义组件"));
-  m_moveSystem->setText(MainWindow::tr("运动监控"));
-  m_moveLogic->setText(MainWindow::tr("动作逻辑编程"));
+/**
+ * @brief 运动监控子项显示
+ */
+void MainWindow::showMotionMonitoring(int type) {
+  if (YDHelper::isDebugMode() && judgeAxisEnabled()) {
+    m_debugWindowType = type;
+    switch (type) {
+      case 0: {  //轴控制
+        if (m_axisWidget) delete m_axisWidget;
+        m_axisWidget = new YDDAxisControl(this);
+        m_axisWidget->setWindowFlags(Qt::Dialog);
+        m_axisWidget->setWindowModality(Qt::ApplicationModal);
+        m_axisWidget->resize(1700, 950);
+        m_axisWidget->show();
+      } break;
 
-  m_hdConfig->setIcon(":/Icon/Device.png");
-  m_varManage->setIcon(":/Icon/Variable.png");
-  m_scriptManage->setIcon(":/Icon/edit.png");
-  m_cusModule->setIcon(":/Icon/VarManage.png");
-  m_moveSystem->setIcon(":/Icon/MoveView.png");
-  m_moveLogic->setIcon(":/Icon/Code.png");
+      case 1: {  //气油缸控制
+        if (m_cylinderWidget) delete m_cylinderWidget;
+        m_cylinderWidget = new YDDCylinderWidget(this);
+        m_cylinderWidget->setWindowFlags(Qt::Dialog);
+        m_cylinderWidget->setWindowModality(Qt::ApplicationModal);
+        m_cylinderWidget->resize(1700, 950);
+        m_cylinderWidget->show();
+      } break;
 
-  auto vlout = new QVBoxLayout(ui->scroa);
-  vlout->setContentsMargins(0, 0, 0, 0);
-  vlout->setSpacing(2);
-  vlout->addWidget(m_hdConfig);
-  vlout->addWidget(m_varManage);
-  vlout->addWidget(m_scriptManage);
-  vlout->addWidget(m_cusModule);
-  vlout->addWidget(m_moveSystem);
-  vlout->addWidget(m_moveLogic);
-  vlout->addStretch();
+      case 2: {  //输入状态
+        if (m_inputWidget) delete m_inputWidget;
+        m_inputWidget = new YDDInputWidget(this);
+        m_inputWidget->setWindowFlags(Qt::Dialog);
+        m_inputWidget->setWindowModality(Qt::ApplicationModal);
+        m_inputWidget->resize(1700, 950);
+        m_inputWidget->show();
+      } break;
 
-  connect(m_hdConfig, &YDMenu::sigClicked, this, &MainWindow::showHardConfig);
-
-  auto vlay2 = new QVBoxLayout(m_varManageW);
-  vlay2->setContentsMargins(0, 0, 0, 0);
-  vlay2->setSpacing(0);
-
-  QStringList m_varlist;
-  m_varlist << MainWindow::tr("全局变量") << MainWindow::tr("配方变量")
-            << MainWindow::tr("临时变量") << MainWindow::tr("安全变量");
-
-  for (int i = 0; i < m_varlist.size(); ++i) {
-    auto item = new YDMenuItem(i, m_varManageW);
-    item->setText(m_varlist[i]);
-    vlay2->addWidget(item);
-    connect(item, &YDMenuItem::sigClicked, this, &MainWindow::showVarConfig);
+      case 3: {  //输出状态
+        if (m_outputWidget) delete m_outputWidget;
+        m_outputWidget = new YDDOutputWidget(this);
+        m_outputWidget->setWindowFlags(Qt::Dialog);
+        m_outputWidget->setWindowModality(Qt::ApplicationModal);
+        m_outputWidget->resize(1700, 950);
+        m_outputWidget->show();
+      } break;
+      case 4: {
+        if (m_varWidget) delete m_varWidget;
+        m_varWidget = new YDDVarWidget(this);
+        m_varWidget->setWindowFlags(Qt::Dialog);
+        m_varWidget->setWindowModality(Qt::ApplicationModal);
+        m_varWidget->resize(1700, 950);
+        m_varWidget->show();
+      } break;
+      default:
+        break;
+    }
   }
-  vlay2->addSpacing(15);
-  m_varManage->setWidget(m_varManageW);
-
-  auto vlay3 = new QVBoxLayout(m_scriptMangeW);
-  vlay3->setContentsMargins(0, 0, 0, 0);
-  vlay3->setSpacing(0);
-
-  QStringList m_scriptlist;
-  m_scriptlist << MainWindow::tr("回原点脚本");
-
-  for (int i = 0; i < m_scriptlist.size(); ++i) {
-    auto item = new YDMenuItem(i, m_scriptMangeW);
-    item->setText(m_scriptlist[i]);
-    vlay3->addWidget(item);
-    connect(item, &YDMenuItem::sigClicked, this, &MainWindow::showZeroScript);
-  }
-
-  m_scriptViewW->setStyleSheet("background:white;");
-  auto hlay3 = new QHBoxLayout(m_scriptViewW);
-  hlay3->setContentsMargins(0, 0, 0, 0);
-  hlay3->setSpacing(0);
-  hlay3->addSpacing(26);
-  hlay3->addWidget(m_scriptView);
-
-  m_cusScriptW->setIcon(":/Icon/Debug.png");
-  m_cusScriptW->setWidget(m_scriptViewW);
-  m_cusScriptW->setItemModel(true);
-  vlay3->addWidget(m_cusScriptW);
-  vlay3->addSpacing(15);
-  m_scriptManage->setWidget(m_scriptMangeW);
-
-  auto vlay4 = new QVBoxLayout(m_cusModuleW);
-  vlay4->setContentsMargins(0, 0, 0, 0);
-  vlay4->setSpacing(0);
-
-  QStringList modulelist;
-  modulelist << MainWindow::tr("气油缸") << MainWindow::tr("飞达")
-             << MainWindow::tr("Tray盒") << MainWindow::tr("弹夹");
-
-  for (int i = 0; i < modulelist.size(); ++i) {
-    auto item = new YDMenuItem(i, m_cusModuleW);
-    item->setText(modulelist[i]);
-    vlay4->addWidget(item);
-    connect(item, &YDMenuItem::sigClicked, this, &MainWindow::showCusModule);
-  }
-  vlay4->addSpacing(15);
-  m_cusModule->setWidget(m_cusModuleW);
-
-  auto vlay5 = new QVBoxLayout(m_moveSysW);
-  vlay5->setContentsMargins(0, 0, 0, 0);
-  vlay5->setSpacing(0);
-
-  QStringList watchlist;
-  watchlist << MainWindow::tr("轴控制") << MainWindow::tr("气油缸控制")
-            << MainWindow::tr("输入状态") << MainWindow::tr("输出状态");
-
-  for (int i = 0; i < watchlist.size(); ++i) {
-    auto item = new YDMenuItem(i, m_moveSysW);
-    item->setText(watchlist[i]);
-    vlay5->addWidget(item);
-  }
-  vlay5->addSpacing(15);
-
-  m_moveSystem->setWidget(m_moveSysW);
-  m_moveLogic->setWidget(m_logicTree);
-
-  QVBoxLayout *logLayout = new QVBoxLayout(ui->widget_2);
-  logLayout->setSpacing(0);
-  logLayout->setContentsMargins(2, 0, 4, 1);
-  logLayout->addWidget(m_logDlg);
-
-  QVBoxLayout *debugLayout = new QVBoxLayout(ui->dockWidgetContents_5);
-  debugLayout->setSpacing(0);
-  debugLayout->setContentsMargins(2, 0, 4, 1);
-  debugLayout->addWidget(m_infoDlg);
-
-  ui->a_wpromg->setChecked(true);
-  ui->a_wgbvar->setChecked(true);
-  ui->a_wwyvar->setChecked(true);
-  ui->a_wtpvar->setChecked(true);
-  ui->a_wsfvar->setChecked(true);
-  ui->a_wcylinder->setChecked(true);
-  ui->a_wfeida->setChecked(true);
-  ui->a_wtrayp->setChecked(true);
-  ui->a_wdanjia->setChecked(true);
-
-  connect(ui->a_wpromg, &QAction::triggered, this,
-          &MainWindow::slotWidgetAction);
-  connect(ui->a_wgbvar, &QAction::triggered, this,
-          &MainWindow::slotWidgetAction);
-  connect(ui->a_wwyvar, &QAction::triggered, this,
-          &MainWindow::slotWidgetAction);
-  connect(ui->a_wtpvar, &QAction::triggered, this,
-          &MainWindow::slotWidgetAction);
-  connect(ui->a_wsfvar, &QAction::triggered, this,
-          &MainWindow::slotWidgetAction);
-  connect(ui->a_wcylinder, &QAction::triggered, this,
-          &MainWindow::slotWidgetAction);
-  connect(ui->a_wfeida, &QAction::triggered, this,
-          &MainWindow::slotWidgetAction);
-  connect(ui->a_wtrayp, &QAction::triggered, this,
-          &MainWindow::slotWidgetAction);
-  connect(ui->a_wdanjia, &QAction::triggered, this,
-          &MainWindow::slotWidgetAction);
-
-  connect(ui->a_doldebug, &QAction::triggered, this,
-          &MainWindow::slotDebugTrigger);
 }
-
-// void ::on_addTask_clicked() {
-//   m_menuModel->addTree(m_taskIndex);
-//   m_logicTree->expand(m_taskIndex);
-// }
-
-// void MainWindow::on_delTask_clicked() {
-//   m_menuModel->removeTree(m_taskIndex);
-//   m_taskIndex = QModelIndex();
-//   m_logicTree->setCurrentIndex(m_taskIndex);
-// }
 
 //菜单栏
 
@@ -2329,7 +2835,14 @@ void MainWindow::on_a_new_triggered() {
   m_createPDlg->open();
 }
 
-void MainWindow::on_a_close_triggered() { YDProjectManage::closeProject(); }
+void MainWindow::on_a_close_triggered() {
+  YDProjectManage::closeProject();
+  setBtnState(false);
+  ui->a_new->setEnabled(true);
+  ui->a_open->setEnabled(true);
+
+  initOpenMenu();
+}
 
 void MainWindow::on_a_rename_triggered() {
   m_changeDlg->clear();
@@ -2339,6 +2852,7 @@ void MainWindow::on_a_rename_triggered() {
 void MainWindow::on_a_save_triggered() {
   setFocus();
   YDProjectManage::saveProject();
+  // screenShot();
 }
 
 void MainWindow::on_a_saveall_triggered() {
@@ -2365,14 +2879,232 @@ void MainWindow::on_a_dupload_triggered() {}
 
 void MainWindow::on_a_ddownload_triggered() {}
 
-void MainWindow::on_a_doldebug_triggered() {}
+void MainWindow::on_a_dstartz_triggered() { YDDgHelper::ExecuteHomeMove(); }
 
-void MainWindow::on_a_dstartz_triggered() {}
+void MainWindow::on_a_dstartm_triggered() { YDDgHelper::StartMainLogicTask(); }
 
-void MainWindow::on_a_dstartm_triggered() {}
+void MainWindow::on_a_dpausem_triggered() {
+  YDDgHelper::SuspendMainLogicTask();
+}
 
-void MainWindow::on_a_dpausem_triggered() {}
-
-void MainWindow::on_a_dstopm_triggered() {}
+void MainWindow::on_a_dstopm_triggered() { YDDgHelper::StopMainLogicTask(); }
 
 void MainWindow::on_a_ttalkset_triggered() { m_netSetDlg->open(); }
+
+void MainWindow::on_DelVar_clicked() {
+  YDVariable *vg = reinterpret_cast<YDVariable *>(m_varIndex.internalPointer());
+  auto index = ui->VarView->currentIndex();
+  if (index.isValid()) {
+    int row = index.row();
+    auto list = YDProjectManage::GetGroupedGlobalVars(vg->groupId());
+
+    if (row < list.size()) {
+      auto var = list[row];
+      auto rb = QMessageBox::information(
+          this, MainWindow::tr("提示"), MainWindow::tr("是否删除?"),
+          MainWindow::tr("确认"), MainWindow::tr("取消"));
+
+      if (0 == rb) {
+        if (YDProjectManage::DeleteGlobalVar(var->variable_id))
+          YDLogger::info(MainWindow::tr("删除全局变量: %1 成功")
+                             .arg(STRTQSTR(var->variable_name.c_str())));
+
+        m_variablModel->setGroupId(vg->groupId());
+      }
+    }
+  } else {
+    QMessageBox::warning(nullptr, MainWindow::tr("提示"),
+                         MainWindow::tr("请选择要删除的变量!"));
+  }
+}
+
+void MainWindow::on_DelSafeVar_clicked() {
+  YDVariable *vg =
+      reinterpret_cast<YDVariable *>(m_safeVarIndex.internalPointer());
+  auto index = ui->SafeVarView->currentIndex();
+  if (index.isValid()) {
+    int row = index.row();
+    auto list = YDProjectManage::getGroupedSafeVariables(vg->groupId());
+
+    if (row < list.size()) {
+      auto var = list[row];
+      auto rb = QMessageBox::information(
+          this, MainWindow::tr("提示"), MainWindow::tr("是否删除?"),
+          MainWindow::tr("确认"), MainWindow::tr("取消"));
+
+      if (0 == rb) {
+        if (YDProjectManage::DeleteSafeVar(var->variable_id))
+          YDLogger::info(MainWindow::tr("删除安全变量: %1 成功")
+                             .arg(STRTQSTR(var->variable_name.c_str())));
+        m_safeVarModel->setGroupId(vg->groupId());
+      }
+    }
+  } else {
+    QMessageBox::warning(nullptr, MainWindow::tr("提示"),
+                         MainWindow::tr("请选择要删除的变量!"));
+  }
+}
+
+void MainWindow::on_DelVa_2_clicked() {
+  YDVariable *vg =
+      reinterpret_cast<YDVariable *>(m_reciVarIndex.internalPointer());
+  auto index = ui->VarView_2->currentIndex();
+  if (index.isValid()) {
+    int row = index.row();
+    auto list = YDProjectManage::GetGroupedReciVars(vg->groupId());
+
+    if (row < list.size()) {
+      auto var = list[row];
+      auto rb = QMessageBox::information(
+          this, MainWindow::tr("提示"), MainWindow::tr("是否删除?"),
+          MainWindow::tr("确认"), MainWindow::tr("取消"));
+
+      if (0 == rb) {
+        if (YDProjectManage::DeleteReciVar(var->variable_id))
+          YDLogger::info(MainWindow::tr("删除配方变量: %1 成功")
+                             .arg(STRTQSTR(var->variable_name.c_str())));
+        m_reciVarModel->setGroupId(vg->groupId());
+      }
+    }
+  } else {
+    QMessageBox::warning(nullptr, MainWindow::tr("提示"),
+                         MainWindow::tr("请选择要删除的变量!"));
+  }
+}
+
+void MainWindow::on_DelVar_4_clicked() {
+  YDVariable *vg =
+      reinterpret_cast<YDVariable *>(m_tempVarIndex.internalPointer());
+  auto index = ui->VarView_4->currentIndex();
+  if (index.isValid()) {
+    int row = index.row();
+    auto list = YDProjectManage::GetGroupedTempVars(vg->groupId());
+
+    if (row < list.size()) {
+      auto var = list[row];
+      auto rb = QMessageBox::information(
+          this, MainWindow::tr("提示"), MainWindow::tr("是否删除?"),
+          MainWindow::tr("确认"), MainWindow::tr("取消"));
+
+      if (0 == rb) {
+        if (YDProjectManage::DeleteTempVar(var->variable_id))
+          YDLogger::info(MainWindow::tr("删除临时变量"
+                                        ": %1 成功")
+                             .arg(STRTQSTR(var->variable_name.c_str())));
+        m_tempVarModel->setGroupId(vg->groupId());
+      }
+    }
+  } else {
+    QMessageBox::warning(nullptr, MainWindow::tr("提示"),
+                         MainWindow::tr("请选择要删除的变量!"));
+  }
+}
+
+/**
+ * @brief 启动调试
+ */
+void MainWindow::on_a_startDebug_triggered() {
+  if (judgeNetWorkEmpty()) {
+    return;
+  }
+  ui->a_doldebug->setChecked(true);
+  ui->a_startDebug->setEnabled(false);
+  ui->a_closeDebug->setEnabled(true);
+  initDebugActionEnable(true);
+  YDProjectManage::OpenOnlineDebug(true);
+  YDLogger::info(MainWindow::tr("启动在线调试."));
+  emit start();
+}
+
+void MainWindow::on_a_closeDebug_triggered() {
+  ui->a_doldebug->setChecked(false);
+  ui->a_startDebug->setEnabled(true);
+  ui->a_closeDebug->setEnabled(false);
+  initDebugActionEnable(false);
+  YDProjectManage::OpenOnlineDebug(false);
+  YDLogger::info(MainWindow::tr("关闭在线调试."));
+  emit stop();
+}
+
+/**
+ * @brief 在线调试
+ * @param checked
+ */
+void MainWindow::on_a_doldebug_triggered(bool checked) {
+  if (judgeNetWorkEmpty()) {
+    ui->a_doldebug->setChecked(false);
+    return;
+  }
+  initDebugActionEnable(checked);
+  YDProjectManage::OpenOnlineDebug(checked);
+  if (checked) {
+    ui->a_startDebug->setEnabled(false);
+    ui->a_closeDebug->setEnabled(true);
+    YDLogger::info(MainWindow::tr("启动在线调试."));
+    emit start();
+  } else {
+    ui->a_startDebug->setEnabled(true);
+    ui->a_closeDebug->setEnabled(false);
+    YDLogger::info(MainWindow::tr("关闭在线调试."));
+    emit stop();
+  }
+}
+
+void MainWindow::on_a_LogicStart_triggered() {
+  ui->a_LogicStart->setEnabled(false);
+  ui->a_LogicStop->setEnabled(true);
+
+  YDHelper::setTestStart(true);
+  m_isLogicTaskStart = true;
+  auto index = m_logicTree->currentIndex();
+  if (index.isValid()) {
+    YDTask *o = reinterpret_cast<YDTask *>(index.internalPointer());
+    if (o) {
+      std::string xmlstr;
+      m_taskId = o->id();
+      YDProjectManage::getTaskXmlizedProcesses(m_taskId, xmlstr);
+      YDDgHelper::startLogicTaskDebug(m_taskId, xmlstr);
+    }
+  }
+}
+
+void MainWindow::on_a_LogicStop_triggered() {
+  ui->a_LogicStart->setEnabled(true);
+  ui->a_LogicStop->setEnabled(false);
+  YDHelper::setTestStart(false);
+
+  m_isLogicTaskStart = false;
+  YDDgHelper::stopLogicTaskDebug(m_taskId);
+}
+
+void MainWindow::SlotTimingSave() {
+  YDLogger::info(QObject::tr("自动保存中!"));
+  YDProjectManage::saveProject();
+}
+
+void MainWindow::on_a_notSave_triggered() {
+  setSelectTime(0);
+  emit stopTiming();
+}
+
+void MainWindow::on_a_save5_triggered() {
+  setSelectTime(1);
+  emit updateTiming(5 * 60 * 1000);
+}
+
+void MainWindow::on_a_save10_triggered() {
+  setSelectTime(2);
+  emit updateTiming(10 * 60 * 1000);
+}
+
+void MainWindow::on_a_save20_triggered() {
+  setSelectTime(3);
+  emit updateTiming(20 * 60 * 1000);
+}
+
+void MainWindow::on_a_save30_triggered() {
+  setSelectTime(4);
+  emit updateTiming(30 * 60 * 1000);
+}
+
+void MainWindow::on_a_habout_triggered() { m_aboutDlg->open(); }

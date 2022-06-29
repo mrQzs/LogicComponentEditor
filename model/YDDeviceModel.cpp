@@ -1,5 +1,6 @@
 #include "YDDeviceModel.h"
 
+#include "common/YDHelper.h"
 #include "core/YDProjectManage.h"
 
 YDDeviceModel::YDDeviceModel(QObject *parent) : QAbstractListModel{parent} {}
@@ -22,7 +23,6 @@ int YDDeviceModel::rowCount(const QModelIndex &) const {
 
 QVariant YDDeviceModel::data(const QModelIndex &index, int role) const {
   auto list = YDProjectManage::getMotionDevices();
-  if (Qt::DisplayRole == role)
-    return QString::fromLocal8Bit(list[index.row()]->base.name);
+  if (Qt::DisplayRole == role) return STRTQSTR(list[index.row()]->base.name);
   return QVariant();
 }

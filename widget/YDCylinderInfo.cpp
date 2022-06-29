@@ -12,6 +12,7 @@
 #include <QTabWidget>
 #include <QVBoxLayout>
 
+#include "common/YDHelper.h"
 #include "core/YDProjectManage.h"
 #include "widget/YDNameLineEdit.h"
 
@@ -38,8 +39,8 @@ YDCylinderInfo::YDCylinderInfo(QWidget *parent)
   auto dtypes = YDProjectManage::getPredefinedDeviceTypes();
   for (auto d : dtypes) {
     if (d->id == DEVICE_TYPE_ID_CYLINDER)
-      deviceName = QString("%1 %2").arg(QString::fromLocal8Bit(d->vendor),
-                                        QString::fromLocal8Bit(d->model));
+      deviceName =
+          QString("%1 %2").arg(STRTQSTR(d->vendor), STRTQSTR(d->model));
   }
 
   m_typeCombo->addItem(deviceName);
@@ -225,7 +226,7 @@ void YDCylinderInfo::slotWayFSelect(int index) {
     m_inputLabF->setText(YDCylinderInfo::tr("轴"));
     auto axisList = YDProjectManage::getAxisList();
     for (auto a : axisList) {
-      QString name = QString::fromLocal8Bit(a->axis_name.c_str());
+      QString name = STRTQSTR(a->axis_name.c_str());
       list << name;
     }
     m_delayLabF->setText(YDCylinderInfo::tr("编码器值(mm)"));
@@ -234,7 +235,7 @@ void YDCylinderInfo::slotWayFSelect(int index) {
     m_inputLabF->setText(YDCylinderInfo::tr("输入"));
     auto varList = YDProjectManage::getDIInfos();
     for (auto a : varList) {
-      QString name = QString::fromLocal8Bit(a->io_name.c_str());
+      QString name = STRTQSTR(a->io_name.c_str());
       list << name;
     }
     m_delayLabF->setText(YDCylinderInfo::tr("延迟时间(ms)"));
@@ -258,7 +259,7 @@ void YDCylinderInfo::slotWayBSelect(int index) {
     m_inputLabB->setText(YDCylinderInfo::tr("轴"));
     auto axisList = YDProjectManage::getAxisList();
     for (auto a : axisList) {
-      QString name = QString::fromLocal8Bit(a->axis_name.c_str());
+      QString name = STRTQSTR(a->axis_name.c_str());
       list << name;
     }
     m_delayLabB->setText(YDCylinderInfo::tr("编码器值(mm)"));
@@ -267,7 +268,7 @@ void YDCylinderInfo::slotWayBSelect(int index) {
     m_inputLabB->setText(YDCylinderInfo::tr("输入"));
     auto varList = YDProjectManage::getDIInfos();
     for (auto a : varList) {
-      QString name = QString::fromLocal8Bit(a->io_name.c_str());
+      QString name = STRTQSTR(a->io_name.c_str());
       list << name;
     }
     m_delayLabB->setText(YDCylinderInfo::tr("延迟时间(ms)"));
@@ -388,7 +389,7 @@ void YDCylinderInfo::updateData() {
   list << "";
   auto varList = YDProjectManage::getDOInfos();
   for (auto a : varList) {
-    QString name = QString::fromLocal8Bit(a->io_name.c_str());
+    QString name = STRTQSTR(a->io_name.c_str());
     list << name;
   }
 
@@ -402,7 +403,7 @@ void YDCylinderInfo::updateData() {
   list << "";
   varList = YDProjectManage::getDIInfos();
   for (auto a : varList) {
-    QString name = QString::fromLocal8Bit(a->io_name.c_str());
+    QString name = STRTQSTR(a->io_name.c_str());
     list << name;
   }
 

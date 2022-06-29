@@ -50,6 +50,16 @@ class YDReciVariableModel;
 class YDTempVariableModel;
 class YDShowMessage;
 class QAciton;
+class YDBackPointDialog;
+class YDBPCodeManage;
+class YDLogThread;
+class YDDCylinderWidget;
+class YDDInputWidget;
+class YDDOutputWidget;
+class YDDAxisControl;
+class YDTimer;
+class YDDVarWidget;
+class YDAboutDialog;
 
 class MainWindow : public QMainWindow {
   Q_OBJECT
@@ -67,6 +77,14 @@ class MainWindow : public QMainWindow {
 
  signals:
   void sigResult(const QString &);
+  void sigLog(const QString &);
+  void start();
+  void stop();
+  void updateTime(int);
+
+  void startTiming();
+  void stopTiming();
+  void updateTiming(int);
 
  private slots:
   void slotTreeMenu(const QPoint &pos);
@@ -144,6 +162,8 @@ class MainWindow : public QMainWindow {
   void slotTaskItemDoubleClick(const QModelIndex &index);
 
   void addVar(int type, const QStringList &list, yd::vr::SystemVariable *);
+
+  void addReciVar(int type, const QStringList &list, yd::vr::SystemVariable *);
 
   void on_addVar_clicked();
 
@@ -229,6 +249,10 @@ class MainWindow : public QMainWindow {
 
   void slotDebugTrigger(bool);
 
+  void slotBPDialogFinished();
+
+  void slotTabClosed(int);
+
  private slots:
   // menu
   void showHardConfig();
@@ -254,6 +278,8 @@ class MainWindow : public QMainWindow {
   void showCusModule(int);
 
   void slotWidgetAction(bool);
+
+  void showMotionMonitoring(int type);
 
   //菜单栏
 
@@ -283,8 +309,6 @@ class MainWindow : public QMainWindow {
 
   void on_a_ddownload_triggered();
 
-  void on_a_doldebug_triggered();
-
   void on_a_dstartz_triggered();
 
   void on_a_dstartm_triggered();
@@ -295,7 +319,41 @@ class MainWindow : public QMainWindow {
 
   void on_a_ttalkset_triggered();
 
+  void on_DelVar_clicked();
+
+  void on_DelSafeVar_clicked();
+
+  void on_DelVa_2_clicked();
+
+  void on_DelVar_4_clicked();
+
+  void on_a_startDebug_triggered();
+
+  void on_a_closeDebug_triggered();
+
+  void on_a_doldebug_triggered(bool checked);
+
+  void on_a_LogicStart_triggered();
+
+  void on_a_LogicStop_triggered();
+
+  void SlotTimingSave();
+
+  void on_a_notSave_triggered();
+
+  void on_a_save5_triggered();
+
+  void on_a_save10_triggered();
+
+  void on_a_save20_triggered();
+
+  void on_a_save30_triggered();
+
+  void on_a_habout_triggered();
+
  private:
+  void initThread();
+
   void initMenu();
 
   void initRightMouseMenu();
@@ -320,6 +378,8 @@ class MainWindow : public QMainWindow {
 
   void initReciWidget();
 
+  void initDebugActionEnable(const bool &flag);
+
  private:
   void updateVarGroupModel();
 
@@ -331,9 +391,27 @@ class MainWindow : public QMainWindow {
 
   QStringList getCylinderInfos(yd::dev::Cylinder *cyl) const;
 
-  void updateProjectName();
+  void updateProjectName(QString rName = "");
 
   void updateRecipName();
+
+  bool judgeAxisEnabled();
+
+  bool judgeNetWorkEmpty();
+
+  void updateData();
+
+  void updateTaskData();
+
+  void stopThread();
+
+  void setControlEnabled(bool enable);
+
+  void screenShot();
+
+  void setBtnState(bool b);
+
+  void setSelectTime(int index);
 
  private:
   Ui::MainWindow *ui;
@@ -353,8 +431,11 @@ class MainWindow : public QMainWindow {
   QModelIndex m_varIndex;
   QModelIndex m_varViewIndex;
   QModelIndex m_safeVarIndex;
+  QModelIndex m_safeVarViewIndex;
   QModelIndex m_reciVarIndex;
+  QModelIndex m_reciViewIndex;
   QModelIndex m_tempVarIndex;
+  QModelIndex m_tempViewIndex;
   YDMenuModel *m_menuModel;
   YDMoveModel *m_moveModel;
   YDIOModel *m_ioModel;
@@ -380,6 +461,8 @@ class MainWindow : public QMainWindow {
 
   YDShowMessage *m_logDlg;   //日志信息
   YDShowMessage *m_infoDlg;  //调试信息
+
+  YDAboutDialog *m_aboutDlg;
 
   yd::COORDS m_coords;
 
@@ -431,5 +514,27 @@ class MainWindow : public QMainWindow {
   YDNameDialog *m_changeReciDlg;
   YDNameDialog *m_saveasReciDlg;
   bool m_isShowReciWidget;
+
+  // backpoint
+  YDBackPointDialog *m_backPDlg;
+  YDBPCodeManage *m_bpCodeManage;
+
+  //运动监控
+  YDDAxisControl *m_axisWidget;
+  YDDCylinderWidget *m_cylinderWidget;
+  YDDInputWidget *m_inputWidget;
+  YDDOutputWidget *m_outputWidget;
+  YDDVarWidget *m_varWidget;
+
+  // Logic
+  uint32 m_taskId;
+  int m_debugWindowType;
+  bool m_isLogicTaskStart;
+
+  // timer
+  YDTimer *m_timer;
+  QThread *m_timerThread;
+  YDTimer *m_timingSave;
+  QThread *m_timingThread;
 };
 #endif  // MAINWINDOW_H

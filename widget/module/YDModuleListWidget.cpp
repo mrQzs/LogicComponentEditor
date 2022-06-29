@@ -15,6 +15,7 @@
 #include "YDModuleWidget.h"
 #include "common/YDGlobal.h"
 #include "common/YDHelper.h"
+#include "common/YDLogger.h"
 #include "core/YDTask.h"
 #include "model/YDModulePropModel.h"
 #include "modules/YDModule.h"
@@ -150,7 +151,8 @@ void YDModuleListWidget::dropEvent(QDropEvent *e) {
         e->accept();
       }
     }
-  } else if (e->mimeData()->hasFormat(QStringLiteral("YD/Module"))) {
+  } else if (e->mimeData()->hasFormat(QStringLiteral("YD/Module")) &&
+             !YDProjectManage::IsOnlineDebugOpened()) {
     YDModuleCast cast;
     QByteArray encoded = e->mimeData()->data("YD/Module");
     QDataStream stream(&encoded, QIODeviceBase::ReadOnly);
@@ -161,6 +163,8 @@ void YDModuleListWidget::dropEvent(QDropEvent *e) {
     if (module->isValid()) {
       auto pos = e->position().toPoint();
       addModule(module, indexAt(pos).row());
+      QString log = YDHelper::moduleLog(module);
+      YDLogger::info(YDModuleListWidget::tr("添加 %1 成功").arg(log));
     } else {
       QMessageBox::warning(
           this, YDModuleListWidget::tr("提示"),
@@ -192,16 +196,7 @@ void YDModuleListWidget::startDrag(Qt::DropActions) {
   drag->setMimeData(mimeData);
   drag->setHotSpot({0, 0});
 
-  switch (m->type()) {
-    case Module::IfElse_Condition:
-    case Module::Times_Loop:
-    case Module::Condition_Loop: {
-      drag->setPixmap(m->preview(1));
-    } break;
-    default: {
-      drag->setPixmap(m->preview());
-    } break;
-  }
+  drag->setPixmap(m->preview());
 
   if (drag->exec(Qt::MoveAction) == Qt::MoveAction) {
     auto w = itemWidget(item);
@@ -226,7 +221,7 @@ void YDModuleListWidget::slotRemoveModule(bool) {
   if (index.isValid()) {
     YDModuleCast cast;
     cast.i = qvariant_cast<qintptr>(index.data(Qt::UserRole));
-    auto rb = QMessageBox::information(this, YDModuleListWidget::tr("提示"),
+    auto rb = QMessageBox::information(nullptr, YDModuleListWidget::tr("提示"),
                                        YDModuleListWidget::tr("是否删除?"),
                                        YDModuleListWidget::tr("确认"),
                                        YDModuleListWidget::tr("取消"));
@@ -234,6 +229,8 @@ void YDModuleListWidget::slotRemoveModule(bool) {
     if (0 == rb) {
       delete takeItem(index.row());
       YDHelper::getModPropModel()->setModule(nullptr);
+      QString log = YDHelper::moduleLog(cast.ptr);
+      YDLogger::info(YDModuleListWidget::tr("删除 %1 成功").arg(log));
       cast.ptr->release();
       delete cast.ptr;
       selectModule = nullptr;

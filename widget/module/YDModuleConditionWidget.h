@@ -19,6 +19,7 @@ class YDModuleConditionWidget : public QListWidget {
   void setTask(YDTask *task);
   int realCount();
   void resizeModule();
+  bool isParent(YDModule *p, quint32 id);
 
   // QListWidget interface
  protected:

@@ -25,7 +25,7 @@ QVariant YDIOModel::data(const QModelIndex &index, int role) const {
   if (Qt::DisplayRole == role)
     return m_strlist[index.row()];
   else if (Qt::DecorationRole == role)
-    return QIcon(":/Module/Module.png");
+    return QIcon(":/Module/ModuleS.png");
   return QVariant();
 }
 

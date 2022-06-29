@@ -3,12 +3,16 @@
 #include <QHoverEvent>
 #include <QPainter>
 
+#include "common/YDHelper.h"
+
 YDMenuItem::YDMenuItem(int type, QWidget *parent)
-    : YDWidget(type, parent), m_isHover{false} {
+    : YDWidget(type, parent), m_isHover{false}, m_isDebug{false} {
   setFixedHeight(30);
   m_icon = ":/Icon/Debug.png";
   m_text = "自定义脚本";
   setAttribute(Qt::WA_Hover);
+
+  m_font.setPixelSize(14);
 }
 
 YDMenuItem::~YDMenuItem() {}
@@ -16,6 +20,8 @@ YDMenuItem::~YDMenuItem() {}
 void YDMenuItem::setIcon(const QString &str) { m_icon = str; }
 
 void YDMenuItem::setText(const QString &text) { m_text = text; }
+
+void YDMenuItem::setDebug(const bool &flag) { m_isDebug = flag; }
 
 void YDMenuItem::paintEvent(QPaintEvent *) {
   QPainter p(this);
@@ -34,7 +40,6 @@ void YDMenuItem::paintEvent(QPaintEvent *) {
   QPen pen(Qt::black);
   pen.setWidthF(1.42);
   p.setPen(pen);
-  // p.drawLine(W, 0, W, H);
   p.drawLine(0, H, W, H);
   p.restore();
 
@@ -52,10 +57,13 @@ void YDMenuItem::paintEvent(QPaintEvent *) {
   }
 
   if (!m_text.isEmpty()) {
-    p.setPen(Qt::black);
-    QFont font;
-    font.setPixelSize(14);
-    p.setFont(font);
+    if (m_isDebug && !YDHelper::isDebugMode()) {
+      p.setPen(QColor(0x80, 0x80, 0x80));
+    } else {
+      p.setPen(Qt::black);
+    }
+
+    p.setFont(m_font);
     x = x + w + 10;
     auto m = p.fontMetrics();
     h = m.height();

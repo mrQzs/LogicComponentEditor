@@ -1,9 +1,11 @@
 #include "YDDOutputModel.h"
 
+#include <QMouseEvent>
 #include <QPainter>
 #include <QStyleOption>
 
 #include "YDDgHelper.h"
+#include "common/YDHelper.h"
 #include "core/YDProjectManage.h"
 
 YDDOutputModel::YDDOutputModel(QObject *parent)
@@ -67,11 +69,11 @@ QVariant YDDOutputModel::data(const QModelIndex &index, int role) const {
   if (role == Qt::DisplayRole) {
     switch (column) {
       case 0:
-        return QString::fromLocal8Bit(var->io_name.c_str());
+        return STRTQSTR(var->io_name.c_str());
       case 1:
         return state ? "True" : "False";
       case 2:
-        return QString::fromLocal8Bit(var->io_label.c_str());
+        return STRTQSTR(var->io_label.c_str());
     }
   } else if ((Qt::UserRole + 1) == role) {
     return state;
@@ -99,6 +101,22 @@ void YDDOutputModel::updateData() {
 }
 
 void YDDOutputModel::setGroup(int id) { m_id = id; }
+
+void YDDOutputModel::SlotButtonClicked(const QModelIndex &index) {
+  const auto &var = m_ioInfos.at(index.row());
+  uint64 ullData = ((uint64)var->device_id << 32) + var->io_index;
+
+  auto state = false;
+  auto itor = m_mapState.find(ullData);
+  if (itor != m_mapState.end()) state = (*itor).second;
+
+  uint16 usIndex = var->io_index % 1000;
+  uint16 usType = var->io_index / 1000;
+
+  YDDgHelper::sendDOState(var->device_id, usIndex, usType, !state);
+
+  m_ioInfos = YDProjectManage::getDOInfos();
+}
 
 YDDOutputDeletegate::YDDOutputDeletegate(QWidget *parent)
     : QStyledItemDelegate(parent) {}
@@ -129,4 +147,17 @@ void YDDOutputDeletegate::paint(QPainter *painter,
 
   painter->setPen(Qt::NoPen);
   painter->drawRect(rect);
+}
+
+bool YDDOutputDeletegate::editorEvent(QEvent *event, QAbstractItemModel *model,
+                                      const QStyleOptionViewItem &option,
+                                      const QModelIndex &index) {
+  switch (event->type()) {
+    case QEvent::MouseButtonPress:
+      emit sigClicked(index);
+      break;
+    default:
+      break;
+  }
+  return QStyledItemDelegate::editorEvent(event, model, option, index);
 }

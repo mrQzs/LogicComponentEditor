@@ -8,7 +8,7 @@
 class QToolButton;
 class YDListView;
 class YDTableView;
-class YDAxisTableView;
+class YDSingleTableView;
 class QTabWidget;
 class QPushButton;
 class YDAddDeviceDialog;
@@ -58,15 +58,15 @@ class YDDeviceSetDialog : public YDDialog {
   YDDeviceModel *m_deviceModel;
 
   QWidget *m_axisW;
-  YDAxisTableView *m_axisView;
+  YDSingleTableView *m_axisView;
   YDDeviceAxisModel *m_axisModel;
 
   QWidget *m_inputW;
-  YDTableView *m_inputView;
+  YDSingleTableView *m_inputView;
   YDDeviceInputModel *m_inputModel;
 
   QWidget *m_outputW;
-  YDTableView *m_outputView;
+  YDSingleTableView *m_outputView;
   YDDeviceOutputModel *m_outputModel;
 
   QModelIndex m_deviceIndex;

@@ -153,10 +153,22 @@ constexpr uint8 CONFIG_FORMA_MYSQL = 3;
 constexpr uint32 CURRENT_VERSION = 1100;
 constexpr uint8 CURRENT_CONFIG_FORMAT = CONFIG_FORMA_XML;
 
+// 跨语言接口返回值
+constexpr int32 CROSS_INTERFACE_RESULT_SUCCESS = 0;
+constexpr int32 CROSS_INTERFACE_RESULT_FAILED = -1;
+constexpr int32 CROSS_INTERFACE_RESULT_RETRY = 1;
+
+// 默认 .Net 命名
+constexpr char DEFAULT_DOTNET_NAMESPACE[] = "YDApplication\0";
+constexpr char DEFAULT_DOTNET_CLASS[] = "YDEntry\0";
+constexpr char DEFAULT_DOTNET_FUNCTION[] = "Execute\0";
+
 // 进程名称定义
 constexpr char PROCESS_NAME_DAEMON[] = "YDDaemon\0";
 constexpr char PROCESS_NAME_LOGIC_CONTROLLER[] = "YDLogicController\0";
 constexpr char PROCESS_NAME_DATA_GATEWAY[] = "YDDataGateway\0";
+constexpr char PROCESS_NAME_DATA_UPLOADER[] = "YDDataUploader\0";
+constexpr char PROCESS_NAME_SCRIPT_EXECUTOR[] = "YDScriptExecutor\0";
 
 // 配置名称定义
 constexpr char CONFIG_PATH_NAME[] = "configs\0";
@@ -170,6 +182,8 @@ constexpr char TEMP_PATH_NAME[] = "temp\0";
 constexpr char SCRIPT_PATH_NAME[] = "scripts\0";
 constexpr char PROJECT_CFG_NAME[] = "Project.xml\0";
 constexpr char RECIPE_CFG_NAME[] = "Recipe.xml\0";
+constexpr char PROJECT_DATA_NAME[] = "ProjectData.xml\0";
+constexpr char RECIPE_DATA_NAME[] = "RecipeData.xml\0";
 
 // 设备类型名称定义
 constexpr char MOTION_TYPE_NAME[] = "mod:dev:mc\0";
@@ -331,15 +345,16 @@ constexpr uint16 COMMAND_TYPE_AXIS_ENABLE = 116;
 constexpr uint16 COMMAND_TYPE_AXIS_CLEAR = 117;
 constexpr uint16 COMMAND_TYPE_AXIS_ZERO = 118;
 constexpr uint16 COMMAND_TYPE_AXIS_VELOCITY = 119;
-constexpr uint16 COMMAND_TYPE_CYLINDER_CONTROL = 120;
-constexpr uint16 COMMAND_TYPE_START_TASK_DEBUG = 121;
-constexpr uint16 COMMAND_TYPE_STOP_TASK_DEBUG = 122;
-constexpr uint16 COMMAND_TYPE_SUSPEND_TASK_DEBUG = 123;
-constexpr uint16 COMMAND_TYPE_START_MAIN_TASK_DEBUG = 124;
-constexpr uint16 COMMAND_TYPE_STOP_MAIN_TASK_DEBUG = 125;
-constexpr uint16 COMMAND_TYPE_SUSPEND_MAIN_TASK_DEBUG = 126;
-constexpr uint16 COMMAND_TYPE_EXECUTE_HOME_MOVE = 127;
-constexpr uint16 COMMAND_TYPE_INTERACTION = 40;	// 交互指令
+constexpr uint16 COMMAND_TYPE_SET_AXIS_SOFT_LIMIT = 120;
+constexpr uint16 COMMAND_TYPE_CYLINDER_CONTROL = 201;
+constexpr uint16 COMMAND_TYPE_START_TASK_DEBUG = 301;
+constexpr uint16 COMMAND_TYPE_STOP_TASK_DEBUG = 302;
+constexpr uint16 COMMAND_TYPE_SUSPEND_TASK_DEBUG = 303;
+constexpr uint16 COMMAND_TYPE_START_MAIN_TASK_DEBUG = 304;
+constexpr uint16 COMMAND_TYPE_STOP_MAIN_TASK_DEBUG = 305;
+constexpr uint16 COMMAND_TYPE_SUSPEND_MAIN_TASK_DEBUG = 306;
+constexpr uint16 COMMAND_TYPE_EXECUTE_HOME_MOVE = 401;
+constexpr uint16 COMMAND_TYPE_INTERACTION = 501;
 
 // 轴规划运动模式
 constexpr uint32 AXIS_PROFILE_MOVE_ABSOLUTE = COMMAND_TYPE_ABSOLUTE_MOVE;
@@ -459,6 +474,12 @@ constexpr uint8 LOGIC_TASK_STATE_IN_PROCESSING = LOGIC_STATE_IN_PROCESSING;
 constexpr uint8 LOGIC_TASK_STATE_COMPLETED = LOGIC_STATE_COMPLETED;
 constexpr uint8 LOGIC_TASK_STATE_FAILED = LOGIC_STATE_FAILED;
 
+// 调试状态
+constexpr uint8 DEBUG_STATE_STOPPED = 0;
+constexpr uint8 DEBUG_STATE_IN_PROCESSING = 1;
+constexpr uint8 DEBUG_STATE_SUSPENDED = 2;
+constexpr uint8 DEBUG_STATE_FAILED = 3;
+
 // 逻辑节点类型
 constexpr uint8	LOGIC_NODE_TASK = 1;
 constexpr uint8	LOGIC_NODE_SUBTASK = 2;
@@ -501,41 +522,42 @@ constexpr uint8 MAX_ROLE_NUMBER = 20;
 constexpr uint8 MAX_PRIVILEGE_NUMBER = 40;
 
 // 错误代码
-constexpr int32 PROJECT_ERROR_NONE = 0;	// 无错误
-constexpr int32 PROJECT_ERROR_GENERAL_FAILURE = -1;	// 通用错误
-constexpr int32 PROJECT_ERROR_INITIALIZE_FAILED = -2;	// 初始化失败
-constexpr int32 PROJECT_ERROR_LOAD_FAILED = -3;	// 加载失败
-constexpr int32 PROJECT_ERROR_SAVE_FAILED = -4;	// 保存失败
-constexpr int32 PROJECT_ERROR_CREATE_FAILED = -5;	// 创建失败
-constexpr int32 PROJECT_ERROR_UPDATE_FAILED = -6;	// 更新失败
-constexpr int32 PROJECT_ERROR_GET_FAILED = -7;	// 获取失败
-constexpr int32 PROJECT_ERROR_DELETE_FAILED = -8;	// 删除失败
-constexpr int32 PROJECT_ERROR_EXECUTE_FAILED = -9;	// 执行失败
-constexpr int32 PROJECT_ERROR_CONNECT_FAILED = -10;	// 连接失败
-constexpr int32 PROJECT_ERROR_COMMUNICATION_FAILED = -11;	// 通讯失败
-constexpr int32 PROJECT_ERROR_LOCK_FAILED = -12;	// 加锁失败
-constexpr int32 PROJECT_ERROR_UNLOCK_FAILED = -13;	// 解锁失败
-constexpr int32 PROJECT_ERROR_LOGIN_FAILED = -14;	// 登录失败
-constexpr int32 PROJECT_ERROR_INVALID_INPUT = -15;	// 无效输入
-constexpr int32 PROJECT_ERROR_NOT_FOUND = -16;	// 不存在
-constexpr int32 PROJECT_ERROR_NOT_RESPONSE = -17;	// 无响应
-constexpr int32 PROJECT_ERROR_NOT_CONNECTED = -18;	// 未连接
-constexpr int32 PROJECT_ERROR_NOT_INITIALIZED = -19;	// 未初始化
-constexpr int32 PROJECT_ERROR_IN_PROCESS = -20;	// 处理中
-constexpr int32 PROJECT_ERROR_EXISTING = -21;	// 已存在
-constexpr int32 PROJECT_ERROR_REPEATED = -22;	// 重复
-constexpr int32 PROJECT_ERROR_PWD_INCORRECT = -23;	// 密码错误
-constexpr int32 PROJECT_ERROR_USER_INCORRECT = -24;	// 用户错误
-constexpr int32 PROJECT_ERROR_EXPIRED = -25;	// 已过期
-constexpr int32 PROJECT_ERROR_TIME_OUT = -26;	// 已超时
-constexpr int32 PROJECT_ERROR_NOT_LOGIN = -27;	// 未登录
-constexpr int32 PROJECT_ERROR_UNAUTHORIZED = -28;	// 未授权
-constexpr int32 PROJECT_ERROR_AUTHCODE_MISMATCHED = -29;	// 授权码不匹配
-constexpr int32 PROJECT_ERROR_FULL = -30;	// 已满
-constexpr int32 PROJECT_ERROR_OVER_LIMIT = -31;	// 超出限制
-constexpr int32 PROJECT_ERROR_NOT_SUPPORTED = -32;	// 不支持
-constexpr int32 PROJECT_ERROR_IN_RUNNING = -33;	// 逻辑控制自动运行中
-constexpr int32 PROJECT_ERROR_INTERNAL = -1000;// 内部错误
+constexpr int32 PROJECT_ERROR_NONE = 0;										// 无错误
+constexpr int32 PROJECT_ERROR_BASE = -80000;								// 错误基址
+constexpr int32 PROJECT_ERROR_GENERAL_FAILURE = PROJECT_ERROR_BASE - 1;		// 通用错误
+constexpr int32 PROJECT_ERROR_INITIALIZE_FAILED = PROJECT_ERROR_BASE - 2;	// 初始化失败
+constexpr int32 PROJECT_ERROR_LOAD_FAILED = PROJECT_ERROR_BASE - 3;			// 加载失败
+constexpr int32 PROJECT_ERROR_SAVE_FAILED = PROJECT_ERROR_BASE - 4;			// 保存失败
+constexpr int32 PROJECT_ERROR_CREATE_FAILED = PROJECT_ERROR_BASE - 5;		// 创建失败
+constexpr int32 PROJECT_ERROR_UPDATE_FAILED = PROJECT_ERROR_BASE - 6;		// 更新失败
+constexpr int32 PROJECT_ERROR_GET_FAILED = PROJECT_ERROR_BASE - 7;			// 获取失败
+constexpr int32 PROJECT_ERROR_DELETE_FAILED = PROJECT_ERROR_BASE - 8;		// 删除失败
+constexpr int32 PROJECT_ERROR_EXECUTE_FAILED = PROJECT_ERROR_BASE - 9;		// 执行失败
+constexpr int32 PROJECT_ERROR_CONNECT_FAILED = PROJECT_ERROR_BASE - 10;		// 连接失败
+constexpr int32 PROJECT_ERROR_COMMUNICATION_FAILED = PROJECT_ERROR_BASE - 11;// 通讯失败
+constexpr int32 PROJECT_ERROR_LOCK_FAILED = PROJECT_ERROR_BASE - 12;		// 加锁失败
+constexpr int32 PROJECT_ERROR_UNLOCK_FAILED = PROJECT_ERROR_BASE - 13;		// 解锁失败
+constexpr int32 PROJECT_ERROR_LOGIN_FAILED = PROJECT_ERROR_BASE - 14;		// 登录失败
+constexpr int32 PROJECT_ERROR_INVALID_INPUT = PROJECT_ERROR_BASE - 15;		// 无效输入
+constexpr int32 PROJECT_ERROR_NOT_FOUND = PROJECT_ERROR_BASE - 16;			// 不存在
+constexpr int32 PROJECT_ERROR_NOT_RESPONSE = PROJECT_ERROR_BASE - 17;		// 无响应
+constexpr int32 PROJECT_ERROR_NOT_CONNECTED = PROJECT_ERROR_BASE - 18;		// 未连接
+constexpr int32 PROJECT_ERROR_NOT_INITIALIZED = PROJECT_ERROR_BASE - 19;	// 未初始化
+constexpr int32 PROJECT_ERROR_IN_PROCESS = PROJECT_ERROR_BASE - 20;			// 处理中
+constexpr int32 PROJECT_ERROR_EXISTING = PROJECT_ERROR_BASE - 21;			// 已存在
+constexpr int32 PROJECT_ERROR_REPEATED = PROJECT_ERROR_BASE - 22;			// 重复
+constexpr int32 PROJECT_ERROR_PWD_INCORRECT = PROJECT_ERROR_BASE - 23;		// 密码错误
+constexpr int32 PROJECT_ERROR_USER_INCORRECT = PROJECT_ERROR_BASE - 24;		// 用户错误
+constexpr int32 PROJECT_ERROR_EXPIRED = PROJECT_ERROR_BASE - 25;			// 已过期
+constexpr int32 PROJECT_ERROR_TIME_OUT = PROJECT_ERROR_BASE - 26;			// 已超时
+constexpr int32 PROJECT_ERROR_NOT_LOGIN = PROJECT_ERROR_BASE - 27;			// 未登录
+constexpr int32 PROJECT_ERROR_UNAUTHORIZED = PROJECT_ERROR_BASE - 28;		// 未授权
+constexpr int32 PROJECT_ERROR_AUTHCODE_MISMATCHED = PROJECT_ERROR_BASE - 29;// 授权码不匹配
+constexpr int32 PROJECT_ERROR_FULL = PROJECT_ERROR_BASE - 30;				// 已满
+constexpr int32 PROJECT_ERROR_OVER_LIMIT = PROJECT_ERROR_BASE - 31;			// 超出限制
+constexpr int32 PROJECT_ERROR_NOT_SUPPORTED = PROJECT_ERROR_BASE - 32;		// 不支持
+constexpr int32 PROJECT_ERROR_IN_RUNNING = PROJECT_ERROR_BASE - 33;			// 运行中
+constexpr int32 PROJECT_ERROR_INTERNAL = PROJECT_ERROR_BASE - 9000;			// 内部错误
 
 
 // 访问结果定义
@@ -693,10 +715,11 @@ constexpr uint8 AXIS_HOMEMODE_CHECKSIGNAL_BY_POSITIVEMOVE_IF_NEGATIVELIMIT_ON = 
 constexpr uint8 AXIS_HOMEMODE_CHECKSIGNAL_BY_NEGATIVEMOVE_IF_POSITIVELIMIT_ON = 2; // 轴先运动到正限位，然后向负方向查找原点信号， 当检测到原点信号时立即停止，当前位置为原点
 constexpr uint8 AXIS_HOMEMODE_CHECKSIGNAL_BY_ANTICLOCKWISEMOVE = 3; // 旋转轴向负方向（逆时针）查找原点信号，当检测到原点信号时 立即停止，当前位置为原点
 constexpr uint8 AXIS_HOMEMODE_CHECKSIGNAL_BY_CLOCKWISEMOVE = 4; // 旋转轴向正方向（顺时针）查找原点信号，当检测到原点信号时 立即停止，当前位置为原点
-constexpr uint8 AXIS_HOMEMODE_IF_POSITIVELIMIT_ON = 5; // 将该轴的负限位作为原点信号
-constexpr uint8 AXIS_HOMEMODE_IF_NEGATIVELIMIT_ON = 6; // 将该轴的正限位作为原点信号
+constexpr uint8 AXIS_HOMEMODE_IF_POSITIVELIMIT_ON = 5; // 将该轴的正限位作为原点信号
+constexpr uint8 AXIS_HOMEMODE_IF_NEGATIVELIMIT_ON = 6; // 将该轴的负限位作为原点信号
 
 // 运动轴暂停处理模式
+constexpr uint8 AXIS_PAUSEMODE_NONE = 0;					// 无暂停模式
 constexpr uint8 AXIS_PAUSEMODE_WAITFOR_MOVES_COMPLETED = 1; // 等待该轴的运动指令执行完成后再停止；
 constexpr uint8 AXIS_PAUSEMODE_SMOOTH_STOP_IMMEDIATELY = 2; // 该轴立即减速停止，重新启动后继续执行运动指令
 constexpr uint8 AXIS_PAUSEMODE_URGENT_STOP_IMMEDIATELY = 3; // 该轴立即紧急停止，重新启动后继续执行运动指令

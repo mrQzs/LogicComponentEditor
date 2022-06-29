@@ -4,9 +4,9 @@
 
 YDTableView::YDTableView(QWidget *parent) : QTableView{parent} {}
 
-YDAxisTableView::YDAxisTableView(QWidget *parent) : QTableView{parent} {}
+YDSingleTableView::YDSingleTableView(QWidget *parent) : QTableView{parent} {}
 
-void YDAxisTableView::mousePressEvent(QMouseEvent *event) {
+void YDSingleTableView::mousePressEvent(QMouseEvent *event) {
   auto index = this->indexAt(event->pos());
   clearFocus();
   if (index.isValid()) {

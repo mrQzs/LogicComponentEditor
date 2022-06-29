@@ -18,10 +18,12 @@ class YDScriptPropDialog : public QDialog {
  public:
   void setScritp(yd::adv::ExtendScript* script);
   int getType();
+  void setAddOrUpdate(bool flag);
 
  private slots:
   void slotOkClicked();
   void slotCancelClicked();
+  void slotWayCurrentIndexChange(int index);
 
  private:
   QLabel* m_name;
@@ -43,6 +45,8 @@ class YDScriptPropDialog : public QDialog {
   QPushButton* m_cancel;
 
   yd::adv::ExtendScript* m_script;
+
+  bool m_isAdd;
 };
 
 #endif  // YDSCRIPTPROPDIALOG_H

@@ -9,16 +9,18 @@
 #include <QPushButton>
 #include <QVBoxLayout>
 
-#include "YDLogo.h"
+#include "YDLabel.h"
 #include "YDNameDialog.h"
 #include "YDPicButton.h"
 #include "common/YDHelper.h"
 #include "core/YDProjectManage.h"
 #include "widget/YDNameLineEdit.h"
+#include "widget/YDProjectItem.h"
 
 YDProjectDialog::YDProjectDialog(QWidget *parent)
     : QDialog{parent},
-      m_logo{new YDLogo(this)},
+      m_logo{new YDLabel(this)},
+      m_text{new YDLabel(this)},
       m_widget1{new QWidget(this)},
       m_lab{new QLabel(m_widget1)},
       m_listW{new QListWidget(m_widget1)},
@@ -28,6 +30,11 @@ YDProjectDialog::YDProjectDialog(QWidget *parent)
       m_createPDlg{new YDNameDialog(this)} {
   setWindowTitle(YDProjectDialog::tr("打开/创建项目"));
   m_createPDlg->setBtnName(YDProjectDialog::tr("创建"));
+
+  m_logo->setFixedSize(512, 155);
+  m_logo->setPix(":/Icon/Logo.png");
+  m_text->setFixedSize(1024, 36);
+  m_text->setText(YDProjectDialog::tr("业务逻辑编辑软件"));
 
   init();
 
@@ -48,6 +55,7 @@ YDProjectDialog::YDProjectDialog(QWidget *parent)
   vlay->setContentsMargins(0, 0, 0, 0);
   vlay->setSpacing(0);
   vlay->addLayout(hlay2);
+  vlay->addWidget(m_text);
   vlay->addLayout(hlay);
 
   resize(1024, 680);
@@ -86,6 +94,12 @@ void YDProjectDialog::slotItemClicked(const QModelIndex &index) {
   if (YDProjectManage::openProject(name)) accept();
 }
 
+void YDProjectDialog::slotWidgetClicked(const QString &text) {
+  auto name = YDHelper::qstringToString(text);
+  m_name = text;
+  if (YDProjectManage::openProject(name)) accept();
+}
+
 void YDProjectDialog::init() {
   initWidget1();
   initWidget2();
@@ -109,12 +123,19 @@ void YDProjectDialog::initWidget1() {
   std::vector<std::string> names;
   YDProjectManage::enumuerateProjects(names);
 
-  QFont itemf;
-  itemf.setPixelSize(18);
-
   for (int i = 0; i < names.size(); ++i) {
-    m_listW->addItem(QString::fromLocal8Bit(names[i].c_str()));
-    m_listW->item(i)->setFont(itemf);
+    auto item = new QListWidgetItem(m_listW);
+    auto w = new YDProjectItem(m_listW);
+    item->setSizeHint(QSize(m_listW->width(), w->height()));
+    w->setBgColor("#f0f0f0");
+    w->setFtColor("#000000");
+    auto file = STRTQSTR(names[i].c_str());
+    w->setText(file);
+    w->setTime(getFileChangeTime(file));
+    w->setIcon(":/Icon/home.png");
+    m_listW->setItemWidget(item, w);
+    connect(w, &YDProjectItem::sigClicked, this,
+            &YDProjectDialog::slotWidgetClicked);
   }
 }
 
@@ -136,4 +157,24 @@ void YDProjectDialog::initWidget2() {
   m_create->setPic(":/Icon/Project.png");
 
   m_lab2->setText(YDProjectDialog::tr("开始使用"));
+}
+
+QString YDProjectDialog::getFileChangeTime(const QString &file) {
+  QString path =
+      QString("%1/configs").arg(QCoreApplication::applicationDirPath());
+
+  QDir dir(path);
+  if (dir.exists()) {
+    dir.setFilter(QDir::Dirs);
+    dir.setSorting(QDir::DirsFirst);
+    QFileInfoList list = dir.entryInfoList();
+
+    for (int i = 0; i < list.size(); ++i) {
+      if (list[i].fileName() == file) {
+        return QLocale::system().toString(list[i].lastModified(),
+                                          QString("yyyy-MM-dd ddd ap hh:mm"));
+      }
+    }
+  }
+  return QString();
 }

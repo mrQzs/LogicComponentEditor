@@ -4,6 +4,7 @@
 #include <QDebug>
 #include <QStringDecoder>
 
+#include "common/YDHelper.h"
 #include "core/YDProjectManage.h"
 
 YDPropertyAxis::YDPropertyAxis(YDProperty *parent)
@@ -47,7 +48,7 @@ void YDPropertyAxis::updateStrList() {
   m_enum << "";
   auto axisList = YDProjectManage::getAxisList();
   for (auto a : axisList) {
-    QString name = QString::fromLocal8Bit(a->axis_name.c_str());
+    QString name = STRTQSTR(a->axis_name.c_str());
     m_enum << name;
   }
 }

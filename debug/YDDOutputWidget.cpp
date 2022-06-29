@@ -37,6 +37,11 @@ YDDOutputWidget::YDDOutputWidget(QWidget *parent)
 
   m_model1->updateData();
   m_model2->updateData();
+
+  connect(m_deletegate1, &YDDOutputDeletegate::sigClicked, m_model1,
+          &YDDOutputModel::SlotButtonClicked);
+  connect(m_deletegate2, &YDDOutputDeletegate::sigClicked, m_model2,
+          &YDDOutputModel::SlotButtonClicked);
 }
 
 void YDDOutputWidget::updateData() {

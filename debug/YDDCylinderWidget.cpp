@@ -117,6 +117,9 @@ void YDDCylinderWidget::updateData() {
     m_state4->setState(state2.arrived);
     m_state5->setState(state1.alarmed);
     m_state6->setState(state2.alarmed);
+
+    m_forwardBtn->setText(QString::fromLocal8Bit(cyl->direction1_name));
+    m_backBtn->setText(QString::fromLocal8Bit(cyl->direction2_name));
   }
   update();
 }

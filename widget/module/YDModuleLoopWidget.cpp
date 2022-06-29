@@ -48,7 +48,7 @@ int YDModuleLoopWidget::high() const {
 }
 
 void YDModuleLoopWidget::init() {
-  m_head->setIcon(m_root->icon());
+  // m_head->setIcon(m_root->icon());
   m_head->setText(m_root->name());
 
   if (0 == m_type)
@@ -79,7 +79,8 @@ QList<uint32> YDModuleLoopWidget::getLoopModulesIds(uint32 id) {
         nextcast.i = qvariant_cast<qintptr>(
             m_loopWidget->item(i + 1)->data(Qt::UserRole));
         m->setNextId(nextcast.ptr->getLogicProcessId());
-      }
+      } else
+        m->setNextId(0);
     } else if (i > 0 && i <= m_loopWidget->count() - 2) {
       YDModuleCast precast;
       YDModuleCast nextcast;
@@ -118,7 +119,8 @@ void YDModuleLoopWidget::addLoopModules(
   }
 }
 
-void YDModuleLoopWidget::setState(const QMap<uint32, yd::proto::ProcState> &map) {
+void YDModuleLoopWidget::setState(
+    const QMap<uint32, yd::proto::ProcState> &map) {
   for (int i = 0; i < m_loopWidget->count(); ++i) {
     auto item = m_loopWidget->item(i);
     YDModuleCast cast;

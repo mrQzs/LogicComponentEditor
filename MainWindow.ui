@@ -57,7 +57,7 @@
        <number>-1</number>
       </property>
       <property name="currentIndex">
-       <number>2</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="MoveTool">
        <property name="geometry">
@@ -289,7 +289,22 @@
     <property name="title">
      <string>工具</string>
     </property>
+    <widget class="QMenu" name="a_timingSave">
+     <property name="title">
+      <string>定时保存</string>
+     </property>
+     <property name="icon">
+      <iconset resource="res/res.qrc">
+       <normaloff>:/Icon/Timing.png</normaloff>:/Icon/Timing.png</iconset>
+     </property>
+     <addaction name="a_notSave"/>
+     <addaction name="a_save5"/>
+     <addaction name="a_save10"/>
+     <addaction name="a_save20"/>
+     <addaction name="a_save30"/>
+    </widget>
     <addaction name="a_ttalkset"/>
+    <addaction name="a_timingSave"/>
    </widget>
    <widget class="QMenu" name="m_help">
     <property name="title">
@@ -437,7 +452,7 @@ background: #90d7ec;
    <property name="minimumSize">
     <size>
      <width>120</width>
-     <height>89</height>
+     <height>94</height>
     </size>
    </property>
    <property name="windowTitle">
@@ -473,7 +488,7 @@ background: #90d7ec;
    <property name="minimumSize">
     <size>
      <width>520</width>
-     <height>124</height>
+     <height>128</height>
     </size>
    </property>
    <property name="windowTitle">
@@ -509,12 +524,15 @@ background: #90d7ec;
       <layout class="QHBoxLayout" name="horizontalLayout_9">
        <item>
         <widget class="QToolButton" name="AddVarG">
+         <property name="toolTip">
+          <string>添加分组</string>
+         </property>
          <property name="text">
           <string>...</string>
          </property>
          <property name="icon">
           <iconset resource="res/res.qrc">
-           <normaloff>:/Icon/addBtn.png</normaloff>:/Icon/addBtn.png</iconset>
+           <normaloff>:/Icon/add1.png</normaloff>:/Icon/add1.png</iconset>
          </property>
          <property name="iconSize">
           <size>
@@ -526,12 +544,15 @@ background: #90d7ec;
        </item>
        <item>
         <widget class="QToolButton" name="DelVarG">
+         <property name="toolTip">
+          <string>删除分组</string>
+         </property>
          <property name="text">
           <string>...</string>
          </property>
          <property name="icon">
           <iconset resource="res/res.qrc">
-           <normaloff>:/Icon/delBtn.png</normaloff>:/Icon/delBtn.png</iconset>
+           <normaloff>:/Icon/del1.png</normaloff>:/Icon/del1.png</iconset>
          </property>
          <property name="iconSize">
           <size>
@@ -543,12 +564,32 @@ background: #90d7ec;
        </item>
        <item>
         <widget class="QToolButton" name="addVar">
+         <property name="toolTip">
+          <string>添加变量</string>
+         </property>
          <property name="text">
           <string/>
          </property>
          <property name="icon">
           <iconset resource="res/res.qrc">
-           <normaloff>:/Icon/addBtn.png</normaloff>:/Icon/addBtn.png</iconset>
+           <normaloff>:/Icon/add2.png</normaloff>:/Icon/add2.png</iconset>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>24</width>
+           <height>24</height>
+          </size>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QToolButton" name="DelVar">
+         <property name="toolTip">
+          <string>删除变量</string>
+         </property>
+         <property name="icon">
+          <iconset resource="res/res.qrc">
+           <normaloff>:/Icon/del2.png</normaloff>:/Icon/del2.png</iconset>
          </property>
          <property name="iconSize">
           <size>
@@ -596,19 +637,6 @@ background: #90d7ec;
     </layout>
    </widget>
   </widget>
-  <widget class="QToolBar" name="toolBar">
-   <property name="windowTitle">
-    <string>工具栏</string>
-   </property>
-   <attribute name="toolBarArea">
-    <enum>TopToolBarArea</enum>
-   </attribute>
-   <attribute name="toolBarBreak">
-    <bool>false</bool>
-   </attribute>
-   <addaction name="separator"/>
-   <addaction name="a_save"/>
-  </widget>
   <widget class="QDockWidget" name="CylinderDock">
    <property name="windowTitle">
     <string>气油缸</string>
@@ -637,12 +665,15 @@ background: #90d7ec;
       <layout class="QHBoxLayout" name="horizontalLayout_11">
        <item>
         <widget class="QToolButton" name="GasAdd">
+         <property name="toolTip">
+          <string>添加气油缸</string>
+         </property>
          <property name="text">
           <string>...</string>
          </property>
          <property name="icon">
           <iconset resource="res/res.qrc">
-           <normaloff>:/Icon/addBtn.png</normaloff>:/Icon/addBtn.png</iconset>
+           <normaloff>:/Icon/add2.png</normaloff>:/Icon/add2.png</iconset>
          </property>
          <property name="iconSize">
           <size>
@@ -654,12 +685,15 @@ background: #90d7ec;
        </item>
        <item>
         <widget class="QToolButton" name="GasDel">
+         <property name="toolTip">
+          <string>删除气油缸</string>
+         </property>
          <property name="text">
           <string>...</string>
          </property>
          <property name="icon">
           <iconset resource="res/res.qrc">
-           <normaloff>:/Icon/delBtn.png</normaloff>:/Icon/delBtn.png</iconset>
+           <normaloff>:/Icon/del2.png</normaloff>:/Icon/del2.png</iconset>
          </property>
          <property name="iconSize">
           <size>
@@ -735,12 +769,15 @@ background: #90d7ec;
       <layout class="QHBoxLayout" name="horizontalLayout_17">
        <item>
         <widget class="QToolButton" name="AddSafeVarG">
+         <property name="toolTip">
+          <string>添加分组</string>
+         </property>
          <property name="text">
           <string>...</string>
          </property>
          <property name="icon">
           <iconset resource="res/res.qrc">
-           <normaloff>:/Icon/addBtn.png</normaloff>:/Icon/addBtn.png</iconset>
+           <normaloff>:/Icon/add1.png</normaloff>:/Icon/add1.png</iconset>
          </property>
          <property name="iconSize">
           <size>
@@ -752,12 +789,15 @@ background: #90d7ec;
        </item>
        <item>
         <widget class="QToolButton" name="DelSafeVarG">
+         <property name="toolTip">
+          <string>删除分组</string>
+         </property>
          <property name="text">
           <string>...</string>
          </property>
          <property name="icon">
           <iconset resource="res/res.qrc">
-           <normaloff>:/Icon/delBtn.png</normaloff>:/Icon/delBtn.png</iconset>
+           <normaloff>:/Icon/del1.png</normaloff>:/Icon/del1.png</iconset>
          </property>
          <property name="iconSize">
           <size>
@@ -769,12 +809,35 @@ background: #90d7ec;
        </item>
        <item>
         <widget class="QToolButton" name="addSafeVar">
+         <property name="toolTip">
+          <string>添加逻辑运算符、判定条件</string>
+         </property>
          <property name="text">
           <string>...</string>
          </property>
          <property name="icon">
           <iconset resource="res/res.qrc">
-           <normaloff>:/Icon/addBtn.png</normaloff>:/Icon/addBtn.png</iconset>
+           <normaloff>:/Icon/add2.png</normaloff>:/Icon/add2.png</iconset>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>24</width>
+           <height>24</height>
+          </size>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QToolButton" name="DelSafeVar">
+         <property name="toolTip">
+          <string>删除变量</string>
+         </property>
+         <property name="text">
+          <string>...</string>
+         </property>
+         <property name="icon">
+          <iconset resource="res/res.qrc">
+           <normaloff>:/Icon/del2.png</normaloff>:/Icon/del2.png</iconset>
          </property>
          <property name="iconSize">
           <size>
@@ -887,12 +950,15 @@ background: #90d7ec;
       <layout class="QHBoxLayout" name="horizontalLayout_12">
        <item>
         <widget class="QToolButton" name="AddVarG_2">
+         <property name="toolTip">
+          <string>添加分组</string>
+         </property>
          <property name="text">
           <string>...</string>
          </property>
          <property name="icon">
           <iconset resource="res/res.qrc">
-           <normaloff>:/Icon/addBtn.png</normaloff>:/Icon/addBtn.png</iconset>
+           <normaloff>:/Icon/add1.png</normaloff>:/Icon/add1.png</iconset>
          </property>
          <property name="iconSize">
           <size>
@@ -904,12 +970,15 @@ background: #90d7ec;
        </item>
        <item>
         <widget class="QToolButton" name="DelVarG_2">
+         <property name="toolTip">
+          <string>删除分组</string>
+         </property>
          <property name="text">
           <string>...</string>
          </property>
          <property name="icon">
           <iconset resource="res/res.qrc">
-           <normaloff>:/Icon/delBtn.png</normaloff>:/Icon/delBtn.png</iconset>
+           <normaloff>:/Icon/del1.png</normaloff>:/Icon/del1.png</iconset>
          </property>
          <property name="iconSize">
           <size>
@@ -921,12 +990,35 @@ background: #90d7ec;
        </item>
        <item>
         <widget class="QToolButton" name="addVar_2">
+         <property name="toolTip">
+          <string>添加变量</string>
+         </property>
          <property name="text">
           <string/>
          </property>
          <property name="icon">
           <iconset resource="res/res.qrc">
-           <normaloff>:/Icon/addBtn.png</normaloff>:/Icon/addBtn.png</iconset>
+           <normaloff>:/Icon/add2.png</normaloff>:/Icon/add2.png</iconset>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>24</width>
+           <height>24</height>
+          </size>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QToolButton" name="DelVa_2">
+         <property name="toolTip">
+          <string>删除变量</string>
+         </property>
+         <property name="text">
+          <string>...</string>
+         </property>
+         <property name="icon">
+          <iconset resource="res/res.qrc">
+           <normaloff>:/Icon/del2.png</normaloff>:/Icon/del2.png</iconset>
          </property>
          <property name="iconSize">
           <size>
@@ -1016,12 +1108,15 @@ background: #90d7ec;
         <layout class="QHBoxLayout" name="horizontalLayout_14">
          <item>
           <widget class="QToolButton" name="AddVarG_4">
+           <property name="toolTip">
+            <string>添加分组</string>
+           </property>
            <property name="text">
             <string>...</string>
            </property>
            <property name="icon">
             <iconset resource="res/res.qrc">
-             <normaloff>:/Icon/addBtn.png</normaloff>:/Icon/addBtn.png</iconset>
+             <normaloff>:/Icon/add1.png</normaloff>:/Icon/add1.png</iconset>
            </property>
            <property name="iconSize">
             <size>
@@ -1033,12 +1128,15 @@ background: #90d7ec;
          </item>
          <item>
           <widget class="QToolButton" name="DelVarG_4">
+           <property name="toolTip">
+            <string>删除分组</string>
+           </property>
            <property name="text">
             <string>...</string>
            </property>
            <property name="icon">
             <iconset resource="res/res.qrc">
-             <normaloff>:/Icon/delBtn.png</normaloff>:/Icon/delBtn.png</iconset>
+             <normaloff>:/Icon/del1.png</normaloff>:/Icon/del1.png</iconset>
            </property>
            <property name="iconSize">
             <size>
@@ -1050,12 +1148,35 @@ background: #90d7ec;
          </item>
          <item>
           <widget class="QToolButton" name="addVar_4">
+           <property name="toolTip">
+            <string>添加变量</string>
+           </property>
            <property name="text">
             <string/>
            </property>
            <property name="icon">
             <iconset resource="res/res.qrc">
-             <normaloff>:/Icon/addBtn.png</normaloff>:/Icon/addBtn.png</iconset>
+             <normaloff>:/Icon/add2.png</normaloff>:/Icon/add2.png</iconset>
+           </property>
+           <property name="iconSize">
+            <size>
+             <width>24</width>
+             <height>24</height>
+            </size>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QToolButton" name="DelVar_4">
+           <property name="toolTip">
+            <string>删除变量</string>
+           </property>
+           <property name="text">
+            <string>...</string>
+           </property>
+           <property name="icon">
+            <iconset resource="res/res.qrc">
+             <normaloff>:/Icon/del2.png</normaloff>:/Icon/del2.png</iconset>
            </property>
            <property name="iconSize">
             <size>
@@ -1105,6 +1226,36 @@ background: #90d7ec;
     </layout>
    </widget>
   </widget>
+  <widget class="QToolBar" name="toolBar">
+   <property name="windowTitle">
+    <string>工具栏</string>
+   </property>
+   <property name="movable">
+    <bool>false</bool>
+   </property>
+   <property name="allowedAreas">
+    <set>Qt::AllToolBarAreas</set>
+   </property>
+   <property name="orientation">
+    <enum>Qt::Horizontal</enum>
+   </property>
+   <property name="toolButtonStyle">
+    <enum>Qt::ToolButtonTextBesideIcon</enum>
+   </property>
+   <attribute name="toolBarArea">
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+   <addaction name="a_save"/>
+   <addaction name="separator"/>
+   <addaction name="a_startDebug"/>
+   <addaction name="a_closeDebug"/>
+   <addaction name="separator"/>
+   <addaction name="a_LogicStart"/>
+   <addaction name="a_LogicStop"/>
+  </widget>
   <action name="a_new">
    <property name="icon">
     <iconset resource="res/res.qrc">
@@ -1120,7 +1271,7 @@ background: #90d7ec;
   <action name="a_save">
    <property name="icon">
     <iconset resource="res/res.qrc">
-     <normaloff>:/Icon/disk.png</normaloff>:/Icon/disk.png</iconset>
+     <normaloff>:/Icon/save.png</normaloff>:/Icon/save.png</iconset>
    </property>
    <property name="text">
     <string>保存项目</string>
@@ -1344,6 +1495,106 @@ background: #90d7ec;
    </property>
    <property name="toolTip">
     <string>重命名配方</string>
+   </property>
+  </action>
+  <action name="a_startDebug">
+   <property name="icon">
+    <iconset resource="res/res.qrc">
+     <normaloff>:/Icon/startDebug.png</normaloff>:/Icon/startDebug.png</iconset>
+   </property>
+   <property name="text">
+    <string>启动调试</string>
+   </property>
+   <property name="toolTip">
+    <string>启动调试</string>
+   </property>
+  </action>
+  <action name="a_closeDebug">
+   <property name="icon">
+    <iconset resource="res/res.qrc">
+     <normaloff>:/Icon/closeDebug.png</normaloff>:/Icon/closeDebug.png</iconset>
+   </property>
+   <property name="text">
+    <string>关闭调试</string>
+   </property>
+   <property name="toolTip">
+    <string>关闭调试</string>
+   </property>
+  </action>
+  <action name="a_LogicStart">
+   <property name="icon">
+    <iconset resource="res/res.qrc">
+     <normaloff>:/Icon/LogicStart.png</normaloff>:/Icon/LogicStart.png</iconset>
+   </property>
+   <property name="text">
+    <string>逻辑任务启动</string>
+   </property>
+   <property name="toolTip">
+    <string>逻辑任务启动</string>
+   </property>
+  </action>
+  <action name="a_LogicStop">
+   <property name="icon">
+    <iconset resource="res/res.qrc">
+     <normaloff>:/Icon/LoginClose.png</normaloff>:/Icon/LoginClose.png</iconset>
+   </property>
+   <property name="text">
+    <string>逻辑任务启动</string>
+   </property>
+   <property name="toolTip">
+    <string>逻辑任务停止</string>
+   </property>
+  </action>
+  <action name="a_notSave">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>不保存</string>
+   </property>
+  </action>
+  <action name="a_save5">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>5 Min</string>
+   </property>
+   <property name="toolTip">
+    <string>5分钟</string>
+   </property>
+  </action>
+  <action name="a_save10">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>10 Min</string>
+   </property>
+   <property name="toolTip">
+    <string>10分钟</string>
+   </property>
+  </action>
+  <action name="a_save20">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>20 Min</string>
+   </property>
+   <property name="toolTip">
+    <string>20分钟</string>
+   </property>
+  </action>
+  <action name="a_save30">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>30 Min</string>
+   </property>
+   <property name="toolTip">
+    <string>30分钟</string>
    </property>
   </action>
  </widget>

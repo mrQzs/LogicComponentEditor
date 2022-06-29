@@ -26,6 +26,8 @@ class YDIfConditionName : public YDPropertyName {
                                YDIfConditionName::tr("更新名称失败!"));
           break;
         case 0: {
+          m->setName(str);
+          m->updateIfName(str);
         } break;
         case 1:
           QMessageBox::warning(nullptr, YDIfConditionName::tr("错误"),
@@ -91,6 +93,7 @@ void YDIfCondition::initModule(yd::lg::LogicProcess *lp) {
 }
 
 void YDIfCondition::getData() {
+  Q_ASSERT(m_ifProcess->pModule);
   m_ifProcess->pModule->listProcessIds.clear();
 
   auto trueIds = m_widget->getTrueProcessIds(getLogicProcessId());
@@ -99,10 +102,12 @@ void YDIfCondition::getData() {
 }
 
 void YDIfCondition::setData() {
+  Q_ASSERT(m_ifProcess->pModule);
   auto tlist = m_ifProcess->pModule->listProcessIds;
   if (!tlist.empty()) {
     std::vector<yd::lg::LogicProcess *> listTrueProcesses;
-    YDProjectManage::getProcesses(tlist, listTrueProcesses);
+    YDProjectManage::getProcesses(getLogicProcessId(), tlist,
+                                  listTrueProcesses);
     m_widget->addTrueModules(m_task, listTrueProcesses);
   }
 }

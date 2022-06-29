@@ -2,6 +2,7 @@
 
 #include <QHBoxLayout>
 
+#include "common/YDHelper.h"
 #include "core/YDProjectManage.h"
 #include "widget/YDNameLineEdit.h"
 
@@ -25,7 +26,7 @@ YDVariable::~YDVariable() {
 YDVariable *YDVariable::parent() const { return m_parent; }
 
 QString YDVariable::name() const {
-  return QString::fromLocal8Bit(m_varGroup->group_name);
+  return STRTQSTR(m_varGroup->group_name);
   ;
 }
 

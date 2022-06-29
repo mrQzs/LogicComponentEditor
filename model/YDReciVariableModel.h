@@ -11,6 +11,9 @@ class YDReciVariableModel : public QAbstractTableModel {
  public:
   explicit YDReciVariableModel(QObject *parent = nullptr);
 
+ public:
+  void updateData();
+
   // QAbstractItemModel interface
  public:
   QVariant headerData(int section, Qt::Orientation orientation,

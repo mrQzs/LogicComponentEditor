@@ -146,7 +146,7 @@ void YDStopMotion::getData() {
 
   auto axis_name = getAxisName();
   for (auto a : axisList) {
-    if (QString::fromLocal8Bit(a->axis_name) == axis_name) {
+    if (STRTQSTR(a->axis_name) == axis_name) {
       m_stopMotionModule->device_id = a->device_id;
       m_stopMotionModule->axis_index = a->axis_index;
       break;
@@ -173,7 +173,7 @@ void YDStopMotion::setData() {
   for (auto a : axisList)
     if (device_id == a->device_id)
       if (axis_index == a->axis_index)
-        name = QString::fromLocal8Bit(a->axis_name.c_str());
+        name = STRTQSTR(a->axis_name.c_str());
 
   setAxisName(name);
   int index = m_stopMotionModule->method_referid == 0 ? 0 : 1;

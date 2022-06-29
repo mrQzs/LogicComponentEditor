@@ -281,14 +281,26 @@ namespace yd {
 				jWriter.Key("type"); jWriter.Uint(pCoords->arrCoords[i].ucType);
 				// "target": {} Begin
 				jWriter.Key("target"); jWriter.StartObject();
-				jWriter.Key("use_variable"); jWriter.Bool(pCoords->arrCoords[i].refTarget.bUseVariable);
-				jWriter.Key("refer_value"); jWriter.String(pCoords->arrCoords[i].refTarget.szValue);
+				if (pCoords->arrCoords[i].refTarget.ullReferId > 0) {
+					jWriter.Key("use_variable"); jWriter.Bool(true);
+					jWriter.Key("refer_value"); jWriter.Uint64(pCoords->arrCoords[i].refTarget.ullReferId);
+				}
+				else {
+					jWriter.Key("use_variable"); jWriter.Bool(false);
+					jWriter.Key("refer_value"); jWriter.Double(pCoords->arrCoords[i].refTarget.dblValue);
+				}
 				jWriter.EndObject();
 				// "target": {} End
 				// "velocity": {} Begin
 				jWriter.Key("velocity"); jWriter.StartObject();
-				jWriter.Key("use_variable"); jWriter.Bool(pCoords->arrCoords[i].refVelocity.bUseVariable);
-				jWriter.Key("refer_value"); jWriter.String(pCoords->arrCoords[i].refVelocity.szValue);
+				if (pCoords->arrCoords[i].refVelocity.ullReferId > 0) {
+					jWriter.Key("use_variable"); jWriter.Bool(true);
+					jWriter.Key("refer_value"); jWriter.Uint64(pCoords->arrCoords[i].refVelocity.ullReferId);
+				}
+				else {
+					jWriter.Key("use_variable"); jWriter.Bool(false);
+					jWriter.Key("refer_value"); jWriter.Double(pCoords->arrCoords[i].refVelocity.dblValue);
+				}
 				jWriter.EndObject();
 				// "velocity": {} End
 				jWriter.EndObject();
@@ -330,37 +342,39 @@ namespace yd {
 						CRapidJsonHelper::GetMemberValue(jCoord["type"], pCoords->arrCoords[pCoords->ucNumber].ucType);
 					}
 					if (jCoord.HasMember("target") && jCoord["target"].IsObject()) {
+						bool bUseVariable = false;
 						if (jCoord["target"].HasMember("use_variable")) {
-							CRapidJsonHelper::GetMemberValue(
-								jCoord["target"]["use_variable"],
-								pCoords->arrCoords[pCoords->ucNumber].refTarget.bUseVariable);
+							CRapidJsonHelper::GetMemberValue(jCoord["target"]["use_variable"], bUseVariable);
 						}
 						if (jCoord["target"].HasMember("refer_value")) {
-							std::string strValue = "";
-							CRapidJsonHelper::GetMemberValue(
-								jCoord["target"]["refer_value"],
-								strValue);
-							yd::CStringHelper::SafeCopy(
-								pCoords->arrCoords[pCoords->ucNumber].refTarget.szValue,
-								sizeof(pCoords->arrCoords[pCoords->ucNumber].refTarget.szValue),
-								strValue.c_str());
+							if (bUseVariable) {
+								CRapidJsonHelper::GetMemberValue(
+									jCoord["target"]["refer_value"],
+									pCoords->arrCoords[pCoords->ucNumber].refTarget.ullReferId);
+							}
+							else {
+								CRapidJsonHelper::GetMemberValue(
+									jCoord["target"]["refer_value"],
+									pCoords->arrCoords[pCoords->ucNumber].refTarget.dblValue);
+							}
 						}
 					}
 					if (jCoord.HasMember("velocity") && jCoord["velocity"].IsObject()) {
+						bool bUseVariable = false;
 						if (jCoord["velocity"].HasMember("use_variable")) {
-							CRapidJsonHelper::GetMemberValue(
-								jCoord["velocity"]["use_variable"],
-								pCoords->arrCoords[pCoords->ucNumber].refVelocity.bUseVariable);
+							CRapidJsonHelper::GetMemberValue(jCoord["velocity"]["use_variable"], bUseVariable);
 						}
 						if (jCoord["velocity"].HasMember("refer_value")) {
-							std::string strValue = "";
-							CRapidJsonHelper::GetMemberValue(
-								jCoord["velocity"]["refer_value"],
-								strValue);
-							yd::CStringHelper::SafeCopy(
-								pCoords->arrCoords[pCoords->ucNumber].refVelocity.szValue,
-								sizeof(pCoords->arrCoords[pCoords->ucNumber].refVelocity.szValue),
-								strValue.c_str());
+							if (bUseVariable) {
+								CRapidJsonHelper::GetMemberValue(
+									jCoord["velocity"]["refer_value"],
+									pCoords->arrCoords[pCoords->ucNumber].refVelocity.ullReferId);
+							}
+							else {
+								CRapidJsonHelper::GetMemberValue(
+									jCoord["velocity"]["refer_value"],
+									pCoords->arrCoords[pCoords->ucNumber].refVelocity.dblValue);
+							}
 						}
 					}
 					++pCoords->ucNumber;

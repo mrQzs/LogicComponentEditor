@@ -47,7 +47,10 @@ namespace yd {
 
 		// 启动进程
 		static bool Start(uint32& uiProcessId, const std::string& strProcessName) {
-			std::string strApplicationName = strProcessName + std::string(".exe");
+			std::string strApplicationName = strProcessName;
+			if (std::string::npos == strProcessName.find(".exe")) {
+				strApplicationName = strProcessName + std::string(".exe");
+			}
 			if (!yd::CFileHelper::FileExists(strApplicationName)) {
 				return true;
 			}

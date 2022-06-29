@@ -4,6 +4,7 @@
 #include <QDebug>
 #include <QStringDecoder>
 
+#include "common/YDHelper.h"
 #include "core/YDProjectManage.h"
 
 YDPropertyVar::YDPropertyVar(YDProperty *parent)
@@ -48,8 +49,7 @@ void YDPropertyVar::updateStrList() {
   auto varList = YDProjectManage::getAllVirtualVariables();
   for (auto a : varList) {
     if (a->value_type >= 3 && a->value_type <= 12) {
-      QString name = QString::fromLocal8Bit(a->variable_name.c_str(),
-                                            a->variable_name.size());
+      QString name = STRTQSTR(a->variable_name.c_str());
       m_enum << name;
     }
   }

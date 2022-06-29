@@ -35,6 +35,8 @@ namespace yd {
 		constexpr uint16 PROTOCOL_STOP_DEBUG_TASK = 413;
 		constexpr uint16 PROTOCOL_SUSPEND_DEBUG_TASK = 414;
 		constexpr uint16 PROTOCOL_EXECUTE_HOME_MOVE = 415;
+		constexpr uint16 PROTOCOL_GET_TASK_DEBUG_STATE = 416;
+		constexpr uint16 PROTOCOL_GET_HOME_MOVE_EXECUTE_STATE = 417;
 		constexpr uint16 PROTOCOL_SEND_DO_CONTROL = 501;
 		constexpr uint16 PROTOCOL_SEND_AO_CONTROL = 502;
 		constexpr uint16 PROTOCOL_GET_COMMAND_RESULT = 600;
@@ -622,6 +624,16 @@ namespace yd {
 			virtual int32 DecodeRequestOfTaskDebugStop(const uint16& usExpectedType, const std::string& strInputData, uint32& uiTaskId) = 0;
 			virtual int32 EncodeRequestOfTaskDebugSuspend(const uint16& usExpectedType, const uint32& uiTaskId, std::string& strOutputData) = 0;
 			virtual int32 DecodeRequestOfTaskDebugSuspend(const uint16& usExpectedType, const std::string& strInputData, uint32& uiTaskId) = 0;
+
+			// 任务调试状态
+			virtual int32 EncodeRequestOfTaskDebugState(const uint32& uiTaskId, std::string& strOutputData) = 0;
+			virtual int32 DecodeRequestOfTaskDebugState(const std::string& strInputData, uint32& uiTaskId) = 0;
+			virtual int32 EncodeResponseOfTaskDebugState(const uint8& ucState, std::string& strOutputData) = 0;
+			virtual int32 DecodeResponseOfTaskDebugState(const std::string& strInputData, uint8& ucState) = 0;
+
+			// 回原点执行状态
+			virtual int32 EncodeResponseOfHomeMoveScriptState(const uint8& ucState, std::string& strOutputData) = 0;
+			virtual int32 DecodeResponseOfHomeMoveScriptState(const std::string& strInputData, uint8& ucState) = 0;
 
 			// 控制指令结果
 			virtual int32 EncodeRequestOfCommandResults(ReferCommands* pInputData, std::string& strOutputData) = 0;

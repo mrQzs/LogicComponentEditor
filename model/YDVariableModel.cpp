@@ -48,15 +48,15 @@ QVariant YDVariableModel::data(const QModelIndex &index, int role) const {
 
     switch (index.column()) {
       case 0:
-        return QString::fromLocal8Bit(var->variable_name.c_str());
+        return STRTQSTR(var->variable_name.c_str());
       case 1:
         return YDHelper::getDataType(var->value_type);
       case 2:
-        return QString::fromLocal8Bit(var->init_value.c_str());
+        return STRTQSTR(var->init_value.c_str());
       case 3:
-        return QString::fromLocal8Bit(var->min_value.c_str());
+        return STRTQSTR(var->min_value.c_str());
       case 4:
-        return QString::fromLocal8Bit(var->max_value.c_str());
+        return STRTQSTR(var->max_value.c_str());
       default:
         break;
     }
@@ -105,7 +105,7 @@ bool YDVariableModel::setData(const QModelIndex &index, const QVariant &value,
 }
 
 Qt::ItemFlags YDVariableModel::flags(const QModelIndex &) const {
-  return Qt::ItemIsEnabled;
+  return Qt::ItemIsEnabled | Qt::ItemIsSelectable;
 }
 
 void YDVariableModel::setGroupId(uint16 id) {

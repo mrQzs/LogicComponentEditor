@@ -264,6 +264,14 @@ namespace yd::proto {
 		// 结束主任务
 		virtual int32 StopMainLogicTask() = 0;
 
+		// 获取任务调试状态：uiTaskId=0查询主任务状态
+		virtual int32 GetTaskDebugState(
+			uint32 uiTaskId,
+			uint8& ucState) = 0;
+
+		// 获取回原点脚本执行状态
+		virtual int32 GetHomeMoveExecuteState(uint8& ucState) = 0;
+
 		// 下载项目配置
 		virtual int32 DownloadProject(
 			const std::string& strDirectory,

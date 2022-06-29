@@ -26,6 +26,9 @@ class YDModuleHead : public QWidget {
   void sigClicked(bool);
 
  private:
+  QString getStateInfo();
+
+ private:
   YDModule *m_module;
   QString m_icon;
   QString m_text;

@@ -7,6 +7,7 @@
 #include <QPushButton>
 #include <QValidator>
 
+#include "common/YDHelper.h"
 #include "core/YDProjectManage.h"
 #include "widget/YDNameLineEdit.h"
 
@@ -52,8 +53,7 @@ YDAddAxisWaitDialog::YDAddAxisWaitDialog(QWidget* parent)
 
   QStringList list;
   auto vars = YDProjectManage::getAxisList();
-  for (auto v : vars)
-    list << QString("%1").arg(QString::fromLocal8Bit(v->axis_name.c_str()));
+  for (auto v : vars) list << QString("%1").arg(STRTQSTR(v->axis_name.c_str()));
   m_axisBox->addItems(list);
 
   QStringList waittype;

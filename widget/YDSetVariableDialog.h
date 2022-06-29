@@ -21,10 +21,6 @@ class YDSetVariableDialog : public YDDialog {
   // set
   virtual void setTextList(const QStringList &list);
 
-  // QWidget interface
- protected:
-  void focusOutEvent(QFocusEvent *e);
-
  public slots:
   void slotOkBtnClicked();
   void slotCancelBtnClicked();

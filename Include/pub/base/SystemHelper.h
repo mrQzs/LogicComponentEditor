@@ -12,6 +12,7 @@
 #include <direct.h>
 #include <sys/stat.h>
 #include "StringHelper.h"
+#include "KernelUtility.h"
 
 namespace yd {
 	// 系统协助类
@@ -536,6 +537,16 @@ namespace yd {
 			return std::filesystem::exists(ptNew);
 		}
 
+		// 重命名文件
+		static bool RenameFile(const std::string& strOldFileName, const std::string& strNewFileName) {
+			std::filesystem::path ptOld(strOldFileName), ptNew(strNewFileName);
+			if (!std::filesystem::exists(ptOld)) {
+				return false;
+			}
+			std::filesystem::rename(ptOld, ptNew);
+			return std::filesystem::exists(ptNew);
+		}
+
 		// 获取指定目录下所有子文件夹
 		static bool GetSubDirectories(const std::string& strDirectory, std::vector<std::string>& listSubDirectories) {
 			listSubDirectories.clear();
@@ -732,6 +743,18 @@ namespace yd {
 			}
 		}
 
+		// 生成项目数据文件路径
+		static std::string GenerateProjectDataFilePath(
+			const std::string& strRootDirectory,
+			const std::string& strProjectName) {
+			if (std::string::npos != strRootDirectory.find("\\")) {
+				return CFileHelper::NormalizeDirectory(strRootDirectory) + strProjectName + std::string("\\") + std::string(PROJECT_DATA_NAME);
+			}
+			else {
+				return CFileHelper::NormalizeDirectory(strRootDirectory) + strProjectName + std::string("/") + std::string(PROJECT_DATA_NAME);
+			}
+		}
+
 		// 生成配方配置文件路径
 		static std::string GenerateProjectRecipeCfgFilePath(
 			const std::string& strRootDirectory,
@@ -742,6 +765,19 @@ namespace yd {
 			}
 			else {
 				return CFileHelper::NormalizeDirectory(strRootDirectory) + strProjectName + std::string("/") + strRecipeName + std::string("/") + std::string(RECIPE_CFG_NAME);
+			}
+		}
+
+		// 生成配方数据文件路径
+		static std::string GenerateProjectRecipeDataFilePath(
+			const std::string& strRootDirectory,
+			const std::string& strProjectName,
+			const std::string& strRecipeName) {
+			if (std::string::npos != strRootDirectory.find("\\")) {
+				return CFileHelper::NormalizeDirectory(strRootDirectory) + strProjectName + std::string("\\") + strRecipeName + std::string("\\") + std::string(RECIPE_DATA_NAME);
+			}
+			else {
+				return CFileHelper::NormalizeDirectory(strRootDirectory) + strProjectName + std::string("/") + strRecipeName + std::string("/") + std::string(RECIPE_DATA_NAME);
 			}
 		}
 
@@ -921,6 +957,95 @@ namespace yd {
 		// 获取临时文件夹
 		static std::string GetTempDirectory() {
 			return CFileHelper::NormalizeDirectory(CFileHelper::GetMainWorkingDirectory() + std::string(TEMP_PATH_NAME));
+		}
+	};
+
+	// 错误帮助类
+	class CErrorHelper
+	{
+	public:
+		// 格式化错误信息
+		static std::string FormatErrorMessage(int32 iErrorCode) {
+			if (0 == iErrorCode) {
+				return "无";
+			}
+			else if (iErrorCode < PROJECT_ERROR_BASE) {
+				switch (iErrorCode) {
+				case PROJECT_ERROR_GENERAL_FAILURE:
+					return "通用错误";
+				case PROJECT_ERROR_INITIALIZE_FAILED:
+					return "初始化失败";
+				case PROJECT_ERROR_LOAD_FAILED:
+					return "加载失败";
+				case PROJECT_ERROR_SAVE_FAILED:
+					return "保存失败";
+				case PROJECT_ERROR_CREATE_FAILED:
+					return "创建失败";
+				case PROJECT_ERROR_UPDATE_FAILED:
+					return "更新失败";
+				case PROJECT_ERROR_GET_FAILED:
+					return "获取失败";
+				case PROJECT_ERROR_DELETE_FAILED:
+					return "删除失败";
+				case PROJECT_ERROR_EXECUTE_FAILED:
+					return "执行失败";
+				case PROJECT_ERROR_CONNECT_FAILED:
+					return "连接失败";
+				case PROJECT_ERROR_COMMUNICATION_FAILED:
+					return "通讯失败";
+				case PROJECT_ERROR_LOCK_FAILED:
+					return "加锁失败";
+				case PROJECT_ERROR_UNLOCK_FAILED:
+					return "解锁失败";
+				case PROJECT_ERROR_LOGIN_FAILED:
+					return "登录失败";
+				case PROJECT_ERROR_INVALID_INPUT:
+					return "无效输入";
+				case PROJECT_ERROR_NOT_FOUND:
+					return "不存在";
+				case PROJECT_ERROR_NOT_RESPONSE:
+					return "无响应";
+				case PROJECT_ERROR_NOT_CONNECTED:
+					return "未连接";
+				case PROJECT_ERROR_NOT_INITIALIZED:
+					return "未初始化";
+				case PROJECT_ERROR_IN_PROCESS:
+					return "处理中";
+				case PROJECT_ERROR_EXISTING:
+					return "已存在";
+				case PROJECT_ERROR_REPEATED:
+					return "重复";
+				case PROJECT_ERROR_PWD_INCORRECT:
+					return "密码错误";
+				case PROJECT_ERROR_USER_INCORRECT:
+					return "用户错误";
+				case PROJECT_ERROR_EXPIRED:
+					return "已过期";
+				case PROJECT_ERROR_TIME_OUT:
+					return "已超时";
+				case PROJECT_ERROR_NOT_LOGIN:
+					return "未登录";
+				case PROJECT_ERROR_UNAUTHORIZED:
+					return "未授权";
+				case PROJECT_ERROR_AUTHCODE_MISMATCHED:
+					return "授权码不匹配";
+				case PROJECT_ERROR_FULL:
+					return "已满";
+				case PROJECT_ERROR_OVER_LIMIT:
+					return "超出限制";
+				case PROJECT_ERROR_NOT_SUPPORTED:
+					return "不支持";
+				case PROJECT_ERROR_IN_RUNNING:
+					return "运行中";
+				case PROJECT_ERROR_INTERNAL:
+					return "内部错误";
+				default:
+					return "未知错误";
+				}
+			}
+			else {
+				return KernelUtility::FormatErrorMessage((DWORD)iErrorCode);
+			}
 		}
 	};
 }

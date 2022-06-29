@@ -49,14 +49,19 @@ void YDTabWidget::initModules(YDTask *task,
   }
 }
 
-void YDTabWidget::setModulesState(const std::vector<proto::ProcState> &states) {
+void YDTabWidget::setModulesState(std::vector<proto::ProcState> &states) {
   QMap<uint32, yd::proto::ProcState> map;
 
-  for (int i = 0; i < states.size(); ++i) map[states[i].id] = states[i];
+  for (int i = 0; i < states.size(); ++i) {
+    map[states[i].id] = states[i];
+    states[i].begin = 0;
+    states[i].end = 0;
+  }
 
   auto list = getModules();
   for (auto m : list) {
-    m->setDebugState(map[m->getLogicProcessId()]);
+    auto state = map[m->getLogicProcessId()];
+    m->setDebugState(state);
     switch (m->type()) {
       case Module::If_Condition:
       case Module::IfElse_Condition:

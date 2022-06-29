@@ -56,8 +56,8 @@ namespace yd
 	}PREDEVICETYPES;
 	// 参考值
 	typedef struct _ReferValue {
-		bool			bUseVariable;
-		char			szValue[VARIABLE_VALUE_LENGTH + 1];
+		uint64			ullReferId;
+		double			dblValue;
 	}REFERVALUE;
 	// 数据点定义
 	typedef struct _Coord {
@@ -240,6 +240,13 @@ namespace yd
 		uint32			uiSmoothTime;						// 平滑时间
 		double			dblSmoothFactor;					// 平滑系数
 	}AXISVELOCITYCMDDATA;
+	typedef struct _AxisSoftLimitCmdData {
+		uint32			uiDeviceId;							// 设备id
+		uint16			usAxis;								// 轴序号
+		bool			bEnable;							// 是否使能
+		double			dblPositiveLimit;					// 正限位
+		double			dblNegativeLimit;					// 负限位
+	}AXISSOFTLIMITCMDDATA;
 	typedef struct _CylinderCtrlCmdData {
 		uint32			uiDeviceId;							// 设备id
 		uint8			ucActionDirection;					// 动作方向
@@ -250,7 +257,7 @@ namespace yd
 	}TASKDEBUGCMDDATA;
 	typedef struct _ControlCommand {
 		uint32						uiCommandId;			// 命令id：系统唯一
-		uint8						ucCommandType;			// 命令类型
+		uint16						usCommandType;			// 命令类型
 		union _unCommandData {
 			CTRLCMDDATA				ctrlCmdData;			// 逻辑控制器命令数据
 			VARCMDDATA				varCmdData;				// 变量更新命令数据
@@ -273,6 +280,7 @@ namespace yd
 			AXISCLEARCMDDATA		axisClearCmdData;		// 轴状态清除命令数据
 			AXISPOSZEROCMDDATA		axisPosZeroCmdData;		// 轴位置清零命令数据
 			AXISVELOCITYCMDDATA		axiVelocityCmdData;		// 轴速度命令数据
+			AXISSOFTLIMITCMDDATA	axisSoftLimitCmdData;	// 轴软件限位数据
 			CYLINDERCTRLCMDDATA		cylinderCtrlCmdData;	// 气油缸控制数据
 			TASKDEBUGCMDDATA		taskDebugCmdData;		// 任务调试数据
 		}unCommandData;
@@ -285,7 +293,7 @@ namespace yd
 	// 交互命令
 	typedef struct _InteractCommand {
 		uint32			uiCommandId;						// 命令id：系统唯一
-		uint8			ucCommandType;						// 命令类型
+		uint16			usCommandType;						// 命令类型
 		uint8			ucCommandLevel;						// 命令级别
 		INTERACTACTION	arrActions[MAX_INTERACT_ACTION_NUMBER];// 允许的动作类型
 		uint8			ucActionNumber;						// 允许动作类型个数
@@ -308,6 +316,7 @@ namespace yd
 	// 项目参数
 	typedef struct _ProjectParam {
 		uint32			uiVersion;							// 版本号
+		uint8			ucFormat;							// 配置格式
 		char			szName[TEXT_BIG + 1];				// 项目名称
 		char			szRecipe[TEXT_BIG + 1];				// 配方名称
 	}PROJECTPARAM;
@@ -355,12 +364,40 @@ namespace yd
 
 	// 运动轴
 	typedef struct _MotionAxis {
-		uint32			uiDeviceId;
-		uint16			usCard;
-		uint16			usAxis;
-		char			szName[MAX_NAME_LENGTH + 1];
-		bool			bEnable;
-		double			dblEquivalent;
+		uint32			uiDeviceId;							// 设备id
+		uint16			usCard;								// 卡号
+		uint16			usAxis;								// 轴号
+		char			szName[MAX_NAME_LENGTH + 1];		// 轴名称
+		bool			bEnable;							// 是否使能
+		double			dblEquivalent;						// 脉冲当量
+		// 以下为运动参数
+		double			dblMaxVelocity;						// 最大速度（自动）
+		double			dblMaxManualVelocity;				// 最大速度（手动）
+		double			dblTakeoffVelocity;					// 起跳速度
+		double			dblMaxAcceleration;					// 最大加速度
+		double			dblMaxDeceleration;					// 最大减速度
+		double			dblSmoothStopDeceleration;			// 平停减速度
+		double			dblUrgentStopDeceleration;			// 急停减速度
+		double			dblArriveError;						// 到位误差
+		uint32			uiArriveTimeout;					// 到位超时
+		uint32			uiStopedDelay;						// 停稳延时
+		uint32			uiSmoothTime;						// 平滑时间
+		double			dblSmoothFactor;					// 平滑系数
+		// 以下为限位参数
+		bool			bSoftLimitEnable;					// 软限位启用
+		double			dblSoftPositiveLimit;				// 正向软限位
+		double			dblSoftNegativeLimit;				// 负向软限位
+		bool			bHardPositiveLimitEnable;			// 正向硬限位启用
+		bool			bHardNegativeLimitEnable;			// 负向硬限位启用
+		// 以下为回原点参数
+		uint8			ucHomePriority;						// 回原点优先级
+		uint8			ucHomeMode;							// 回原点模式
+		double			dblHomeSearchDistance;				// 搜索距离
+		double			dblHomeMoveVelocity;				// 移动速度
+		double			dblHomeSearchHighVelocity;			// 搜索速度（高速）
+		double			dblHomeSearchLowVelocity;			// 搜索速度（低速）
+		double			dblHomeOriginOffset;				// 原点偏移量
+		uint8			ucHomeCaptureElectricLevel;			// 原点捕获电平选中
 	}MOTIONAXIS;
 	// 气油缸
 	typedef struct _CylinderInplace {
@@ -756,6 +793,12 @@ namespace yd
 
 		// 更新运动轴最后一次目标位置
 		virtual bool SetMotionAxisLastPosition(uint32 uiDeviceId, uint16 usAxis, double dblPosition) = 0;
+
+		// 获取运动轴回零状态
+		virtual uint8 GetMotionAxisHomeMoveStatus(uint32 uiDeviceId, uint16 usAxis) = 0;
+
+		// 更新运动轴回零状态
+		virtual bool SetMotionAxisHomeMoveStatus(uint32 uiDeviceId, uint16 usAxis, uint8 ucStatus) = 0;
 	};
 
 	//交互接口

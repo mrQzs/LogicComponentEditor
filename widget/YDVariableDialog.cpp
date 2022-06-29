@@ -20,9 +20,10 @@ YDVariableDialog::YDVariableDialog(QWidget *parent)
       m_editItem{nullptr} {
   setWindowTitle(YDVariableDialog::tr("轴坐标列表"));
 
-  m_tableWidget->setColumnCount(5);
+  m_tableWidget->setColumnCount(6);
   QStringList list;
   list << YDVariableDialog::tr("运动轴号") << YDVariableDialog::tr("运动类型")
+       << YDVariableDialog::tr("目标位置方式")
        << YDVariableDialog::tr("目标位置")
        << YDVariableDialog::tr("运动速度方式")
        << YDVariableDialog::tr("运动速度");
@@ -137,8 +138,10 @@ QString YDVariableDialog::getContent(int row) const {
       m_tableWidget->item(row, 2)->data(Qt::DisplayRole).toString());
   str += QString("%1@").arg(
       m_tableWidget->item(row, 3)->data(Qt::DisplayRole).toString());
-  str += QString("%1").arg(
+  str += QString("%1@").arg(
       m_tableWidget->item(row, 4)->data(Qt::DisplayRole).toString());
+  str += QString("%1").arg(
+      m_tableWidget->item(row, 5)->data(Qt::DisplayRole).toString());
 
   return str;
 }
@@ -152,11 +155,13 @@ void YDVariableDialog::setContent(const QString &str) {
   auto it3 = new QTableWidgetItem(list[2]);
   auto it4 = new QTableWidgetItem(list[3]);
   auto it5 = new QTableWidgetItem(list[4]);
+  auto it6 = new QTableWidgetItem(list[5]);
   m_tableWidget->setItem(row, 0, it1);
   m_tableWidget->setItem(row, 1, it2);
   m_tableWidget->setItem(row, 2, it3);
   m_tableWidget->setItem(row, 3, it4);
   m_tableWidget->setItem(row, 4, it5);
+  m_tableWidget->setItem(row, 5, it6);
 }
 
 void YDVariableDialog::updateContent(const QString &str) {
@@ -167,4 +172,5 @@ void YDVariableDialog::updateContent(const QString &str) {
   m_tableWidget->item(row, 2)->setData(Qt::DisplayRole, list[2]);
   m_tableWidget->item(row, 3)->setData(Qt::DisplayRole, list[3]);
   m_tableWidget->item(row, 4)->setData(Qt::DisplayRole, list[4]);
+  m_tableWidget->item(row, 5)->setData(Qt::DisplayRole, list[5]);
 }

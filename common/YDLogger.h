@@ -22,7 +22,6 @@ class YDLogger {
 
  public:
   static std::shared_ptr<spdlog::logger> getConsoleLogger();
-  static std::shared_ptr<spdlog::logger> getFileLogger();
 
  public:
   static void setMessageWidget(YDShowMessage* w);
@@ -38,7 +37,6 @@ class YDLogger {
   static YDLogger* s_instance;
   std::mutex m_mutex;
   std::shared_ptr<spdlog::logger> m_consoleLog;
-  std::shared_ptr<spdlog::logger> m_fileLog;
   YDShowMessage* m_msg;
 };
 
@@ -56,22 +54,6 @@ class YDLogger {
                      __VA_ARGS__)
 #define ERROR(...)                                                           \
   SPDLOG_LOGGER_CALL(YDLogger::getConsoleLogger().get(), spdlog::level::err, \
-                     __VA_ARGS__)
-
-#define FTRACE(...)                                                         \
-  SPDLOG_LOGGER_CALL(YDLogger::getFileLogger().get(), spdlog::level::trace, \
-                     __VA_ARGS__)
-#define FDEBUG(...)                                                         \
-  SPDLOG_LOGGER_CALL(YDLogger::getFileLogger().get(), spdlog::level::debug, \
-                     __VA_ARGS__)
-#define FINFO(...)                                                         \
-  SPDLOG_LOGGER_CALL(YDLogger::getFileLogger().get(), spdlog::level::info, \
-                     __VA_ARGS__)
-#define FWARN(...)                                                         \
-  SPDLOG_LOGGER_CALL(YDLogger::getFileLogger().get(), spdlog::level::warn, \
-                     __VA_ARGS__)
-#define FERROR(...)                                                       \
-  SPDLOG_LOGGER_CALL(YDLogger::getFileLogger().get(), spdlog::level::err, \
                      __VA_ARGS__)
 
 #endif  // YDLOGGER_H

@@ -44,10 +44,8 @@ class YDWaitCompleteTask : public YDPropertyTask {
   QString codeName() const { return "Task"; }
 
  protected:
-  virtual QString get(YDModule *m) const { return m->getCallTask(); }
-  virtual void set(YDModule *m, QString str) {
-    if (!str.isEmpty()) m->setTaskCall(str);
-  }
+  virtual quint32 get(YDModule *m) const { return m->getCallTask(); }
+  virtual void set(YDModule *m, quint32 id) { m->setTaskCall(id); }
 };
 
 YDWaitComplete::YDWaitComplete() {
@@ -81,21 +79,7 @@ void YDWaitComplete::initModule(yd::lg::LogicProcess *lp) {
 
 void YDWaitComplete::getData() {
   m_logicProcess->type = LOGIC_PROCESS_TASK_STATE_WAIT;
-  auto name = getCallTask();
-  std::map<uint32, std::string> names;
-  YDProjectManage::GetTaskNames(names);
-  for (auto itor = names.begin(); itor != names.end(); ++itor) {
-    auto n = QString::fromLocal8Bit(itor->second.c_str());
-    if (name == n) {
-      m_taskWaitModule->task_id = itor->first;
-      break;
-    }
-  }
+  m_taskWaitModule->task_id = getCallTask();
 }
 
-void YDWaitComplete::setData() {
-  auto id = m_taskWaitModule->task_id;
-  std::map<uint32, std::string> name;
-  YDProjectManage::GetTaskNames(name);
-  setTaskCall(QString::fromLocal8Bit(name[id]));
-}
+void YDWaitComplete::setData() { setTaskCall(m_taskWaitModule->task_id); }

@@ -7,6 +7,10 @@
 #include <QPushButton>
 #include <QVBoxLayout>
 
+#include "common/YDHelper.h"
+#include "common/YDLogger.h"
+#include "core/YDProjectManage.h"
+#include "core/YDVariable.h"
 #include "widget/YDDTComboBox.h"
 #include "widget/YDNameLineEdit.h"
 #include "widget/YDVariableDialog.h"
@@ -29,8 +33,9 @@ YDAddReciVarDialog::YDAddReciVarDialog(QWidget *parent)
       m_maxEdit{new QLineEdit(this)},
       m_okBtn{new QPushButton(this)},
       m_cancelBtn{new QPushButton(this)},
-      m_varDlg{nullptr} {
-  setWindowTitle(YDAddReciVarDialog::tr("添加变量"));
+      m_varDlg{nullptr},
+      m_isUpdate{false} {
+  setWindowTitle(YDAddReciVarDialog::tr("添加配方变量"));
 
   auto glay = new QGridLayout;
   glay->addWidget(m_nameLab, 0, 0, 1, 1);
@@ -61,9 +66,9 @@ YDAddReciVarDialog::YDAddReciVarDialog(QWidget *parent)
 
   m_nameLab->setText(YDAddReciVarDialog::tr("名称"));
   m_typeLab->setText(YDAddReciVarDialog::tr("数值类型"));
-  m_boolLab->setText(YDAddReciVarDialog::tr("初始值"));
-  m_axisLab->setText(YDAddReciVarDialog::tr("初始值"));
-  m_valueLab->setText(YDAddReciVarDialog::tr("初始值"));
+  m_boolLab->setText(YDAddReciVarDialog::tr("配方值"));
+  m_axisLab->setText(YDAddReciVarDialog::tr("配方值"));
+  m_valueLab->setText(YDAddReciVarDialog::tr("配方值"));
   m_minLab->setText(YDAddReciVarDialog::tr("最小值"));
   m_maxLab->setText(YDAddReciVarDialog::tr("最大值"));
 
@@ -95,6 +100,14 @@ YDAddReciVarDialog::YDAddReciVarDialog(QWidget *parent)
 
   connect(m_axisBtn, &QPushButton::clicked, this,
           &YDAddReciVarDialog::slotAxisBtnClicked);
+
+  m_typeCombo->setCurrentIndex(2);
+  slotTypeChanged(2);
+  m_minEdit->setText("-1000");
+  m_valueEdit->setText("0");
+  m_maxEdit->setText("1000");
+
+  resize(600, 140);
 }
 
 QStringList YDAddReciVarDialog::textList() const {
@@ -104,7 +117,7 @@ QStringList YDAddReciVarDialog::textList() const {
 
   switch (index) {
     case 0:
-      list << (m_boolBox->currentIndex() == 0 ? "true" : "false");
+      list << (m_boolBox->currentIndex() == 0 ? "True" : "False");
       break;
     case 1:
     case 2:
@@ -122,8 +135,16 @@ QStringList YDAddReciVarDialog::textList() const {
   return list;
 }
 
+void YDAddReciVarDialog::setUpdateParam(const QModelIndex &groupIndex,
+                                        const QModelIndex &viewIndex,
+                                        bool flag) {
+  m_groupIndex = groupIndex;
+  m_viewIndex = viewIndex;
+  m_isUpdate = flag;
+}
+
 void YDAddReciVarDialog::setTextList(const QStringList &infos) {
-  setWindowTitle(YDAddReciVarDialog::tr("修改变量"));
+  setWindowTitle(YDAddReciVarDialog::tr("修改配方变量"));
   m_nameEdit->setText(infos[0]);
   int index = infos[1].toUInt();
   slotTypeChanged(index);
@@ -164,8 +185,52 @@ void YDAddReciVarDialog::slotOkBtnClicked() {
                            YDAddReciVarDialog::tr("值不能为空!"));
       return;
     }
-  }
 
+    if (m_minEdit->text().toDouble() > m_maxEdit->text().toDouble()) {
+      QMessageBox::warning(this, YDAddReciVarDialog::tr("错误"),
+                           YDAddReciVarDialog::tr("最小值不能大于最大值!"));
+      return;
+    }
+
+    if (m_valueEdit->text().toDouble() < m_minEdit->text().toDouble()) {
+      QMessageBox::warning(this, YDAddReciVarDialog::tr("错误"),
+                           YDAddReciVarDialog::tr("配方值不能小于最小值!"));
+      return;
+    }
+
+    if (m_valueEdit->text().toDouble() > m_maxEdit->text().toDouble()) {
+      QMessageBox::warning(this, YDAddReciVarDialog::tr("错误"),
+                           YDAddReciVarDialog::tr("配方值不能大于最大值!"));
+      return;
+    }
+  }
+  if (m_isUpdate) {
+    YDVariable *vg =
+        reinterpret_cast<YDVariable *>(m_groupIndex.internalPointer());
+    int row = m_viewIndex.row();
+    auto vars = YDProjectManage::GetGroupedGlobalVars(vg->groupId());
+
+    if (row < vars.size()) {
+      auto var = vars[row];
+      auto result = YDProjectManage::UpdateVariableName(
+          var->variable_id, QSTRTSTR(m_nameEdit->text()));
+      switch (result) {
+        case -1:
+          QMessageBox::warning(nullptr, YDAddReciVarDialog::tr("提示"),
+                               YDAddReciVarDialog::tr("修改配方变量名称失败!"));
+          return;
+        case 0:
+          break;
+        case 1:
+          QMessageBox::warning(nullptr, YDAddReciVarDialog::tr("提示"),
+                               YDAddReciVarDialog::tr("配方变量名称有重复!"));
+          return;
+        default:
+          return;
+      }
+    }
+    m_isUpdate = false;
+  }
   accept();
 }
 
@@ -193,22 +258,39 @@ void YDAddReciVarDialog::slotTypeChanged(int index) {
       m_axisBtn->setText("");
       break;
     case 1:
+      m_valueLab->show();
+      m_valueEdit->show();
+      m_valueEdit->setValidator(new QIntValidator());
+      m_minLab->show();
+      m_minEdit->show();
+      m_minEdit->setValidator(new QIntValidator());
+      m_maxLab->show();
+      m_maxEdit->show();
+      m_maxEdit->setValidator(new QIntValidator());
+      m_axisBtn->setText("");
+      break;
     case 2:
       m_valueLab->show();
       m_valueEdit->show();
+      m_valueEdit->setValidator(new QDoubleValidator());
       m_minLab->show();
       m_minEdit->show();
+      m_minEdit->setValidator(new QDoubleValidator());
       m_maxLab->show();
       m_maxEdit->show();
+      m_maxEdit->setValidator(new QDoubleValidator());
       m_axisBtn->setText("");
       break;
-    case 3:
+    case 3: {
       m_valueLab->show();
       m_valueEdit->show();
+      m_valueEdit->clear();
+      m_valueEdit->setValidator(nullptr);
       m_minEdit->clear();
       m_maxEdit->clear();
       m_axisBtn->setText("");
       break;
+    }
     case 4:
       m_axisLab->show();
       m_axisBtn->show();

@@ -4,200 +4,105 @@
         <home_move_script type="0"/>
         <default_recipe name=""/>
     </work_params>
-    <devices>
-        <device id="1" name="sfas" enable="true" type_id="9294736" type_name="mod:dev:mc" model="GTS-800-PV" vendor="固高" library="modDev_GTSController.dll" remarks="">
-            <card index="1" name="" config="configs/GTS800.cfg"/>
-            <axises>
-                <axis index="1" name="sfas__轴1" enable="false" equivalent="1000" max_velocity="500" max_acceleration="1000" max_deceleration="1000" smooth_stop_deceleration="1000" urgent_stop_deceleration="1000" arrive_error="0.10000000000000001" arrive_timeout="4000" use_hw_encoder="true" use_abs_encoder="true" pause_mode="1" manual_control_mode="0" stoped_delay="1000" takeoff_velocity="1000" max_manual_velocity="500" smooth_time="0" smooth_factor="0" remarks="" home_logic_subtask="0" suspend_logic_subtask="0" restore_logic_subtask="0">
-                    <sw_limit enable="false" positive="99999" negative="-99999"/>
-                    <hw_limit positive_enable="true" negative_enable="true"/>
-                    <home priority="1" mode="0" move_velocity="10" search_distance="100" search_high_velocity="10" search_low_velocity="1" origin_offset="10" capture_electric_level="1"/>
-                </axis>
-                <axis index="2" name="sfas__轴2" enable="false" equivalent="1000" max_velocity="500" max_acceleration="1000" max_deceleration="1000" smooth_stop_deceleration="1000" urgent_stop_deceleration="1000" arrive_error="0.10000000000000001" arrive_timeout="4000" use_hw_encoder="true" use_abs_encoder="true" pause_mode="1" manual_control_mode="0" stoped_delay="1000" takeoff_velocity="1000" max_manual_velocity="500" smooth_time="0" smooth_factor="0" remarks="" home_logic_subtask="0" suspend_logic_subtask="0" restore_logic_subtask="0">
-                    <sw_limit enable="false" positive="99999" negative="-99999"/>
-                    <hw_limit positive_enable="true" negative_enable="true"/>
-                    <home priority="1" mode="0" move_velocity="10" search_distance="100" search_high_velocity="10" search_low_velocity="1" origin_offset="10" capture_electric_level="1"/>
-                </axis>
-                <axis index="3" name="sfas__轴3" enable="false" equivalent="1000" max_velocity="500" max_acceleration="1000" max_deceleration="1000" smooth_stop_deceleration="1000" urgent_stop_deceleration="1000" arrive_error="0.10000000000000001" arrive_timeout="4000" use_hw_encoder="true" use_abs_encoder="true" pause_mode="1" manual_control_mode="0" stoped_delay="1000" takeoff_velocity="1000" max_manual_velocity="500" smooth_time="0" smooth_factor="0" remarks="" home_logic_subtask="0" suspend_logic_subtask="0" restore_logic_subtask="0">
-                    <sw_limit enable="false" positive="99999" negative="-99999"/>
-                    <hw_limit positive_enable="true" negative_enable="true"/>
-                    <home priority="1" mode="0" move_velocity="10" search_distance="100" search_high_velocity="10" search_low_velocity="1" origin_offset="10" capture_electric_level="1"/>
-                </axis>
-                <axis index="4" name="sfas__轴4" enable="false" equivalent="1000" max_velocity="500" max_acceleration="1000" max_deceleration="1000" smooth_stop_deceleration="1000" urgent_stop_deceleration="1000" arrive_error="0.10000000000000001" arrive_timeout="4000" use_hw_encoder="true" use_abs_encoder="true" pause_mode="1" manual_control_mode="0" stoped_delay="1000" takeoff_velocity="1000" max_manual_velocity="500" smooth_time="0" smooth_factor="0" remarks="" home_logic_subtask="0" suspend_logic_subtask="0" restore_logic_subtask="0">
-                    <sw_limit enable="false" positive="99999" negative="-99999"/>
-                    <hw_limit positive_enable="true" negative_enable="true"/>
-                    <home priority="1" mode="0" move_velocity="10" search_distance="100" search_high_velocity="10" search_low_velocity="1" origin_offset="10" capture_electric_level="1"/>
-                </axis>
-                <axis index="5" name="sfas__轴5" enable="false" equivalent="1000" max_velocity="500" max_acceleration="1000" max_deceleration="1000" smooth_stop_deceleration="1000" urgent_stop_deceleration="1000" arrive_error="0.10000000000000001" arrive_timeout="4000" use_hw_encoder="true" use_abs_encoder="true" pause_mode="1" manual_control_mode="0" stoped_delay="1000" takeoff_velocity="1000" max_manual_velocity="500" smooth_time="0" smooth_factor="0" remarks="" home_logic_subtask="0" suspend_logic_subtask="0" restore_logic_subtask="0">
-                    <sw_limit enable="false" positive="99999" negative="-99999"/>
-                    <hw_limit positive_enable="true" negative_enable="true"/>
-                    <home priority="1" mode="0" move_velocity="10" search_distance="100" search_high_velocity="10" search_low_velocity="1" origin_offset="10" capture_electric_level="1"/>
-                </axis>
-                <axis index="6" name="sfas__轴6" enable="false" equivalent="1000" max_velocity="500" max_acceleration="1000" max_deceleration="1000" smooth_stop_deceleration="1000" urgent_stop_deceleration="1000" arrive_error="0.10000000000000001" arrive_timeout="4000" use_hw_encoder="true" use_abs_encoder="true" pause_mode="1" manual_control_mode="0" stoped_delay="1000" takeoff_velocity="1000" max_manual_velocity="500" smooth_time="0" smooth_factor="0" remarks="" home_logic_subtask="0" suspend_logic_subtask="0" restore_logic_subtask="0">
-                    <sw_limit enable="false" positive="99999" negative="-99999"/>
-                    <hw_limit positive_enable="true" negative_enable="true"/>
-                    <home priority="1" mode="0" move_velocity="10" search_distance="100" search_high_velocity="10" search_low_velocity="1" origin_offset="10" capture_electric_level="1"/>
-                </axis>
-                <axis index="7" name="sfas__轴7" enable="false" equivalent="1000" max_velocity="500" max_acceleration="1000" max_deceleration="1000" smooth_stop_deceleration="1000" urgent_stop_deceleration="1000" arrive_error="0.10000000000000001" arrive_timeout="4000" use_hw_encoder="true" use_abs_encoder="true" pause_mode="1" manual_control_mode="0" stoped_delay="1000" takeoff_velocity="1000" max_manual_velocity="500" smooth_time="0" smooth_factor="0" remarks="" home_logic_subtask="0" suspend_logic_subtask="0" restore_logic_subtask="0">
-                    <sw_limit enable="false" positive="99999" negative="-99999"/>
-                    <hw_limit positive_enable="true" negative_enable="true"/>
-                    <home priority="1" mode="0" move_velocity="10" search_distance="100" search_high_velocity="10" search_low_velocity="1" origin_offset="10" capture_electric_level="1"/>
-                </axis>
-                <axis index="8" name="sfas__轴8" enable="false" equivalent="1000" max_velocity="500" max_acceleration="1000" max_deceleration="1000" smooth_stop_deceleration="1000" urgent_stop_deceleration="1000" arrive_error="0.10000000000000001" arrive_timeout="4000" use_hw_encoder="true" use_abs_encoder="true" pause_mode="1" manual_control_mode="0" stoped_delay="1000" takeoff_velocity="1000" max_manual_velocity="500" smooth_time="0" smooth_factor="0" remarks="" home_logic_subtask="0" suspend_logic_subtask="0" restore_logic_subtask="0">
-                    <sw_limit enable="false" positive="99999" negative="-99999"/>
-                    <hw_limit positive_enable="true" negative_enable="true"/>
-                    <home priority="1" mode="0" move_velocity="10" search_distance="100" search_high_velocity="10" search_low_velocity="1" origin_offset="10" capture_electric_level="1"/>
-                </axis>
-            </axises>
-            <dis>
-                <group type="0">
-                    <di index="1" type="0" name="sfas__通用输入DI1" reverse="false" enable="false" label="" remarks=""/>
-                    <di index="2" type="0" name="sfas__通用输入DI2" reverse="false" enable="false" label="" remarks=""/>
-                    <di index="3" type="0" name="sfas__通用输入DI3" reverse="false" enable="false" label="" remarks=""/>
-                    <di index="4" type="0" name="sfas__通用输入DI4" reverse="false" enable="false" label="" remarks=""/>
-                    <di index="5" type="0" name="sfas__通用输入DI5" reverse="false" enable="false" label="" remarks=""/>
-                    <di index="6" type="0" name="sfas__通用输入DI6" reverse="false" enable="false" label="" remarks=""/>
-                    <di index="7" type="0" name="sfas__通用输入DI7" reverse="false" enable="false" label="" remarks=""/>
-                    <di index="8" type="0" name="sfas__通用输入DI8" reverse="false" enable="false" label="" remarks=""/>
-                    <di index="9" type="0" name="sfas__通用输入DI9" reverse="false" enable="false" label="" remarks=""/>
-                    <di index="10" type="0" name="sfas__通用输入DI10" reverse="false" enable="false" label="" remarks=""/>
-                    <di index="11" type="0" name="sfas__通用输入DI11" reverse="false" enable="false" label="" remarks=""/>
-                    <di index="12" type="0" name="sfas__通用输入DI12" reverse="false" enable="false" label="" remarks=""/>
-                    <di index="13" type="0" name="sfas__通用输入DI13" reverse="false" enable="false" label="" remarks=""/>
-                    <di index="14" type="0" name="sfas__通用输入DI14" reverse="false" enable="false" label="" remarks=""/>
-                    <di index="15" type="0" name="sfas__通用输入DI15" reverse="false" enable="false" label="" remarks=""/>
-                    <di index="16" type="0" name="sfas__通用输入DI16" reverse="false" enable="false" label="" remarks=""/>
-                </group>
-                <group type="1">
-                    <di index="1" type="1" name="sfas__正向限位DI1" reverse="false" enable="false" label="" remarks=""/>
-                    <di index="2" type="1" name="sfas__正向限位DI2" reverse="false" enable="false" label="" remarks=""/>
-                    <di index="3" type="1" name="sfas__正向限位DI3" reverse="false" enable="false" label="" remarks=""/>
-                    <di index="4" type="1" name="sfas__正向限位DI4" reverse="false" enable="false" label="" remarks=""/>
-                    <di index="5" type="1" name="sfas__正向限位DI5" reverse="false" enable="false" label="" remarks=""/>
-                    <di index="6" type="1" name="sfas__正向限位DI6" reverse="false" enable="false" label="" remarks=""/>
-                    <di index="7" type="1" name="sfas__正向限位DI7" reverse="false" enable="false" label="" remarks=""/>
-                    <di index="8" type="1" name="sfas__正向限位DI8" reverse="false" enable="false" label="" remarks=""/>
-                </group>
-                <group type="2">
-                    <di index="1" type="2" name="sfas__负向限位DI1" reverse="false" enable="false" label="" remarks=""/>
-                    <di index="2" type="2" name="sfas__负向限位DI2" reverse="false" enable="false" label="" remarks=""/>
-                    <di index="3" type="2" name="sfas__负向限位DI3" reverse="false" enable="false" label="" remarks=""/>
-                    <di index="4" type="2" name="sfas__负向限位DI4" reverse="false" enable="false" label="" remarks=""/>
-                    <di index="5" type="2" name="sfas__负向限位DI5" reverse="false" enable="false" label="" remarks=""/>
-                    <di index="6" type="2" name="sfas__负向限位DI6" reverse="false" enable="false" label="" remarks=""/>
-                    <di index="7" type="2" name="sfas__负向限位DI7" reverse="false" enable="false" label="" remarks=""/>
-                    <di index="8" type="2" name="sfas__负向限位DI8" reverse="false" enable="false" label="" remarks=""/>
-                </group>
-                <group type="3">
-                    <di index="1" type="3" name="sfas__驱动报警DI1" reverse="false" enable="false" label="" remarks=""/>
-                    <di index="2" type="3" name="sfas__驱动报警DI2" reverse="false" enable="false" label="" remarks=""/>
-                    <di index="3" type="3" name="sfas__驱动报警DI3" reverse="false" enable="false" label="" remarks=""/>
-                    <di index="4" type="3" name="sfas__驱动报警DI4" reverse="false" enable="false" label="" remarks=""/>
-                    <di index="5" type="3" name="sfas__驱动报警DI5" reverse="false" enable="false" label="" remarks=""/>
-                    <di index="6" type="3" name="sfas__驱动报警DI6" reverse="false" enable="false" label="" remarks=""/>
-                    <di index="7" type="3" name="sfas__驱动报警DI7" reverse="false" enable="false" label="" remarks=""/>
-                    <di index="8" type="3" name="sfas__驱动报警DI8" reverse="false" enable="false" label="" remarks=""/>
-                </group>
-                <group type="4">
-                    <di index="1" type="4" name="sfas__原点信号DI1" reverse="false" enable="false" label="" remarks=""/>
-                    <di index="2" type="4" name="sfas__原点信号DI2" reverse="false" enable="false" label="" remarks=""/>
-                    <di index="3" type="4" name="sfas__原点信号DI3" reverse="false" enable="false" label="" remarks=""/>
-                    <di index="4" type="4" name="sfas__原点信号DI4" reverse="false" enable="false" label="" remarks=""/>
-                    <di index="5" type="4" name="sfas__原点信号DI5" reverse="false" enable="false" label="" remarks=""/>
-                    <di index="6" type="4" name="sfas__原点信号DI6" reverse="false" enable="false" label="" remarks=""/>
-                    <di index="7" type="4" name="sfas__原点信号DI7" reverse="false" enable="false" label="" remarks=""/>
-                    <di index="8" type="4" name="sfas__原点信号DI8" reverse="false" enable="false" label="" remarks=""/>
-                </group>
-                <group type="5">
-                    <di index="1" type="5" name="sfas__电机到位DI1" reverse="false" enable="false" label="" remarks=""/>
-                    <di index="2" type="5" name="sfas__电机到位DI2" reverse="false" enable="false" label="" remarks=""/>
-                    <di index="3" type="5" name="sfas__电机到位DI3" reverse="false" enable="false" label="" remarks=""/>
-                    <di index="4" type="5" name="sfas__电机到位DI4" reverse="false" enable="false" label="" remarks=""/>
-                    <di index="5" type="5" name="sfas__电机到位DI5" reverse="false" enable="false" label="" remarks=""/>
-                    <di index="6" type="5" name="sfas__电机到位DI6" reverse="false" enable="false" label="" remarks=""/>
-                    <di index="7" type="5" name="sfas__电机到位DI7" reverse="false" enable="false" label="" remarks=""/>
-                    <di index="8" type="5" name="sfas__电机到位DI8" reverse="false" enable="false" label="" remarks=""/>
-                </group>
-            </dis>
-            <dos>
-                <group type="0">
-                    <do index="1" type="0" name="sfas__通用输出DO1" reverse="false" enable="false" label="" remarks=""/>
-                    <do index="2" type="0" name="sfas__通用输出DO2" reverse="false" enable="false" label="" remarks=""/>
-                    <do index="3" type="0" name="sfas__通用输出DO3" reverse="false" enable="false" label="" remarks=""/>
-                    <do index="4" type="0" name="sfas__通用输出DO4" reverse="false" enable="false" label="" remarks=""/>
-                    <do index="5" type="0" name="sfas__通用输出DO5" reverse="false" enable="false" label="" remarks=""/>
-                    <do index="6" type="0" name="sfas__通用输出DO6" reverse="false" enable="false" label="" remarks=""/>
-                    <do index="7" type="0" name="sfas__通用输出DO7" reverse="false" enable="false" label="" remarks=""/>
-                    <do index="8" type="0" name="sfas__通用输出DO8" reverse="false" enable="false" label="" remarks=""/>
-                    <do index="9" type="0" name="sfas__通用输出DO9" reverse="false" enable="false" label="" remarks=""/>
-                    <do index="10" type="0" name="sfas__通用输出DO10" reverse="false" enable="false" label="" remarks=""/>
-                    <do index="11" type="0" name="sfas__通用输出DO11" reverse="false" enable="false" label="" remarks=""/>
-                    <do index="12" type="0" name="sfas__通用输出DO12" reverse="false" enable="false" label="" remarks=""/>
-                    <do index="13" type="0" name="sfas__通用输出DO13" reverse="false" enable="false" label="" remarks=""/>
-                    <do index="14" type="0" name="sfas__通用输出DO14" reverse="false" enable="false" label="" remarks=""/>
-                    <do index="15" type="0" name="sfas__通用输出DO15" reverse="false" enable="false" label="" remarks=""/>
-                    <do index="16" type="0" name="sfas__通用输出DO16" reverse="false" enable="false" label="" remarks=""/>
-                </group>
-            </dos>
-        </device>
-    </devices>
+    <devices/>
     <tasks>
         <task id="1" name="新建任务#1" type="1" enable="1" execute_method="0">
             <processes>
-                <process id="2" name="绝对运动2" type="3" parent_id="1" parent_category="1" previous_id="0" next_id="3" sync_mode="0" module_pointer="2245584555680">
+                <process id="11" name="绝对运动11" type="3" parent_id="1" parent_category="1" previous_id="0" next_id="12" sync_mode="0" module_pointer="2184796529712">
                     <module device_id="0" axis_index="0" position_referid="0" velocity_referid="0" safeguard_referid="0" direction_referid="1" inplace_wait_type="0" inplace_wait_value="0"/>
                 </process>
-                <process id="3" name="相对运动3" type="4" parent_id="1" parent_category="1" previous_id="2" next_id="4" sync_mode="0" module_pointer="2245720512160">
+                <process id="12" name="相对运动12" type="4" parent_id="1" parent_category="1" previous_id="11" next_id="13" sync_mode="0" module_pointer="2184796534080">
                     <module device_id="0" axis_index="0" distance_referid="0" velocity_referid="0" safeguard_referid="0" direction_referid="1" inplace_wait_type="0" inplace_wait_value="0"/>
                 </process>
-                <process id="4" name="Jog运动4" type="5" parent_id="1" parent_category="1" previous_id="3" next_id="5" sync_mode="0" module_pointer="2245692045584">
+                <process id="13" name="Jog运动13" type="5" parent_id="1" parent_category="1" previous_id="12" next_id="14" sync_mode="0" module_pointer="2184798683360">
                     <module device_id="0" axis_index="0" velocity_referid="0" safeguard_referid="0" direction_referid="1" inplace_wait_type="0" inplace_wait_value="0"/>
                 </process>
-                <process id="5" name="多轴运动5" type="6" parent_id="1" parent_category="1" previous_id="4" next_id="6" sync_mode="0" module_pointer="2245692045776">
-                    <module coords_referid="0" enabled_axisids="" safeguard_referid="0" inplace_wait_type="0" inplace_wait_value="0"/>
+                <process id="14" name="多轴运动14" type="6" parent_id="1" parent_category="1" previous_id="13" next_id="15" sync_mode="0" module_pointer="2184798677792">
+                    <module coords_referid="0" enabled_axisids="0" safeguard_referid="0" inplace_wait_type="0" inplace_wait_value="0"/>
                 </process>
-                <process id="6" name="停止运动6" type="9" parent_id="1" parent_category="1" previous_id="5" next_id="7" sync_mode="0" module_pointer="2245588199296">
+                <process id="15" name="相对运动15" type="4" parent_id="1" parent_category="1" previous_id="14" next_id="16" sync_mode="0" module_pointer="2184796529920">
+                    <module device_id="0" axis_index="0" distance_referid="0" velocity_referid="0" safeguard_referid="0" direction_referid="1" inplace_wait_type="0" inplace_wait_value="0"/>
+                </process>
+                <process id="16" name="多轴运动16" type="6" parent_id="1" parent_category="1" previous_id="15" next_id="17" sync_mode="0" module_pointer="2184798677984">
+                    <module coords_referid="0" enabled_axisids="0" safeguard_referid="0" inplace_wait_type="0" inplace_wait_value="0"/>
+                </process>
+                <process id="17" name="停止运动17" type="9" parent_id="1" parent_category="1" previous_id="16" next_id="18" sync_mode="0" module_pointer="2184842733968">
                     <module device_id="0" axis_index="0" method_referid="0" safeguard_referid="0" inplace_wait_type="0" inplace_wait_value="0"/>
                 </process>
-                <process id="7" name="到位等待7" type="22" parent_id="1" parent_category="1" previous_id="6" next_id="9" sync_mode="0" module_pointer="2245729220848">
+                <process id="18" name="到位等待18" type="22" parent_id="1" parent_category="1" previous_id="17" next_id="19" sync_mode="0" module_pointer="2184843362720">
                     <module logic_operator="1"/>
                 </process>
-                <process id="8" name="控制DO输出8" type="10" parent_id="1" parent_category="1" previous_id="9" next_id="10" sync_mode="0" module_pointer="2245720346352">
+                <process id="19" name="控制DO输出19" type="10" parent_id="1" parent_category="1" previous_id="18" next_id="20" sync_mode="0" module_pointer="2184841869056">
                     <module device_id="0" do_index="0" do_status="0"/>
                 </process>
-                <process id="9" name="控制AO输出9" type="11" parent_id="1" parent_category="1" previous_id="7" next_id="8" sync_mode="0" module_pointer="2245722079392">
+                <process id="20" name="控制AO输出20" type="11" parent_id="1" parent_category="1" previous_id="19" next_id="21" sync_mode="0" module_pointer="2184841174592">
                     <module device_id="0" ao_index="0" value_referid="0"/>
                 </process>
-                <process id="10" name="气油缸10" type="20" parent_id="1" parent_category="1" previous_id="8" next_id="11" sync_mode="0" module_pointer="2245729107872">
+                <process id="21" name="气油缸21" type="20" parent_id="1" parent_category="1" previous_id="20" next_id="22" sync_mode="0" module_pointer="2184842707008">
                     <module device_id="0" control_direction="0"/>
                 </process>
-                <process id="11" name="新建控件#10" type="12" parent_id="1" parent_category="1" previous_id="10" next_id="13" sync_mode="0" module_pointer="2245716217024">
+                <process id="22" name="新建控件#21" type="25" parent_id="1" parent_category="1" previous_id="21" next_id="24" sync_mode="0" module_pointer="2184843362080">
                     <module>
-                        <condition ref_condition_id="12"/>
+                        <condition ref_condition_id="23"/>
                     </module>
                 </process>
-                <process id="12" name="条件列表-新建控件#10" type="21" parent_id="11" parent_category="1" previous_id="0" next_id="0" sync_mode="0" module_pointer="2245729249968">
+                <process id="23" name="条件列表-新建控件#21" type="21" parent_id="22" parent_category="1" previous_id="0" next_id="0" sync_mode="0" module_pointer="2184843356640">
                     <module logic_operator="1"/>
                 </process>
-                <process id="13" name="新建控件#12" type="25" parent_id="1" parent_category="1" previous_id="11" next_id="0" sync_mode="0" module_pointer="2245729245328">
+                <process id="24" name="新建控件#23" type="12" parent_id="1" parent_category="1" previous_id="22" next_id="26" sync_mode="0" module_pointer="2184798678176">
                     <module>
-                        <condition ref_condition_id="14"/>
+                        <condition ref_condition_id="25"/>
                     </module>
                 </process>
-                <process id="14" name="条件列表-新建控件#12" type="21" parent_id="13" parent_category="1" previous_id="0" next_id="0" sync_mode="0" module_pointer="2245729241808">
+                <process id="25" name="条件列表-新建控件#23" type="21" parent_id="24" parent_category="1" previous_id="0" next_id="0" sync_mode="0" module_pointer="2184843355680">
                     <module logic_operator="1"/>
+                </process>
+                <process id="26" name="次数循环26" type="13" parent_id="1" parent_category="1" previous_id="24" next_id="27" sync_mode="0" module_pointer="2184843358880">
+                    <module>
+                        <conditions loop_counter="0"/>
+                    </module>
+                </process>
+                <process id="27" name="条件循环27" type="14" parent_id="1" parent_category="1" previous_id="26" next_id="31" sync_mode="0" module_pointer="2184843361760">
+                    <module>
+                        <condition ref_condition_id="28"/>
+                        <loop_process refer_ids="30"/>
+                    </module>
+                </process>
+                <process id="28" name="条件列表-新建控件#26" type="21" parent_id="27" parent_category="1" previous_id="0" next_id="0" sync_mode="0" module_pointer="2184843359040">
+                    <module logic_operator="1"/>
+                </process>
+                <process id="30" name="跳出循环30" type="15" parent_id="27" parent_category="1" previous_id="0" next_id="0" sync_mode="0" module_pointer="2184842703984">
+                    <module near_loopid="27"/>
+                </process>
+                <process id="31" name="延时等待31" type="16" parent_id="1" parent_category="1" previous_id="27" next_id="32" sync_mode="0" module_pointer="2184841874048">
+                    <module delay_time="0"/>
+                </process>
+                <process id="32" name="任务调用32" type="18" parent_id="1" parent_category="1" previous_id="31" next_id="33" sync_mode="0" module_pointer="2184842704992">
+                    <module task_id="0"/>
+                </process>
+                <process id="33" name="任务等待完成33" type="23" parent_id="1" parent_category="1" previous_id="32" next_id="34" sync_mode="0" module_pointer="2184842705664">
+                    <module task_id="0" expected_state="3"/>
+                </process>
+                <process id="34" name="报警确认34" type="17" parent_id="1" parent_category="1" previous_id="33" next_id="35" sync_mode="0" module_pointer="2184840394016">
+                    <module level="3" content="">
+                        <action action_type="1" action_name="确认" selected="0"/>
+                        <action action_type="2" action_name="忽略" selected="0"/>
+                        <action action_type="3" action_name="重试" selected="0"/>
+                        <action action_type="4" action_name="终止" selected="0"/>
+                    </module>
+                </process>
+                <process id="35" name="可编程模块35" type="19" parent_id="1" parent_category="1" previous_id="34" next_id="36" sync_mode="0" module_pointer="2184841178480">
+                    <module safeguard_referid="0" wait_time="0" script_type="1" data_cache_size="0"/>
+                </process>
+                <process id="36" name="跳转控件36" type="24" parent_id="1" parent_category="1" previous_id="35" next_id="0" sync_mode="0" module_pointer="2184842708240">
+                    <module jump_to_process="0"/>
                 </process>
             </processes>
         </task>
     </tasks>
-    <variable_groups>
-        <group parent_id="0" group_id="1" group_name="新建变量主分组#1"/>
-        <group parent_id="1" group_id="2" group_name="新建变量次分组#2"/>
-    </variable_groups>
+    <variable_groups/>
     <global_variables/>
-    <recipe_variables>
-        <variable parent_id="10001" variable_id="9110001000000001" variable_type="9" value_type="2" variable_name="test" last_value="1" init_value="1" min_value="0" max_value="1" access_type="3" parent_name="虚拟变量" main_group_id="1" sub_group_id="2"/>
-    </recipe_variables>
+    <recipe_variables/>
     <local_variables/>
     <safe_variables/>
     <scripts/>

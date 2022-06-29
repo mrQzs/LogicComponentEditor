@@ -41,5 +41,6 @@ class YDMenuHead : public QWidget {
   QString m_ftColor;
 
   bool m_isHover;
+  QFont m_font;
 };
 #endif  // YDMENUHEAD_H

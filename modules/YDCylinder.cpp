@@ -94,18 +94,18 @@ void YDCylinder::getData() {
   auto cy = getCylinder();
   auto list = YDProjectManage::getCylinders();
   for (auto v : list) {
-    auto name = QString::fromLocal8Bit(v->base.name.c_str());
+    auto name = STRTQSTR(v->base.name.c_str());
     if (cy == name) {
       m_cylinderModule->device_id = v->base.id;
       if (v->direction1_control.action_value ==
           v->direction2_control.action_value) {
-        auto d1name = QString::fromLocal8Bit(v->direction1_name.c_str());
+        auto d1name = STRTQSTR(v->direction1_name.c_str());
         if (d1name == getCylinderDir())
           m_cylinderModule->control_direction = 1;
         else
           m_cylinderModule->control_direction = 2;
       } else {
-        auto d1name = QString::fromLocal8Bit(v->direction1_name.c_str());
+        auto d1name = STRTQSTR(v->direction1_name.c_str());
         if (d1name == getCylinderDir())
           m_cylinderModule->control_direction = 0;
         else
@@ -120,18 +120,18 @@ void YDCylinder::setData() {
   auto list = YDProjectManage::getCylinders();
   for (auto v : list) {
     if (v->base.id == m_cylinderModule->device_id) {
-      setCylinder(QString::fromLocal8Bit(v->base.name));
+      setCylinder(STRTQSTR(v->base.name));
       if (v->direction1_control.action_value ==
           v->direction2_control.action_value) {
         if (1 == m_cylinderModule->control_direction)
-          setCylinderDir(QString::fromLocal8Bit(v->direction1_name.c_str()));
+          setCylinderDir(STRTQSTR(v->direction1_name.c_str()));
         else
-          setCylinderDir(QString::fromLocal8Bit(v->direction2_name.c_str()));
+          setCylinderDir(STRTQSTR(v->direction2_name.c_str()));
       } else {
         if (1 == m_cylinderModule->control_direction)
-          setCylinderDir(QString::fromLocal8Bit(v->direction2_name.c_str()));
+          setCylinderDir(STRTQSTR(v->direction2_name.c_str()));
         else
-          setCylinderDir(QString::fromLocal8Bit(v->direction1_name.c_str()));
+          setCylinderDir(STRTQSTR(v->direction1_name.c_str()));
       }
     }
   }

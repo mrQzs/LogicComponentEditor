@@ -293,7 +293,7 @@ namespace yd
 			FIELD(double, search_high_velocity, "搜索速度（高速）", "0", "1", FIELD_EXTEND_TYPE_NORMAL)
 			FIELD(double, search_low_velocity, "搜索速度（低速）", "0", "1", FIELD_EXTEND_TYPE_NORMAL)
 			FIELD(double, origin_offset, "原点偏移量", "0", "1", FIELD_EXTEND_TYPE_NORMAL)
-			FIELD(uint8, capture_electric_level, "原点捕获电平选中", "0", "1", FIELD_EXTEND_TYPE_NORMAL)
+			FIELD(uint8, capture_electric_level, "原点捕获电平选中", "0", "10", FIELD_EXTEND_TYPE_NORMAL)
 			AUTO_DATA_END(MCHome)
 			AUTO_DATA_BEGIN(MCAxis, "轴")
 			FIELD(uint16, index, "轴序号", "0", "60000", FIELD_EXTEND_TYPE_NORMAL)
@@ -320,9 +320,6 @@ namespace yd
 			FIELD(double, max_manual_velocity, "最大手动运动速度", "", "", FIELD_EXTEND_TYPE_NORMAL)
 			FIELD(uint32, smooth_time, "平滑时间", "0", "5000", FIELD_EXTEND_TYPE_NORMAL)
 			FIELD(double, smooth_factor, "平滑系数", "-1000", "1000", FIELD_EXTEND_TYPE_NORMAL)
-			FIELD(uint32, home_logic_subtask, "回零逻辑子任务id", "0", "60000", FIELD_EXTEND_TYPE_NORMAL)
-			FIELD(uint32, suspend_logic_subtask, "暂停逻辑子任务id", "0", "60000", FIELD_EXTEND_TYPE_NORMAL)
-			FIELD(uint32, restore_logic_subtask, "回复逻辑子任务id", "0", "60000", FIELD_EXTEND_TYPE_NORMAL)
 			AUTO_DATA_END(MCAxis)
 			AUTO_DATA_BEGIN(MCDI, "DI")
 			FIELD(uint16, index, "序号", "0", "32", FIELD_EXTEND_TYPE_NORMAL)
@@ -517,6 +514,7 @@ namespace yd
 	// 高级功能
 	namespace adv {
 		AUTO_DATA_BEGIN(ExtendScript, "自定义脚本")
+			FIELD(uint32, script_id, "脚本id", "1", "999999", FIELD_EXTEND_TYPE_NORMAL)
 			FIELD(std::string, script_name, "脚本名称", "", "", FIELD_EXTEND_TYPE_NORMAL)
 			FIELD(uint8, script_type, "脚本类型", "1", "100", FIELD_EXTEND_TYPE_NORMAL)
 			FIELD(uint8, execute_mode, "执行方式", "1", "100", FIELD_EXTEND_TYPE_NORMAL)
@@ -868,8 +866,8 @@ namespace yd
 			virtual bool GetAllProcesses(std::vector<LogicProcess*>& listProcesses) = 0;
 
 			// 获取指定id逻辑过程
-			virtual bool GetProcesses(std::vector<uint32>& listProcessIds, std::vector<LogicProcess*>& listProcesses) = 0;
-			virtual bool GetOrderedProcesses(std::vector<uint32>& listProcessIds, std::vector<LogicProcess*>& listProcesses) = 0;
+			virtual bool GetProcesses(uint32 uiParentId, std::vector<uint32>& listProcessIds, std::vector<LogicProcess*>& listProcesses) = 0;
+			virtual bool GetOrderedProcesses(uint32 uiParentId, std::vector<uint32>& listProcessIds, std::vector<LogicProcess*>& listProcesses) = 0;
 
 			// 获取所有逻辑过程id
 			virtual bool GetAllProcessIds(std::vector<uint32>& listProcessIds) = 0;
@@ -1031,6 +1029,9 @@ namespace yd
 
 			// 关联条件模块到指定流程：即将条件模块关联到指定的IfElse或Condition流程模块
 			virtual bool MappingConditionModule(uint32 uiConditionProcessId, uint32 uiTargetProcessId) = 0;
+
+			// 获取所有变量
+			virtual bool GetAllVariables(std::vector<vr::SystemVariable*>& listVariables) = 0;
 
 			// 清理
 			virtual void Clear() = 0;
@@ -1195,6 +1196,18 @@ namespace yd
 			// 获取所有变量
 			virtual bool GetAllVariables(std::vector<SystemVariable*>& listVariables) = 0;
 		};
+		// 变量数值接口
+		interface IVariableValueManager : public ICountor
+		{
+			// 更新普通变量
+			virtual bool SetVariable(uint64 ullVariableId, const std::string& strVariableValue) = 0;
+
+			// 获取普通变量
+			virtual bool GetVariable(uint64 ullVariableId, std::string& strVariableValue) = 0;
+
+			// 删除普通变量
+			virtual bool DeleteVariable(uint64 ullVariableId) = 0;
+		};
 	}
 
 	// 高级功能接口
@@ -1213,9 +1226,11 @@ namespace yd
 			virtual void Clear() = 0;
 
 			// 脚本是否存在
+			virtual bool IsExisting(uint32 uiScriptId) = 0;
 			virtual bool IsExisting(const std::string& strScriptName) = 0;
 
 			// 获取脚本
+			virtual bool GetScript(uint32 uiScriptId, adv::ExtendScript*& pExtendScript) = 0;
 			virtual bool GetScript(const std::string& strScriptName, adv::ExtendScript*& pExtendScript) = 0;
 			virtual bool GetScripts(std::vector<adv::ExtendScript*>& listExtendScripts) = 0;
 
@@ -1223,9 +1238,10 @@ namespace yd
 			virtual int32 CreateScript(const std::string& strScriptName, adv::ExtendScript*& pExtendScript) = 0;
 
 			// 更新脚本：-1--失败/0--成功/1--名称重复
-			virtual int32 UpdateScript(const std::string& strOldScriptName, adv::ExtendScript* pExtendScript) = 0;
+			virtual int32 UpdateScript(adv::ExtendScript* pExtendScript) = 0;
 
 			// 删除脚本：-1--失败/0--成功/1--不存在
+			virtual int32 DeleteScript(uint32 uiScriptId) = 0;
 			virtual int32 DeleteScript(const std::string& strScriptName) = 0;
 		};
 	}
@@ -1386,11 +1402,17 @@ namespace yd
 		// 获取设备变量管理器接口
 		virtual bool GetDeviceVariableManager(vr::IDeviceVariableManager*& pDeviceVariableManager) = 0;
 
+		// 获取变量数值管理器接口
+		virtual bool GetVariableValueManager(vr::IVariableValueManager*& pVariableValueManager) = 0;
+
 		// 获取自定义脚本管理接口
-		virtual bool GetExtendScriptManager(yd::adv::IExtendScriptManager*& pExtendScriptManager) = 0;
+		virtual bool GetExtendScriptManager(adv::IExtendScriptManager*& pExtendScriptManager) = 0;
 
 		// 更新变量分组名称：-1--更新失败/0--更新成功/1--名称重复
 		virtual int32 UpdateVariableGroupName(uint16 usGroupIdToUpdate, const std::string& strNewGroupName) = 0;
+
+		// 更新变量名称：-1--更新失败/0--更新成功/1--名称重复
+		virtual int32 UpdateVariableName(uint64 ullVariableIdToUpdate, const std::string& strNewVariableName) = 0;
 
 		// 更新逻辑任务名称：-1--更新失败/0--更新成功/1--名称重复
 		virtual int32 UpdateLogicTaskName(uint32 uiTaskIdToUpdate, const std::string& strNewTaskName) = 0;

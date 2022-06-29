@@ -1,6 +1,7 @@
 #include <QApplication>
 
 #include "MainWindow.h"
+#include "common/YDDebugLoger.h"
 #include "common/YDHelper.h"
 #include "common/YDLogger.h"
 #include "core/YDProjectManage.h"
@@ -44,15 +45,17 @@ int main(int argc, char *argv[]) {
   YDLogger ydlogger;
   Q_UNUSED(ydlogger);
 
+  YDDebugLoger yddebuglogger;
+  Q_UNUSED(yddebuglogger);
+
   YDProjectManage::init();
 
   YDProjectDialog dia;
   if (dia.exec() == QDialog::Accepted) {
     MainWindow w;
-    auto pName =
-        QString("%1: %2").arg(MainWindow::tr("工程"), dia.getProjectName());
-    auto name = QString("%1  ---  %2")
-                    .arg(MainWindow::tr("业务逻辑编辑软件 v:1.1.0"), pName);
+    auto name =
+        QString("%1  --  %2")
+            .arg(MainWindow::tr("业务逻辑编辑软件 "), dia.getProjectName());
     w.setWindowTitle(name);
 
     YDLogger::setMessageWidget(w.getLogWidget());

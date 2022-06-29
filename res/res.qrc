@@ -57,5 +57,26 @@
         <file>Module/Module.png</file>
         <file>Icon/Logo.png</file>
         <file>Icon/Project.png</file>
+        <file>Module/ModuleS.png</file>
+        <file>Icon/add1.png</file>
+        <file>Icon/add2.png</file>
+        <file>Icon/del1.png</file>
+        <file>Icon/del2.png</file>
+        <file>Icon/Zujian.png</file>
+        <file>Icon/Jiaoben.png</file>
+        <file>Icon/Jiankong.png</file>
+        <file>Icon/Bianliang.png</file>
+        <file>Icon/closeDebug.png</file>
+        <file>Icon/startDebug.png</file>
+        <file>Icon/LoginClose.png</file>
+        <file>Icon/LogicStart.png</file>
+        <file>Code/BPVB</file>
+        <file>Code/BPVC</file>
+        <file>Icon/x.png</file>
+        <file>Icon/home.png</file>
+        <file>Icon/save.png</file>
+        <file>Icon/Timing.png</file>
+        <file>Icon/close_normal.png</file>
+        <file>Icon/close_press.png</file>
     </qresource>
 </RCC>

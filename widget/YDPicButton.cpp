@@ -22,7 +22,7 @@ void YDPicButton::paintEvent(QPaintEvent *) {
   if (m_isHover) {
     p.setBrush(QColor(0xe5, 0xf1, 0xfb));
   } else {
-    p.setBrush(Qt::lightGray);
+    p.setBrush(QColor(0x95, 0xb3, 0xca));
   }
 
   p.drawRect(rect());

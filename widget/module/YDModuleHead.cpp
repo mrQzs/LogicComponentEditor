@@ -1,5 +1,6 @@
 #include "YDModuleHead.h"
 
+#include <QDateTime>
 #include <QPainter>
 
 #include "common/YDHelper.h"
@@ -64,10 +65,10 @@ void YDModuleHead::paintEvent(QPaintEvent *) {
     p.drawPixmap(x, y, w, h, m_iconp);
   }
 
+  QFont font;
+  font.setPixelSize(14);
   if (!m_text.isEmpty()) {
     p.setPen(m_ftColor);
-    QFont font;
-    font.setPixelSize(14);
     p.setFont(font);
     x = x + w + 10;
     auto m = p.fontMetrics();
@@ -87,6 +88,23 @@ void YDModuleHead::paintEvent(QPaintEvent *) {
     p.drawText(x, y, w, h, Qt::AlignCenter, str);
   }
 
+  if (YDHelper::isDebugMode()) {
+    QString strState = getStateInfo();
+    p.setFont(font);
+    p.setPen(QPen(m_ftColor));
+    auto m = p.fontMetrics();
+    w = m.horizontalAdvance(strState);
+    h = m.height();
+    x = width() - w - 50;
+
+    p.drawText(x, y, w, h, Qt::AlignLeft, strState);
+
+    QString m_text1 = "状态:";
+    x = width() - w - 50 - 20 - m.horizontalAdvance(m_text1);
+    w = m.horizontalAdvance(m_text1);
+    p.drawText(x, y, w, h, Qt::AlignLeft, m_text1);
+  }
+
   p.end();
 }
 
@@ -96,4 +114,36 @@ void YDModuleHead::mouseReleaseEvent(QMouseEvent *) {
   selectModule = m_module;
   YDHelper::getModPropModel()->setModule(m_module);
   update();
+}
+
+QString YDModuleHead::getStateInfo() {
+  yd::proto::ProcState state = m_module->getDebugState();
+  QString strState = YDModuleHead::tr("未知");
+  QString startTime{""}, endTime{""};
+
+  if (state.begin > 0 && state.end > 0 && YDHelper::getTestStart()) {
+    startTime = STRTQSTR(
+        yd::CTimestamp::FormatTimeFromMicroseconds(state.begin).c_str());
+    endTime =
+        STRTQSTR(yd::CTimestamp::FormatTimeFromMicroseconds(state.end).c_str());
+  }
+
+  switch (state.state) {
+    case LOGIC_TASK_STATE_INVALID:
+      strState = YDModuleHead::tr("不可用");
+      break;
+    case LOGIC_TASK_STATE_READY:
+      strState = YDModuleHead::tr("已就绪");
+      break;
+    case LOGIC_TASK_STATE_IN_PROCESSING:
+      strState = YDModuleHead::tr("运行中");
+      break;
+    case LOGIC_TASK_STATE_COMPLETED:
+      strState = YDModuleHead::tr("已完成");
+      break;
+    case LOGIC_TASK_STATE_FAILED:
+      strState = YDModuleHead::tr("已失败");
+      break;
+  }
+  return strState.append(" 起始: " + startTime + " 结束: " + endTime);
 }

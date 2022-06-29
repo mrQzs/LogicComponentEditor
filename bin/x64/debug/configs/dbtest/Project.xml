@@ -1,0 +1,281 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project>
+    <work_params>
+        <home_move_script type="2"/>
+        <default_recipe name="Recipe1"/>
+        <data_gateway address="127.0.0.1" port="40001" time_out="1000"/>
+        <data_receivers>
+            <data_receiver address="127.0.0.1" port="40002" time_out="1000"/>
+            <data_receiver address="192.168.1.100" port="40002" time_out="1000"/>
+        </data_receivers>
+    </work_params>
+    <devices>
+        <device id="1" name="GTS800PV" enable="true" type_id="2606532816" type_name="mod:dev:mc" model="GTS-800-PV" vendor="运动控制器模拟器" library="modDev_ModbusController.dll" remarks="">
+            <card index="0" name="" config="configs/GTS800.cfg"/>
+            <axises>
+                <axis index="1" name="AX轴" enable="true" equivalent="1000" max_velocity="100" max_acceleration="1000" max_deceleration="800" smooth_stop_deceleration="1000" urgent_stop_deceleration="1000" arrive_error="0.10000000000000001" arrive_timeout="100" use_hw_encoder="true" use_abs_encoder="true" pause_mode="2" manual_control_mode="0" stoped_delay="1000" takeoff_velocity="1000" max_manual_velocity="0" smooth_time="0" smooth_factor="0" remarks="">
+                    <sw_limit enable="false" positive="99999" negative="-99999"/>
+                    <hw_limit positive_enable="true" negative_enable="true"/>
+                    <home priority="1" mode="5" move_velocity="10" search_distance="100" search_high_velocity="10" search_low_velocity="1" origin_offset="10" capture_electric_level="0"/>
+                </axis>
+                <axis index="2" name="AY轴" enable="true" equivalent="1000" max_velocity="200" max_acceleration="1100" max_deceleration="900" smooth_stop_deceleration="1000" urgent_stop_deceleration="1000" arrive_error="0.10000000000000001" arrive_timeout="120" use_hw_encoder="true" use_abs_encoder="true" pause_mode="2" manual_control_mode="0" stoped_delay="1000" takeoff_velocity="1000" max_manual_velocity="0" smooth_time="0" smooth_factor="0" remarks="">
+                    <sw_limit enable="false" positive="99999" negative="-99999"/>
+                    <hw_limit positive_enable="true" negative_enable="true"/>
+                    <home priority="1" mode="6" move_velocity="10" search_distance="100" search_high_velocity="10" search_low_velocity="1" origin_offset="10" capture_electric_level="0"/>
+                </axis>
+                <axis index="3" name="AZ轴" enable="true" equivalent="1000" max_velocity="300" max_acceleration="1200" max_deceleration="1000" smooth_stop_deceleration="1000" urgent_stop_deceleration="1000" arrive_error="0.10000000000000001" arrive_timeout="150" use_hw_encoder="true" use_abs_encoder="true" pause_mode="2" manual_control_mode="0" stoped_delay="1000" takeoff_velocity="1000" max_manual_velocity="0" smooth_time="0" smooth_factor="0" remarks="">
+                    <sw_limit enable="false" positive="99999" negative="-99999"/>
+                    <hw_limit positive_enable="true" negative_enable="true"/>
+                    <home priority="1" mode="0" move_velocity="10" search_distance="100" search_high_velocity="10" search_low_velocity="1" origin_offset="10" capture_electric_level="0"/>
+                </axis>
+                <axis index="4" name="A旋转轴" enable="true" equivalent="1000" max_velocity="400" max_acceleration="1300" max_deceleration="1100" smooth_stop_deceleration="1000" urgent_stop_deceleration="1000" arrive_error="0.10000000000000001" arrive_timeout="4000" use_hw_encoder="true" use_abs_encoder="true" pause_mode="3" manual_control_mode="0" stoped_delay="1000" takeoff_velocity="1000" max_manual_velocity="0" smooth_time="0" smooth_factor="0" remarks="">
+                    <sw_limit enable="false" positive="99999" negative="-99999"/>
+                    <hw_limit positive_enable="true" negative_enable="true"/>
+                    <home priority="1" mode="0" move_velocity="10" search_distance="100" search_high_velocity="10" search_low_velocity="1" origin_offset="10" capture_electric_level="0"/>
+                </axis>
+                <axis index="5" name="GTS800PV轴5" enable="false" equivalent="1000" max_velocity="500" max_acceleration="1000" max_deceleration="1000" smooth_stop_deceleration="1000" urgent_stop_deceleration="1000" arrive_error="0.10000000000000001" arrive_timeout="4000" use_hw_encoder="true" use_abs_encoder="true" pause_mode="1" manual_control_mode="0" stoped_delay="1000" takeoff_velocity="1000" max_manual_velocity="0" smooth_time="0" smooth_factor="0" remarks="">
+                    <sw_limit enable="false" positive="99999" negative="-99999"/>
+                    <hw_limit positive_enable="true" negative_enable="true"/>
+                    <home priority="1" mode="0" move_velocity="10" search_distance="100" search_high_velocity="10" search_low_velocity="1" origin_offset="10" capture_electric_level="0"/>
+                </axis>
+                <axis index="6" name="GTS800PV轴6" enable="false" equivalent="1000" max_velocity="500" max_acceleration="1000" max_deceleration="1000" smooth_stop_deceleration="1000" urgent_stop_deceleration="1000" arrive_error="0.10000000000000001" arrive_timeout="4000" use_hw_encoder="true" use_abs_encoder="true" pause_mode="1" manual_control_mode="0" stoped_delay="1000" takeoff_velocity="1000" max_manual_velocity="0" smooth_time="0" smooth_factor="0" remarks="">
+                    <sw_limit enable="false" positive="99999" negative="-99999"/>
+                    <hw_limit positive_enable="true" negative_enable="true"/>
+                    <home priority="1" mode="0" move_velocity="10" search_distance="100" search_high_velocity="10" search_low_velocity="1" origin_offset="10" capture_electric_level="0"/>
+                </axis>
+                <axis index="7" name="GTS800PV轴7" enable="false" equivalent="1000" max_velocity="500" max_acceleration="1000" max_deceleration="1000" smooth_stop_deceleration="1000" urgent_stop_deceleration="1000" arrive_error="0.10000000000000001" arrive_timeout="4000" use_hw_encoder="true" use_abs_encoder="true" pause_mode="1" manual_control_mode="0" stoped_delay="1000" takeoff_velocity="1000" max_manual_velocity="0" smooth_time="0" smooth_factor="0" remarks="">
+                    <sw_limit enable="false" positive="99999" negative="-99999"/>
+                    <hw_limit positive_enable="true" negative_enable="true"/>
+                    <home priority="1" mode="0" move_velocity="10" search_distance="100" search_high_velocity="10" search_low_velocity="1" origin_offset="10" capture_electric_level="0"/>
+                </axis>
+                <axis index="8" name="GTS800PV轴8" enable="false" equivalent="1000" max_velocity="500" max_acceleration="1000" max_deceleration="1000" smooth_stop_deceleration="1000" urgent_stop_deceleration="1000" arrive_error="0.10000000000000001" arrive_timeout="4000" use_hw_encoder="true" use_abs_encoder="true" pause_mode="1" manual_control_mode="0" stoped_delay="1000" takeoff_velocity="1000" max_manual_velocity="0" smooth_time="0" smooth_factor="0" remarks="">
+                    <sw_limit enable="false" positive="99999" negative="-99999"/>
+                    <hw_limit positive_enable="true" negative_enable="true"/>
+                    <home priority="1" mode="0" move_velocity="10" search_distance="100" search_high_velocity="10" search_low_velocity="1" origin_offset="10" capture_electric_level="0"/>
+                </axis>
+            </axises>
+            <dis>
+                <group type="0">
+                    <di index="1" type="0" name="气油缸1前进到位" reverse="true" enable="true" label="X001" remarks=""/>
+                    <di index="2" type="0" name="气油缸1后退到位" reverse="true" enable="true" label="X002" remarks=""/>
+                    <di index="3" type="0" name="气油缸2上升到位" reverse="true" enable="true" label="X003" remarks=""/>
+                    <di index="4" type="0" name="气油缸2下降到位" reverse="true" enable="true" label="X004" remarks=""/>
+                    <di index="5" type="0" name="GTS800PV通用输入DI5" reverse="false" enable="false" label="" remarks=""/>
+                    <di index="6" type="0" name="GTS800PV通用输入DI6" reverse="false" enable="false" label="" remarks=""/>
+                    <di index="7" type="0" name="GTS800PV通用输入DI7" reverse="false" enable="false" label="" remarks=""/>
+                    <di index="8" type="0" name="GTS800PV通用输入DI8" reverse="false" enable="false" label="" remarks=""/>
+                    <di index="9" type="0" name="GTS800PV通用输入DI9" reverse="false" enable="false" label="" remarks=""/>
+                    <di index="10" type="0" name="GTS800PV通用输入DI10" reverse="false" enable="false" label="" remarks=""/>
+                    <di index="11" type="0" name="GTS800PV通用输入DI11" reverse="false" enable="false" label="" remarks=""/>
+                    <di index="12" type="0" name="GTS800PV通用输入DI12" reverse="false" enable="false" label="" remarks=""/>
+                    <di index="13" type="0" name="GTS800PV通用输入DI13" reverse="false" enable="false" label="" remarks=""/>
+                    <di index="14" type="0" name="GTS800PV通用输入DI14" reverse="false" enable="false" label="" remarks=""/>
+                    <di index="15" type="0" name="GTS800PV通用输入DI15" reverse="false" enable="false" label="" remarks=""/>
+                    <di index="16" type="0" name="GTS800PV通用输入DI16" reverse="false" enable="false" label="" remarks=""/>
+                </group>
+                <group type="1">
+                    <di index="1" type="1" name="AX轴正向限位" reverse="false" enable="true" label="" remarks=""/>
+                    <di index="2" type="1" name="AY轴正向限位" reverse="false" enable="true" label="" remarks=""/>
+                    <di index="3" type="1" name="AZ轴正向限位" reverse="false" enable="true" label="" remarks=""/>
+                    <di index="4" type="1" name="GTS800PV正限位输入DI4" reverse="false" enable="false" label="" remarks=""/>
+                    <di index="5" type="1" name="GTS800PV正限位输入DI5" reverse="false" enable="false" label="" remarks=""/>
+                    <di index="6" type="1" name="GTS800PV正限位输入DI6" reverse="false" enable="false" label="" remarks=""/>
+                    <di index="7" type="1" name="GTS800PV正限位输入DI7" reverse="false" enable="false" label="" remarks=""/>
+                    <di index="8" type="1" name="GTS800PV正限位输入DI8" reverse="false" enable="false" label="" remarks=""/>
+                </group>
+                <group type="2">
+                    <di index="1" type="2" name="AX轴负向限位" reverse="false" enable="true" label="" remarks=""/>
+                    <di index="2" type="2" name="AY轴负向限位" reverse="false" enable="true" label="" remarks=""/>
+                    <di index="3" type="2" name="AZ轴负向限位" reverse="false" enable="true" label="" remarks=""/>
+                    <di index="4" type="2" name="GTS800PV负限位输入DI4" reverse="false" enable="false" label="" remarks=""/>
+                    <di index="5" type="2" name="GTS800PV负限位输入DI5" reverse="false" enable="false" label="" remarks=""/>
+                    <di index="6" type="2" name="GTS800PV负限位输入DI6" reverse="false" enable="false" label="" remarks=""/>
+                    <di index="7" type="2" name="GTS800PV负限位输入DI7" reverse="false" enable="false" label="" remarks=""/>
+                    <di index="8" type="2" name="GTS800PV负限位输入DI8" reverse="false" enable="false" label="" remarks=""/>
+                </group>
+                <group type="3">
+                    <di index="1" type="3" name="AX轴驱动报警" reverse="false" enable="true" label="" remarks=""/>
+                    <di index="2" type="3" name="AY轴驱动报警" reverse="false" enable="true" label="" remarks=""/>
+                    <di index="3" type="3" name="AZ轴驱动报警" reverse="false" enable="true" label="" remarks=""/>
+                    <di index="4" type="3" name="GTS800PV驱动报警DI4" reverse="false" enable="false" label="" remarks=""/>
+                    <di index="5" type="3" name="GTS800PV驱动报警DI5" reverse="false" enable="false" label="" remarks=""/>
+                    <di index="6" type="3" name="GTS800PV驱动报警DI6" reverse="false" enable="false" label="" remarks=""/>
+                    <di index="7" type="3" name="GTS800PV驱动报警DI7" reverse="false" enable="false" label="" remarks=""/>
+                    <di index="8" type="3" name="GTS800PV驱动报警DI8" reverse="false" enable="false" label="" remarks=""/>
+                </group>
+                <group type="4">
+                    <di index="1" type="4" name="AX轴原点信号" reverse="false" enable="true" label="" remarks=""/>
+                    <di index="2" type="4" name="AY轴原点信号" reverse="false" enable="true" label="" remarks=""/>
+                    <di index="3" type="4" name="AZ轴原点信号" reverse="false" enable="true" label="" remarks=""/>
+                    <di index="4" type="4" name="GTS800PV原点信号DI4" reverse="false" enable="false" label="" remarks=""/>
+                    <di index="5" type="4" name="GTS800PV原点信号DI5" reverse="false" enable="false" label="" remarks=""/>
+                    <di index="6" type="4" name="GTS800PV原点信号DI6" reverse="false" enable="false" label="" remarks=""/>
+                    <di index="7" type="4" name="GTS800PV原点信号DI7" reverse="false" enable="false" label="" remarks=""/>
+                    <di index="8" type="4" name="GTS800PV原点信号DI8" reverse="false" enable="false" label="" remarks=""/>
+                </group>
+                <group type="5">
+                    <di index="1" type="5" name="AX轴电机到位" reverse="false" enable="true" label="" remarks=""/>
+                    <di index="2" type="5" name="AY轴电机到位" reverse="false" enable="true" label="" remarks=""/>
+                    <di index="3" type="5" name="AZ轴电机到位" reverse="false" enable="true" label="" remarks=""/>
+                    <di index="4" type="5" name="GTS800PV电机到位DI4" reverse="false" enable="false" label="" remarks=""/>
+                    <di index="5" type="5" name="GTS800PV电机到位DI5" reverse="false" enable="false" label="" remarks=""/>
+                    <di index="6" type="5" name="GTS800PV电机到位DI6" reverse="false" enable="false" label="" remarks=""/>
+                    <di index="7" type="5" name="GTS800PV电机到位DI7" reverse="false" enable="false" label="" remarks=""/>
+                    <di index="8" type="5" name="GTS800PV电机到位DI8" reverse="false" enable="false" label="" remarks=""/>
+                </group>
+            </dis>
+            <dos>
+                <group type="0">
+                    <do index="1" type="0" name="气油缸1前进控制" reverse="false" enable="true" label="" remarks=""/>
+                    <do index="2" type="0" name="气油缸1后退控制" reverse="false" enable="true" label="" remarks=""/>
+                    <do index="3" type="0" name="气油缸2上升下降控制" reverse="false" enable="true" label="" remarks=""/>
+                    <do index="4" type="0" name="箱内照明" reverse="false" enable="true" label="" remarks=""/>
+                    <do index="5" type="0" name="A工位照明" reverse="false" enable="true" label="" remarks=""/>
+                    <do index="6" type="0" name="B工位照明" reverse="false" enable="true" label="" remarks=""/>
+                    <do index="7" type="0" name="GTS800PV通用输出DO7" reverse="false" enable="false" label="" remarks=""/>
+                    <do index="8" type="0" name="GTS800PV通用输出DO8" reverse="false" enable="false" label="" remarks=""/>
+                    <do index="9" type="0" name="GTS800PV通用输出DO9" reverse="false" enable="false" label="" remarks=""/>
+                    <do index="10" type="0" name="GTS800PV通用输出DO10" reverse="false" enable="false" label="" remarks=""/>
+                    <do index="11" type="0" name="GTS800PV通用输出DO11" reverse="false" enable="false" label="" remarks=""/>
+                    <do index="12" type="0" name="GTS800PV通用输出DO12" reverse="false" enable="false" label="" remarks=""/>
+                    <do index="13" type="0" name="GTS800PV通用输出DO13" reverse="false" enable="false" label="" remarks=""/>
+                    <do index="14" type="0" name="GTS800PV通用输出DO14" reverse="false" enable="false" label="" remarks=""/>
+                    <do index="15" type="0" name="GTS800PV通用输出DO15" reverse="false" enable="false" label="" remarks=""/>
+                    <do index="16" type="0" name="GTS800PV通用输出DO16" reverse="false" enable="false" label="" remarks=""/>
+                </group>
+            </dos>
+        </device>
+        <cylinder id="2" name="前进后退气油缸" enable="true" type_id="65535" type_name="mod:dev:cy" model="气油缸" vendor="" library="" remarks="" direction1_name="前进" direction2_name="后退">
+            <input>
+                <direction1 type="2" refer_device_id="1" refer_index="1" action_value="1" delay_time="0" alarm_time="5000"/>
+                <direction2 type="2" refer_device_id="1" refer_index="2" action_value="1" delay_time="0" alarm_time="4000"/>
+            </input>
+            <output>
+                <direction1 refer_device_id="1" refer_index="1" action_value="1"/>
+                <direction2 refer_device_id="1" refer_index="2" action_value="1"/>
+            </output>
+        </cylinder>
+        <cylinder id="3" name="上升下降气油缸" enable="true" type_id="65535" type_name="mod:dev:cy" model="气油缸" vendor="" library="" remarks="" direction1_name="上升" direction2_name="下降">
+            <input>
+                <direction1 type="1" refer_device_id="1" refer_index="3" action_value="1" delay_time="5000" alarm_time="8000"/>
+                <direction2 type="1" refer_device_id="1" refer_index="4" action_value="1" delay_time="3000" alarm_time="7500"/>
+            </input>
+            <output>
+                <direction1 refer_device_id="1" refer_index="3" action_value="0"/>
+                <direction2 refer_device_id="1" refer_index="3" action_value="1"/>
+            </output>
+        </cylinder>
+    </devices>
+    <tasks>
+        <task id="3" name="回零任务" type="1" enable="1" execute_method="0">
+            <processes>
+                <process id="307" name="AX轴回零运动3" type="3" parent_id="3" parent_category="1" previous_id="0" next_id="308" sync_mode="0" module_pointer="2624234750800">
+                    <module device_id="1" axis_index="1" position_referid="910001000012001" velocity_referid="85" safeguard_referid="0" direction_referid="0" inplace_wait_type="0" inplace_wait_value="0"/>
+                </process>
+                <process id="308" name="AY轴回零运动3" type="3" parent_id="3" parent_category="1" previous_id="307" next_id="309" sync_mode="0" module_pointer="2624234758288">
+                    <module device_id="1" axis_index="2" position_referid="910001000012005" velocity_referid="95" safeguard_referid="0" direction_referid="0" inplace_wait_type="0" inplace_wait_value="0"/>
+                </process>
+                <process id="309" name="AZ轴回零运动3" type="3" parent_id="3" parent_category="1" previous_id="308" next_id="311" sync_mode="0" module_pointer="2624234752048">
+                    <module device_id="1" axis_index="3" position_referid="910001000012009" velocity_referid="35" safeguard_referid="0" direction_referid="0" inplace_wait_type="0" inplace_wait_value="0"/>
+                </process>
+                <process id="311" name="AX轴绝对运动" type="3" parent_id="3" parent_category="1" previous_id="309" next_id="312" sync_mode="0" module_pointer="2624234758912">
+                    <module device_id="1" axis_index="1" position_referid="910001000012111" velocity_referid="910001000012004" safeguard_referid="0" direction_referid="0" inplace_wait_type="0" inplace_wait_value="0"/>
+                </process>
+                <process id="312" name="AY轴绝对运动" type="3" parent_id="3" parent_category="1" previous_id="311" next_id="313" sync_mode="0" module_pointer="2624234756832">
+                    <module device_id="1" axis_index="2" position_referid="910001000012006" velocity_referid="80" safeguard_referid="0" direction_referid="0" inplace_wait_type="0" inplace_wait_value="0"/>
+                </process>
+                <process id="313" name="等待15000毫秒" type="16" parent_id="3" parent_category="1" previous_id="312" next_id="314" sync_mode="0" module_pointer="2624234104640">
+                    <module delay_time="15000"/>
+                </process>
+                <process id="314" name="Axis4Ctrl" type="19" parent_id="3" parent_category="1" previous_id="313" next_id="315" sync_mode="0" module_pointer="2624235237008">
+                    <module safeguard_referid="0" wait_time="2000" script_type="2" data_cache_size="1000"/>
+                </process>
+                <process id="315" name="AZ轴绝对运动" type="3" parent_id="3" parent_category="1" previous_id="314" next_id="0" sync_mode="0" module_pointer="2624234751632">
+                    <module device_id="1" axis_index="3" position_referid="910001000012010" velocity_referid="80" safeguard_referid="0" direction_referid="0" inplace_wait_type="0" inplace_wait_value="0"/>
+                </process>
+            </processes>
+        </task>
+        <task id="800" name="可编程控件脚本任务" type="1" enable="1" execute_method="0">
+            <processes>
+                <process id="8307" name="AX轴回零运动3" type="3" parent_id="800" parent_category="1" previous_id="0" next_id="8001" sync_mode="0" module_pointer="2624234753920">
+                    <module device_id="1" axis_index="1" position_referid="910001000012001" velocity_referid="85" safeguard_referid="0" direction_referid="0" inplace_wait_type="0" inplace_wait_value="0"/>
+                </process>
+                <process id="8001" name="等待2000毫秒" type="16" parent_id="800" parent_category="1" previous_id="8307" next_id="0" sync_mode="0" module_pointer="2624234110144">
+                    <module delay_time="2000"/>
+                </process>
+            </processes>
+        </task>
+    </tasks>
+    <variable_groups>
+        <group parent_id="0" group_id="1" group_name="AX轴变量"/>
+        <group parent_id="0" group_id="2" group_name="AY轴变量"/>
+        <group parent_id="0" group_id="3" group_name="AZ轴变量"/>
+        <group parent_id="0" group_id="4" group_name="A旋转轴变量"/>
+        <group parent_id="1" group_id="5" group_name="AX轴运动变量"/>
+        <group parent_id="1" group_id="6" group_name="AX轴安全变量"/>
+        <group parent_id="2" group_id="7" group_name="AY轴运动变量"/>
+        <group parent_id="2" group_id="8" group_name="AY轴安全变量"/>
+        <group parent_id="3" group_id="9" group_name="AZ轴运动变量"/>
+        <group parent_id="3" group_id="10" group_name="AZ轴安全变量"/>
+        <group parent_id="4" group_id="11" group_name="A旋转轴运动变量"/>
+        <group parent_id="4" group_id="12" group_name="A旋转轴安全变量"/>
+        <group parent_id="0" group_id="13" group_name="AXYZ多轴运动变量"/>
+        <group parent_id="0" group_id="14" group_name="AXY多轴运动变量"/>
+        <group parent_id="14" group_id="15" group_name="AXY轴坐标"/>
+        <group parent_id="13" group_id="16" group_name="AXYZ轴坐标"/>
+    </variable_groups>
+    <global_variables>
+        <variable parent_id="10000" variable_id="1" variable_type="5" value_type="4" variable_name="工作状态" last_value="0" init_value="0" min_value="0" max_value="10" access_type="3" parent_name="系统变量" main_group_id="0" sub_group_id="0"/>
+        <variable parent_id="10000" variable_id="2" variable_type="5" value_type="4" variable_name="控制模式" last_value="0" init_value="0" min_value="0" max_value="10" access_type="3" parent_name="系统变量" main_group_id="0" sub_group_id="0"/>
+        <variable parent_id="10001" variable_id="910001000012013" variable_type="9" value_type="17" variable_name="AXYZ坐标" last_value="{&quot;ctrl_type&quot;:0,&quot;number&quot;:3,&quot;coords&quot;:[{&quot;device_id&quot;:1,&quot;card&quot;:0,&quot;axis&quot;:1,&quot;type&quot;:108,&quot;target&quot;:{&quot;use_variable&quot;:false,&quot;refer_value&quot;:&quot;123&quot;},&quot;velocity&quot;:{&quot;use_variable&quot;:false,&quot;refer_value&quot;:&quot;123&quot;}},{&quot;device_id&quot;:1,&quot;card&quot;:0,&quot;axis&quot;:2,&quot;type&quot;:108,&quot;target&quot;:{&quot;use_variable&quot;:false,&quot;refer_value&quot;:&quot;456&quot;},&quot;velocity&quot;:{&quot;use_variable&quot;:false,&quot;refer_value&quot;:&quot;456&quot;}},{&quot;device_id&quot;:1,&quot;card&quot;:0,&quot;axis&quot;:3,&quot;type&quot;:108,&quot;target&quot;:{&quot;use_variable&quot;:false,&quot;refer_value&quot;:&quot;369&quot;},&quot;velocity&quot;:{&quot;use_variable&quot;:false,&quot;refer_value&quot;:&quot;369&quot;}}]}" init_value="{&quot;ctrl_type&quot;:0,&quot;number&quot;:3,&quot;coords&quot;:[{&quot;device_id&quot;:1,&quot;card&quot;:0,&quot;axis&quot;:1,&quot;type&quot;:108,&quot;target&quot;:{&quot;use_variable&quot;:false,&quot;refer_value&quot;:&quot;123&quot;},&quot;velocity&quot;:{&quot;use_variable&quot;:false,&quot;refer_value&quot;:&quot;123&quot;}},{&quot;device_id&quot;:1,&quot;card&quot;:0,&quot;axis&quot;:2,&quot;type&quot;:108,&quot;target&quot;:{&quot;use_variable&quot;:false,&quot;refer_value&quot;:&quot;456&quot;},&quot;velocity&quot;:{&quot;use_variable&quot;:false,&quot;refer_value&quot;:&quot;456&quot;}},{&quot;device_id&quot;:1,&quot;card&quot;:0,&quot;axis&quot;:3,&quot;type&quot;:108,&quot;target&quot;:{&quot;use_variable&quot;:false,&quot;refer_value&quot;:&quot;369&quot;},&quot;velocity&quot;:{&quot;use_variable&quot;:false,&quot;refer_value&quot;:&quot;369&quot;}}]}" min_value="" max_value="" access_type="3" parent_name="虚拟变量" main_group_id="13" sub_group_id="16"/>
+        <variable parent_id="10001" variable_id="910001000012014" variable_type="9" value_type="17" variable_name="AXY坐标" last_value="{&quot;ctrl_type&quot;:0,&quot;number&quot;:2,&quot;coords&quot;:[{&quot;device_id&quot;:1,&quot;card&quot;:0,&quot;axis&quot;:1,&quot;type&quot;:108,&quot;target&quot;:{&quot;use_variable&quot;:false,&quot;refer_value&quot;:&quot;333&quot;},&quot;velocity&quot;:{&quot;use_variable&quot;:false,&quot;refer_value&quot;:&quot;333&quot;}},{&quot;device_id&quot;:1,&quot;card&quot;:0,&quot;axis&quot;:2,&quot;type&quot;:108,&quot;target&quot;:{&quot;use_variable&quot;:false,&quot;refer_value&quot;:&quot;422&quot;},&quot;velocity&quot;:{&quot;use_variable&quot;:false,&quot;refer_value&quot;:&quot;422&quot;}}]}" init_value="{&quot;ctrl_type&quot;:0,&quot;number&quot;:2,&quot;coords&quot;:[{&quot;device_id&quot;:1,&quot;card&quot;:0,&quot;axis&quot;:1,&quot;type&quot;:108,&quot;target&quot;:{&quot;use_variable&quot;:false,&quot;refer_value&quot;:&quot;333&quot;},&quot;velocity&quot;:{&quot;use_variable&quot;:false,&quot;refer_value&quot;:&quot;333&quot;}},{&quot;device_id&quot;:1,&quot;card&quot;:0,&quot;axis&quot;:2,&quot;type&quot;:108,&quot;target&quot;:{&quot;use_variable&quot;:false,&quot;refer_value&quot;:&quot;422&quot;},&quot;velocity&quot;:{&quot;use_variable&quot;:false,&quot;refer_value&quot;:&quot;422&quot;}}]}" min_value="" max_value="" access_type="3" parent_name="虚拟变量" main_group_id="14" sub_group_id="15"/>
+    </global_variables>
+    <recipe_variables>
+        <variable parent_id="10001" variable_id="910001000012001" variable_type="9" value_type="12" variable_name="AX轴零点位置" last_value="0" init_value="0" min_value="0" max_value="1000" access_type="3" parent_name="虚拟变量" main_group_id="1" sub_group_id="5"/>
+        <variable parent_id="10001" variable_id="910001000012002" variable_type="9" value_type="12" variable_name="AX轴目标位置" last_value="100" init_value="100" min_value="0" max_value="1000" access_type="3" parent_name="虚拟变量" main_group_id="1" sub_group_id="5"/>
+        <variable parent_id="10001" variable_id="910001000012003" variable_type="9" value_type="12" variable_name="AX轴运动距离" last_value="120" init_value="120" min_value="0" max_value="1000" access_type="3" parent_name="虚拟变量" main_group_id="1" sub_group_id="5"/>
+        <variable parent_id="10001" variable_id="910001000012004" variable_type="9" value_type="12" variable_name="AX轴运动速度" last_value="360" init_value="360" min_value="0" max_value="1000" access_type="3" parent_name="虚拟变量" main_group_id="1" sub_group_id="5"/>
+        <variable parent_id="10001" variable_id="910001000012005" variable_type="9" value_type="12" variable_name="AY轴零点位置" last_value="0" init_value="0" min_value="0" max_value="1000" access_type="3" parent_name="虚拟变量" main_group_id="2" sub_group_id="7"/>
+        <variable parent_id="10001" variable_id="910001000012006" variable_type="9" value_type="12" variable_name="AY轴目标位置" last_value="750" init_value="750" min_value="0" max_value="1000" access_type="3" parent_name="虚拟变量" main_group_id="2" sub_group_id="7"/>
+        <variable parent_id="10001" variable_id="910001000012007" variable_type="9" value_type="12" variable_name="AY轴运动距离" last_value="25" init_value="25" min_value="0" max_value="1000" access_type="3" parent_name="虚拟变量" main_group_id="2" sub_group_id="7"/>
+        <variable parent_id="10001" variable_id="910001000012008" variable_type="9" value_type="12" variable_name="AY轴运动速度" last_value="145" init_value="145" min_value="0" max_value="1000" access_type="3" parent_name="虚拟变量" main_group_id="2" sub_group_id="7"/>
+        <variable parent_id="10001" variable_id="910001000012009" variable_type="9" value_type="12" variable_name="AZ轴零点位置" last_value="0" init_value="0" min_value="0" max_value="1000" access_type="3" parent_name="虚拟变量" main_group_id="3" sub_group_id="9"/>
+        <variable parent_id="10001" variable_id="910001000012010" variable_type="9" value_type="12" variable_name="AZ轴目标位置" last_value="450" init_value="450" min_value="0" max_value="1000" access_type="3" parent_name="虚拟变量" main_group_id="3" sub_group_id="9"/>
+        <variable parent_id="10001" variable_id="910001000012011" variable_type="9" value_type="12" variable_name="AZ轴运动距离" last_value="125" init_value="125" min_value="0" max_value="1000" access_type="3" parent_name="虚拟变量" main_group_id="3" sub_group_id="9"/>
+        <variable parent_id="10001" variable_id="910001000012012" variable_type="9" value_type="12" variable_name="AZ轴运动速度" last_value="320" init_value="320" min_value="0" max_value="1000" access_type="3" parent_name="虚拟变量" main_group_id="3" sub_group_id="9"/>
+    </recipe_variables>
+    <local_variables>
+        <variable parent_id="10001" variable_id="910001000012101" variable_type="9" value_type="2" variable_name="Bool测试变量" last_value="0" init_value="0" min_value="0" max_value="1" access_type="3" parent_name="虚拟变量" main_group_id="3" sub_group_id="9"/>
+        <variable parent_id="10001" variable_id="910001000012102" variable_type="9" value_type="3" variable_name="Int8测试变量" last_value="-12" init_value="-12" min_value="-100" max_value="100" access_type="3" parent_name="虚拟变量" main_group_id="3" sub_group_id="9"/>
+        <variable parent_id="10001" variable_id="910001000012103" variable_type="9" value_type="4" variable_name="UInt8测试变量" last_value="15" init_value="15" min_value="0" max_value="200" access_type="3" parent_name="虚拟变量" main_group_id="3" sub_group_id="9"/>
+        <variable parent_id="10001" variable_id="910001000012104" variable_type="9" value_type="5" variable_name="Int16测试变量" last_value="-120" init_value="-120" min_value="-600" max_value="500" access_type="3" parent_name="虚拟变量" main_group_id="3" sub_group_id="9"/>
+        <variable parent_id="10001" variable_id="910001000012105" variable_type="9" value_type="6" variable_name="UInt16测试变量" last_value="240" init_value="240" min_value="0" max_value="1000" access_type="3" parent_name="虚拟变量" main_group_id="3" sub_group_id="9"/>
+        <variable parent_id="10001" variable_id="910001000012106" variable_type="9" value_type="7" variable_name="Int32测试变量" last_value="-750" init_value="-750" min_value="-1000" max_value="1000" access_type="3" parent_name="虚拟变量" main_group_id="3" sub_group_id="9"/>
+        <variable parent_id="10001" variable_id="910001000012107" variable_type="9" value_type="8" variable_name="UInt32测试变量" last_value="320" init_value="320" min_value="0" max_value="60000" access_type="3" parent_name="虚拟变量" main_group_id="3" sub_group_id="9"/>
+        <variable parent_id="10001" variable_id="910001000012108" variable_type="9" value_type="9" variable_name="Int64测试变量" last_value="-999999" init_value="-999999" min_value="-1000000" max_value="1000000" access_type="3" parent_name="虚拟变量" main_group_id="3" sub_group_id="9"/>
+        <variable parent_id="10001" variable_id="910001000012109" variable_type="9" value_type="10" variable_name="UInt64测试变量" last_value="999888" init_value="999888" min_value="0" max_value="1000000" access_type="3" parent_name="虚拟变量" main_group_id="3" sub_group_id="9"/>
+        <variable parent_id="10001" variable_id="910001000012110" variable_type="9" value_type="11" variable_name="Float测试变量" last_value="-173.2" init_value="-173.2" min_value="-200" max_value="200" access_type="3" parent_name="虚拟变量" main_group_id="3" sub_group_id="9"/>
+        <variable parent_id="10001" variable_id="910001000012111" variable_type="9" value_type="12" variable_name="Double测试变量" last_value="56.2315" init_value="56.2315" min_value="-6000" max_value="6000" access_type="3" parent_name="虚拟变量" main_group_id="3" sub_group_id="9"/>
+        <variable parent_id="10001" variable_id="910001000012112" variable_type="9" value_type="13" variable_name="String测试变量" last_value="Who am I?" init_value="Who am I?" min_value="" max_value="" access_type="3" parent_name="虚拟变量" main_group_id="3" sub_group_id="9"/>
+    </local_variables>
+    <safe_variables>
+        <variable main_group_id="1" sub_group_id="6" variable_id="1210002000002001" variable_name="AX轴原点位置检查" logic_operator="1">
+            <conditions>
+                <condition condition_id="1" parameter_id="600001001000025" judge_value="0" allow_error="0.01" not_operator="0" judge_order="1" compare_operator="1"/>
+            </conditions>
+        </variable>
+        <variable main_group_id="2" sub_group_id="8" variable_id="1210002000002002" variable_name="AY轴原点位置检查" logic_operator="1">
+            <conditions>
+                <condition condition_id="2" parameter_id="600001002000025" judge_value="0" allow_error="0.01" not_operator="0" judge_order="1" compare_operator="1"/>
+            </conditions>
+        </variable>
+        <variable main_group_id="3" sub_group_id="10" variable_id="1210002000002003" variable_name="AZ轴原点位置检查" logic_operator="1">
+            <conditions>
+                <condition condition_id="3" parameter_id="600001003000025" judge_value="0" allow_error="0.01" not_operator="0" judge_order="1" compare_operator="1"/>
+            </conditions>
+        </variable>
+    </safe_variables>
+    <scripts>
+        <script script_id="1" script_name="AxisMovesCSharp" script_type="2" execute_mode="2" timer_interval="5000" safeguard_referid="0" data_cache_size="1000"/>
+    </scripts>
+</project>

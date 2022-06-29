@@ -3,7 +3,9 @@
 #include <Qpainter>
 
 YDState::YDState(QWidget *parent)
-    : QLabel(parent), m_state{0}, m_gray("#7f7f7f"), m_green{"#22b14c"} {}
+    : QLabel(parent), m_state{0}, m_gray("#7f7f7f"), m_green{"#22b14c"} {
+  m_font.setPixelSize(14);
+}
 
 void YDState::setState(int state) { m_state = state; }
 
@@ -30,9 +32,7 @@ void YDState::paintEvent(QPaintEvent *) {
   p.setBrush(Qt::NoBrush);
 
   if (!m_text.isEmpty()) {
-    QFont font;
-    font.setPixelSize(14);
-    p.setFont(font);
+    p.setFont(m_font);
     auto m = p.fontMetrics();
     auto h = m.height();
     auto w = m.horizontalAdvance(m_text);

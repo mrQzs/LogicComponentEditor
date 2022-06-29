@@ -5,6 +5,7 @@
 
 #include "MainWindow.h"
 #include "common/YDHelper.h"
+#include "common/YDLogger.h"
 #include "core/YDTask.h"
 #include "widget/YDNameLineEdit.h"
 
@@ -113,6 +114,8 @@ bool YDMenuModel::insertRows(int row, int count, const QModelIndex &parent) {
   auto task = new YDTask(p);
   task->initLogicProcess();
 
+  YDLogger::info(YDMenuModel::tr("新建任务: %1 成功").arg(task->name()));
+
   p->insertChild(row, task);
   endInsertRows();
   return true;
@@ -123,6 +126,10 @@ bool YDMenuModel::removeRows(int row, int count, const QModelIndex &parent) {
   auto *p = m_root;
   if (parent.isValid()) p = static_cast<YDTask *>(parent.internalPointer());
 
+  YDLogger::info(
+      YDMenuModel::tr("删除任务: %1 成功")
+          .arg(this->data(this->index(row, 0, parent), Qt::DisplayRole)
+                   .toString()));
   p->removeChild(p->child(row));
   endRemoveRows();
   return true;
@@ -263,6 +270,8 @@ void YDMenuDeletegate::setModelData(QWidget *editor, QAbstractItemModel *model,
         break;
       case 0:
         task->setName(YDEditor->text());
+        YDLogger::info(
+            YDMenuModel::tr("修改名称: %1 成功").arg(YDEditor->text()));
         break;
       case 1:
         QMessageBox::warning(nullptr, QObject::tr("错误"),

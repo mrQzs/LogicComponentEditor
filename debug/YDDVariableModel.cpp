@@ -58,22 +58,22 @@ QVariant YDDVariableModel::data(const QModelIndex &index, int role) const {
 
   QString time;
   if (varstate.ullTimestamp > 0)
-    time = QString::fromLocal8Bit(
+    time = STRTQSTR(
         yd::CTimestamp::FormatTimeFromMicroseconds(varstate.ullTimestamp)
             .c_str());
 
   if (Qt::DisplayRole == role) {
     switch (column) {
       case 0:
-        return QString::fromLocal8Bit(var->variable_name.c_str());
+        return STRTQSTR(var->variable_name.c_str());
       case 1:
         return YDHelper::getDataType(var->value_type);
       case 2:
-        return QString::fromLocal8Bit(var->min_value.c_str());
+        return STRTQSTR(var->min_value.c_str());
       case 3:
-        return QString::fromLocal8Bit(var->max_value.c_str());
+        return STRTQSTR(var->max_value.c_str());
       case 4:
-        return QString::fromLocal8Bit(varstate.strRealtimeValue.c_str());
+        return STRTQSTR(varstate.strRealtimeValue.c_str());
       case 5:
         return time;
     }
@@ -193,15 +193,13 @@ bool YDDVarDeletedage::editorEvent(QEvent *event, QAbstractItemModel *model,
     switch (event->type()) {
       case QEvent::MouseMove: {
         m_nType = 0;
-        break;
-      }
+      } break;
       case QEvent::MouseButtonPress: {
         m_nType = 1;
-      }
+      } break;
       case QEvent::MouseButtonRelease: {
         emit sigPress(index);
-        break;
-      }
+      } break;
       default:
         break;
     }

@@ -91,9 +91,9 @@ void YDDAxisVarModel::updateData(const yd::COORDS &coords) {
     for (auto ax : axlist) {
       if (ax->device_id == coor.uiDeviceId && ax->card_index == coor.usCard &&
           ax->axis_index == coor.usAxis) {
-        m_axisNames.push_back(QString::fromLocal8Bit(ax->axis_name.c_str()));
-        std::string value = std::string(coor.refTarget.szValue);
-        m_values.push_back(QString::fromLocal8Bit(value.c_str()));
+        m_axisNames.push_back(STRTQSTR(ax->axis_name.c_str()));
+        std::string value = "";
+        m_values.push_back(STRTQSTR(value.c_str()));
       }
     }
   }

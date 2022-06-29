@@ -13,6 +13,7 @@ class YDMenuItem : public YDWidget {
  public:
   void setIcon(const QString &str);
   void setText(const QString &text);
+  void setDebug(const bool &flag);
 
  protected:
   void paintEvent(QPaintEvent *);
@@ -25,6 +26,8 @@ class YDMenuItem : public YDWidget {
   QString m_icon;
   QString m_text;
   bool m_isHover;
+  bool m_isDebug;
+  QFont m_font;
 };
 
 #endif  // YDMENUITEM_H

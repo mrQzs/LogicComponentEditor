@@ -101,6 +101,8 @@ void YDConditionLoop::initModule(yd::lg::LogicProcess *lp) {
 }
 
 void YDConditionLoop::getData() {
+  Q_ASSERT(m_conditionProcess->pModule);
+
   m_conditionProcess->pModule->listProcessIds.clear();
 
   auto loopIds = m_widget->getLoopModulesIds(getLogicProcessId());
@@ -110,17 +112,20 @@ void YDConditionLoop::getData() {
 }
 
 void YDConditionLoop::setData() {
+  Q_ASSERT(m_conditionProcess->pModule);
   auto processlist = m_conditionProcess->pModule->listProcessIds;
   if (!processlist.empty()) {
     std::vector<yd::lg::LogicProcess *> listProcesses;
-    YDProjectManage::getProcesses(processlist, listProcesses);
+    YDProjectManage::getProcesses(getLogicProcessId(), processlist,
+                                  listProcesses);
     m_widget->addLoopModules(m_task, listProcesses);
   }
 }
 
 int YDConditionLoop::high() const { return m_widget->high(); }
 
-void YDConditionLoop::setStateMap(const QMap<uint32, yd::proto::ProcState> &map) {
+void YDConditionLoop::setStateMap(
+    const QMap<uint32, yd::proto::ProcState> &map) {
   m_widget->setState(map);
 }
 

@@ -1,6 +1,8 @@
 #ifndef YDADDRECIVARDIALOG_H
 #define YDADDRECIVARDIALOG_H
 
+#include <QModelIndex>
+
 #include "widget/YDDialog.h"
 
 class QLabel;
@@ -23,6 +25,8 @@ class YDAddReciVarDialog : public YDDialog {
   // set
   virtual void setTextList(const QStringList &list);
 
+  void setUpdateParam(const QModelIndex &groupIndex,
+                      const QModelIndex &viewIndex, bool flag);
  public slots:
   void slotOkBtnClicked();
   void slotCancelBtnClicked();
@@ -56,6 +60,10 @@ class YDAddReciVarDialog : public YDDialog {
   QPushButton *m_cancelBtn;
 
   YDVariableDialog *m_varDlg;
+
+  bool m_isUpdate;
+  QModelIndex m_groupIndex;
+  QModelIndex m_viewIndex;
 };
 
 #endif  // YDADDRECIVARDIALOG_H

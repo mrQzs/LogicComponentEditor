@@ -6,6 +6,8 @@
 class QLabel;
 class QLineEdit;
 class QPushButton;
+class YDIntLineEdit;
+class YDIPLineEdit;
 
 class YDNetSetDialog : public QDialog {
  public:
@@ -22,13 +24,13 @@ class YDNetSetDialog : public QDialog {
 
  private:
   QLabel* m_ipLab;
-  QLineEdit* m_ipEdit;
+  YDIPLineEdit* m_ipEdit;
 
   QLabel* m_portLab;
-  QLineEdit* m_portEdit;
+  YDIntLineEdit* m_portEdit;
 
   QLabel* m_timeLab;
-  QLineEdit* m_timeEdit;
+  YDIntLineEdit* m_timeEdit;
 
   QPushButton* m_okBtn;
   QPushButton* m_cancelBtn;

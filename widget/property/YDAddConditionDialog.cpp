@@ -8,6 +8,7 @@
 #include <QPushButton>
 #include <QValidator>
 
+#include "common/YDHelper.h"
 #include "core/YDProjectManage.h"
 #include "widget/YDNameLineEdit.h"
 
@@ -66,7 +67,7 @@ YDAddConditionDialog::YDAddConditionDialog(QWidget* parent)
   list << "";
   auto vars = YDProjectManage::getAllVariables();
   for (auto v : vars)
-    list << QString("%1").arg(QString::fromLocal8Bit(v->variable_name.c_str()));
+    list << QString("%1").arg(STRTQSTR(v->variable_name.c_str()));
   m_varBox->addItems(list);
 
   QStringList cmpWay;

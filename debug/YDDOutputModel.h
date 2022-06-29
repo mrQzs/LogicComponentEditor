@@ -27,6 +27,9 @@ class YDDOutputModel : public QAbstractTableModel {
   void updateData();
   void setGroup(int id);
 
+ public slots:
+  void SlotButtonClicked(const QModelIndex &index);
+
  private:
   int m_id;
   std::vector<yd::dev::IOInfo *> m_ioInfos;
@@ -40,6 +43,12 @@ class YDDOutputDeletegate : public QStyledItemDelegate {
   explicit YDDOutputDeletegate(QWidget *parent = 0);
   void paint(QPainter *painter, const QStyleOptionViewItem &option,
              const QModelIndex &index) const;
+  bool editorEvent(QEvent *event, QAbstractItemModel *model,
+                   const QStyleOptionViewItem &option,
+                   const QModelIndex &index) override;
+
+ signals:
+  void sigClicked(const QModelIndex &index);
 };
 
 #endif  // YDDOUTPUTMODEL_H

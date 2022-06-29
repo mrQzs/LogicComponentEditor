@@ -22,7 +22,7 @@ class YDTabWidget : public QWidget {
   void initModules(YDTask *task,
                    const std::vector<yd::lg::LogicProcess *> &list);
 
-  void setModulesState(const std::vector<yd::proto::ProcState> &states);
+  void setModulesState(std::vector<yd::proto::ProcState> &states);
 
   void resizeModel();
 

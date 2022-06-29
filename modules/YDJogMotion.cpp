@@ -128,7 +128,7 @@ void YDJogMotion::getData() {
 
   auto axis_name = getAxisName();
   for (auto a : axisList) {
-    if (QString::fromLocal8Bit(a->axis_name) == axis_name) {
+    if (STRTQSTR(a->axis_name) == axis_name) {
       m_jogMotionModule->device_id = a->device_id;
       m_jogMotionModule->axis_index = a->axis_index;
       break;
@@ -164,7 +164,7 @@ void YDJogMotion::setData() {
   for (auto a : axisList)
     if (device_id == a->device_id)
       if (axis_index == a->axis_index)
-        name = QString::fromLocal8Bit(a->axis_name.c_str());
+        name = STRTQSTR(a->axis_name.c_str());
 
   setAxisName(name);
 
@@ -178,7 +178,7 @@ void YDJogMotion::setData() {
     auto id = m_jogMotionModule->velocity_referid;
     for (auto v : list) {
       if (id == v->variable_id) {
-        QString str = QString::fromLocal8Bit(v->variable_name);
+        QString str = STRTQSTR(v->variable_name);
         setSpeedStr(str);
         break;
       }

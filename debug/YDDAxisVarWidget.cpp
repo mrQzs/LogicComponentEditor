@@ -103,7 +103,7 @@ void YDDAxisVarWidget::initTree() {
           cast.ptr = list[y];
           yitem->setData(0, Qt::UserRole + 1, cast.i);
           yitem->setText(
-              0, QString::fromLocal8Bit(list[y]->variable_name.c_str()));
+              0, STRTQSTR(list[y]->variable_name.c_str()));
         }
       }
     }
@@ -289,8 +289,9 @@ void YDDAxisVarWidget::slotUpdateAxis(bool) {
         auto coor = coords.arrCoords[i];
         auto str = values[i];
         auto data = str.toUtf8().constData();
-        if (!str.isEmpty())
-          YDHelper::copyData(coor.refTarget.szValue, data, str.size());
+        //        if (!str.isEmpty())
+        //          YDHelper::copyData(coor.refTarget.szValue, data,
+        //          str.size());
       }
 
       yd::CRapidJsonHelper::AxisCoords2Json(&coords, var->init_value);

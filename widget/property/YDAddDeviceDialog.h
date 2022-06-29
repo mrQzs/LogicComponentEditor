@@ -12,7 +12,7 @@ class YDNameLineEdit;
 class YDAddDeviceDialog : public YDDialog {
   Q_OBJECT
  public:
-  YDAddDeviceDialog(QWidget *parent = nullptr);
+  YDAddDeviceDialog(const QString &title, QWidget *parent = nullptr);
 
  public:
   // get

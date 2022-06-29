@@ -26,10 +26,7 @@ void YDModuleView::startDrag(Qt::DropActions supportedActions) {
   YDModule *module = cast.ptr;
 
   QPixmap preview;
-  if (module->type() == Module::IfElse_Condition)
-    preview = module->preview(1);
-  else
-    preview = module->preview();
+  preview = module->preview();
 
   if (!preview.isNull()) {
     QDrag *drag = new QDrag(this);

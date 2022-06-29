@@ -12,6 +12,7 @@
 #include <QTextStream>
 
 #include "MainWindow.h"
+#include "YDLogger.h"
 #include "common/YDGlobal.h"
 #include "core/YDProjectManage.h"
 #include "modules/YDModules.h"
@@ -24,6 +25,7 @@ YDHelper::YDHelper()
       m_curIndex{0},
       m_debugMode{false},
       m_isStart{false},
+      m_isTestStart{false},
       m_timer{new QElapsedTimer},
       m_random{new QRandomGenerator(
           QDateTime::currentDateTime().toSecsSinceEpoch())},
@@ -203,6 +205,8 @@ QString YDHelper::getCompareStr(uint8 index) {
 
 bool YDHelper::isDebugMode() { return s_instance->m_debugMode; }
 
+bool YDHelper::getTestStart() { return s_instance->m_isTestStart; }
+
 void YDHelper::setMainW(MainWindow *mainW) {
   Q_ASSERT(nullptr != mainW);
   s_instance->m_pMain = mainW;
@@ -212,6 +216,8 @@ void YDHelper::setUserInfo(YDUserInfo *usrInfo) {
   Q_ASSERT(nullptr != usrInfo);
   s_instance->m_pUserInfo = usrInfo;
 }
+
+void YDHelper::setTestStart(bool b) { s_instance->m_isTestStart = b; }
 
 QString YDHelper::getMD5(const QString &str) {
   Q_ASSERT(!str.isEmpty());
@@ -227,20 +233,6 @@ void YDHelper::UpdateTabName(YDTask *task) {
 void YDHelper::updateCoorData(yd::COORD &coor, const QStringList &info) {
   QString axName = info[0];
   auto type = 0;
-  std::string stdt = info[2].toUtf8().constData();
-  int way = (info[3] == MainWindow::tr("百分比") ? 0 : 1);
-  std::string stds;
-  int strsize;
-  strsize = info[4].size();
-  if (0 == way) {
-    stds = info[4].mid(0, info[4].size() - 1).toUtf8().constData();
-  } else {
-    auto str = QString::number(YDProjectManage::getVirtualVarId(info[4]));
-    strsize = str.size();
-    stds = str.toUtf8().constData();
-  }
-  const char *target = stdt.c_str();
-  const char *speed = stds.c_str();
   auto axlist = YDProjectManage::getAxisList();
   auto motionType = MULTI_AXIS_COORDS_TYPE_ABSOLUTE_MOVE;
   switch (type) {
@@ -257,17 +249,35 @@ void YDHelper::updateCoorData(yd::COORD &coor, const QStringList &info) {
       break;
   }
 
+  auto targetway = info[2] == YDHelper::tr("数值") ? 0 : 1;
+  auto target = info[3];
+
+  auto moveway = info[4] == YDHelper::tr("百分比") ? 0 : 1;
+  auto move = info[5];
+
   for (auto ax : axlist) {
-    auto name = QString::fromLocal8Bit(ax->axis_name);
+    auto name = STRTQSTR(ax->axis_name);
     if (name == axName) {
       coor.uiDeviceId = ax->device_id;
       coor.usCard = ax->card_index;
       coor.usAxis = ax->axis_index;
       coor.ucType = motionType;
-      coor.refTarget.bUseVariable = false;
-      copyData(coor.refTarget.szValue, target, info[2].size());
-      coor.refVelocity.bUseVariable = false;
-      copyData(coor.refVelocity.szValue, speed, strsize);
+      if (targetway == 0) {
+        coor.refTarget.ullReferId = 0;
+        coor.refTarget.dblValue = target.toDouble();
+      } else {
+        coor.refTarget.dblValue = 0;
+        coor.refTarget.ullReferId = YDProjectManage::getVirtualVarId(target);
+      }
+
+      if (moveway == 0) {
+        coor.refVelocity.ullReferId = 0;
+        move = move.mid(0, move.size() - 1);
+        coor.refVelocity.dblValue = move.toDouble();
+      } else {
+        coor.refVelocity.dblValue = 0;
+        coor.refVelocity.ullReferId = YDProjectManage::getVirtualVarId(move);
+      }
     }
   }
 }
@@ -278,10 +288,10 @@ QString YDHelper::CoorData2QStr(yd::COORD &coor) {
   for (auto ax : axlist) {
     if (ax->device_id == coor.uiDeviceId && ax->card_index == coor.usCard &&
         ax->axis_index == coor.usAxis) {
-      str += QString("%1@").arg(QString::fromLocal8Bit(ax->axis_name.c_str()));
+      str += QString("%1@").arg(STRTQSTR(ax->axis_name.c_str()));
       switch (coor.ucType) {
         case MULTI_AXIS_COORDS_TYPE_ABSOLUTE_MOVE:
-          str += QString("%1@").arg(MainWindow::tr("绝对运动"));
+          str += QString("%1@").arg(YDHelper::tr("绝对运动"));
           break;
         case MULTI_AXIS_COORDS_TYPE_RELATIVE_MOVE:
           str += "1@";
@@ -290,16 +300,25 @@ QString YDHelper::CoorData2QStr(yd::COORD &coor) {
           str += "2@";
           break;
       }
-      str += QString("%1@").arg(QString::fromLocal8Bit(coor.refTarget.szValue));
-      auto spped = QString::fromLocal8Bit(coor.refVelocity.szValue);
-      auto spedv = spped.toULongLong();
-      if (spedv <= 100) {
-        str += QString("%1@").arg(MainWindow::tr("百分比"));
-        str += QString("%1%").arg(spped);
+
+      if (coor.refTarget.dblValue == 0) {
+        str += QString("%1@").arg(YDHelper::tr("变量"));
+        str += QString("%1@").arg(
+            YDProjectManage::getVarName(coor.refTarget.ullReferId));
       } else {
-        str += QString("%1@").arg(MainWindow::tr("变量"));
-        str += YDProjectManage::getVirtualVarName(spedv);
+        str += QString("%1@").arg(YDHelper::tr("数值"));
+        str += QString("%1@").arg(coor.refTarget.dblValue);
       }
+
+      if (coor.refVelocity.ullReferId == 0) {
+        str += QString("%1@").arg(YDHelper::tr("百分比"));
+        str += QString("%1%").arg(coor.refVelocity.dblValue);
+      } else {
+        str += QString("%1@").arg(YDHelper::tr("变量"));
+        str += QString("%1").arg(
+            YDProjectManage::getVarName(coor.refVelocity.ullReferId));
+      }
+
       break;
     }
   }
@@ -328,7 +347,7 @@ QStringList YDHelper::getAvaliableFram(const std::vector<std::string> &fram) {
   QStringList list;
   for (auto s : fram) {
     int v = s[s.size() - 3] - '0';
-    if (v > 3) list.push_back(QString::fromLocal8Bit(s.c_str()));
+    if (v > 3) list.push_back(STRTQSTR(s.c_str()));
   }
 
   return list;
@@ -413,4 +432,80 @@ void YDHelper::resizeModel(QListWidget *list) {
         break;
     }
   }
+}
+
+QString YDHelper::moduleLog(const YDModule *module) {
+  QString moduleType = "";
+  switch (module->type()) {
+    case Module::Abs_Motion:
+      moduleType = "绝对运动";
+      break;
+    case Module::Rel_Motion:
+      moduleType = "相对运动";
+      break;
+    case Module::Jog_Motion:
+      moduleType = "Jog运动";
+      break;
+    case Module::Mul_Motion:
+      moduleType = "多轴运动";
+      break;
+    case Module::BackZ_Motion:
+      moduleType = "回零运动";
+      break;
+    case Module::Stop_Motion:
+      moduleType = "停止运动";
+      break;
+    case Module::Wait_Motion:
+      moduleType = "到位等待";
+      break;
+    case Module::Control_DO:
+      moduleType = "控制DO输出";
+      break;
+    case Module::Control_AO:
+      moduleType = "控制AO输出";
+      break;
+    case Module::Cylinder:
+      moduleType = "气油缸";
+      break;
+    case Module::Condition:
+      moduleType = "判断条件";
+      break;
+    case Module::If_Condition:
+      moduleType = "If判断条件";
+      break;
+    case Module::IfElse_Condition:
+      moduleType = "If-Else判断条件";
+      break;
+    case Module::Times_Loop:
+      moduleType = "次数循环";
+      break;
+    case Module::Condition_Loop:
+      moduleType = "条件循环";
+      break;
+    case Module::Jump_Loop:
+      moduleType = "跳出循环";
+      break;
+    case Module::Delay_Wait:
+      moduleType = "延时等待";
+      break;
+    case Module::SubTask_Call:
+      moduleType = "任务调用";
+      break;
+    case Module::Programable:
+      moduleType = "可编程控件";
+      break;
+    case Module::Wait_Complete:
+      moduleType = "任务完成等待";
+      break;
+    case Module::Alarm_Confirm:
+      moduleType = "报警确认";
+      break;
+    case Module::Jump_To_Task:
+      moduleType = "跳转控件";
+      break;
+    default:
+      break;
+  }
+
+  return QString("%1: %2").arg(moduleType, module->name());
 }

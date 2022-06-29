@@ -7,6 +7,7 @@ class QLabel;
 class QLineEdit;
 class QPushButton;
 class QComboBox;
+class YDIntLineEdit;
 
 class YDAddAxisVarDialog : public QDialog {
   Q_OBJECT
@@ -26,6 +27,7 @@ class YDAddAxisVarDialog : public QDialog {
 
  private slots:
   void slotWayChanged(int index);
+  void slotTargetWayChanged(int index);
 
  private:
   QLabel *m_axisLab;
@@ -34,8 +36,12 @@ class YDAddAxisVarDialog : public QDialog {
   QLabel *m_typeLab;
   QComboBox *m_typeCombo;
 
+  QLabel *m_targetWayLab;
+  QComboBox *m_targetWayBox;
+
   QLabel *m_targetLab;
-  QLineEdit *m_targetEdit;
+  YDIntLineEdit *m_targetEdit;
+  QComboBox *m_targetBox;
 
   QLabel *m_speedLab;
   QComboBox *m_speedBox;

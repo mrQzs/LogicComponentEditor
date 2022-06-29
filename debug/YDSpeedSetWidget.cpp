@@ -137,8 +137,6 @@ void YDSpeedSetWidget::slotBtn1Clicked(bool) {
   movesetup->smooth_time = m_edit6->text().toUInt();
   movesetup->smooth_factor = m_edit7->text().toDouble();
 
-  qDebug() << "update data now";
-
   YDDgHelper::setAxisVelocities(axis->device_id, axis->axis_index, movesetup);
 
   slotupdateData();

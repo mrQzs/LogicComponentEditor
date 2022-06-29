@@ -279,6 +279,18 @@ extern "C" {
 	int32 libd_GetDOInfoById(uint16 usCard, uint16 usType, uint16 usIndex, yd::IOINFO* pIOInfo);
 	int32 libd_GetDOInfoByName(const std::string& strDOName, yd::IOINFO* pIOInfo);
 
+	// 更新逻辑任务调试状态
+	int32 libd_SetLogicTaskDebugState(uint32 uiTaskId, uint8 ucState);
+
+	// 获取逻辑任务调试状态
+	uint8 libd_GetLogicTaskDebugState(uint32 uiTaskId);
+
+	// 更新回原点脚本执行状态
+	int32 libd_SetHomeMoveScriptExecuteState(uint8 ucState);
+
+	// 获取回原点脚本执行状态
+	uint8 libd_GetHomeMoveScriptExecuteState();
+
 #ifdef __cplusplus
 };
 #endif

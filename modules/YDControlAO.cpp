@@ -98,7 +98,7 @@ void YDControlAO::getData() {
   auto ioname = getIOName();
   auto aoinfos = YDProjectManage::getAOInfos();
   for (auto a : aoinfos) {
-    auto name = QString::fromLocal8Bit(a->io_name.c_str());
+    auto name = STRTQSTR(a->io_name.c_str());
     if (aoname == name) {
       m_aoControlModule->device_id = a->device_id;
       m_aoControlModule->ao_index = a->io_index;
@@ -117,7 +117,7 @@ void YDControlAO::setData() {
   auto aoinfos = YDProjectManage::getAOInfos();
   for (auto a : aoinfos) {
     if (id == a->device_id && index == a->io_index) {
-      setAOName(QString::fromLocal8Bit(a->io_name.c_str()));
+      setAOName(STRTQSTR(a->io_name.c_str()));
       break;
     }
   }

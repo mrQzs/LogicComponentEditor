@@ -203,8 +203,9 @@ namespace yd
 			AUTO_DATA_BEGIN(SoftLimit, "轴序号")
 			FIELD(uint16, card, "卡号", "0", "200", FIELD_EXTEND_TYPE_NORMAL)
 			FIELD(uint16, axis, "轴序号", "0", "200", FIELD_EXTEND_TYPE_NORMAL)
-			FIELD(double, positive_limit, "正限位", "-999999", "999999", FIELD_EXTEND_TYPE_NORMAL)
-			FIELD(double, negative_limit, "负限位", "-999999", "999999", FIELD_EXTEND_TYPE_NORMAL)
+			FIELD(bool, enable, "软件限位是否使能", "0", "1", FIELD_EXTEND_TYPE_NORMAL)
+			FIELD(double, positive_limit, "软件正限位", "-999999", "999999", FIELD_EXTEND_TYPE_NORMAL)
+			FIELD(double, negative_limit, "软件负限位", "-999999", "999999", FIELD_EXTEND_TYPE_NORMAL)
 			AUTO_DATA_END(SoftLimit)
 
 			// 状态索引

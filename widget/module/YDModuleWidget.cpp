@@ -1,5 +1,6 @@
 #include "YDModuleWidget.h"
 
+#include <QDateTime>
 #include <QHBoxLayout>
 #include <QLabel>
 #include <QPainter>
@@ -15,7 +16,7 @@ YDModuleWidget::YDModuleWidget(YDModule *m, const QColor &bgColor,
       m_color{bgColor},
       m_fontColor{fontColor},
       m_module{m},
-      m_text1{YDModuleWidget::tr("任务状态:")} {
+      m_text1{YDModuleWidget::tr("状态:")} {
   m_pix = QPixmap(m_module->icon())
               .scaled(16, 16, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
 }
@@ -58,38 +59,51 @@ void YDModuleWidget::paintEvent(QPaintEvent *) {
   p.drawLine(0, height() - 2, width(), height() - 2);
 
   if (YDHelper::isDebugMode()) {
-    yd::proto::ProcState state = m_module->getDebugState();
-    QString strState = YDModuleWidget::tr("未知");
-    switch (state.state) {
-      case LOGIC_TASK_STATE_INVALID:
-        strState = YDModuleWidget::tr("不可用");
-        break;
-      case LOGIC_TASK_STATE_READY:
-        strState = YDModuleWidget::tr("已就绪");
-        break;
-      case LOGIC_TASK_STATE_IN_PROCESSING:
-        strState = YDModuleWidget::tr("运行中");
-        break;
-      case LOGIC_TASK_STATE_COMPLETED:
-        strState = YDModuleWidget::tr("已完成");
-        break;
-      case LOGIC_TASK_STATE_FAILED:
-        strState = YDModuleWidget::tr("已失败");
-        break;
-    }
-
+    QString strState = getStateInfo();
     p.setFont(font);
+    p.setPen(QPen(m_fontColor));
     w = m.horizontalAdvance(strState);
     h = m.height();
     x = width() - w - 50;
 
     p.drawText(x, y, w, h, Qt::AlignLeft, strState);
 
-    p.setPen(QPen(m_fontColor));
     x = width() - w - 50 - 20 - m.horizontalAdvance(m_text1);
     w = m.horizontalAdvance(m_text1);
     p.drawText(x, y, w, h, Qt::AlignLeft, m_text1);
   }
 
   p.end();
+}
+
+QString YDModuleWidget::getStateInfo() {
+  yd::proto::ProcState state = m_module->getDebugState();
+  QString strState = YDModuleWidget::tr("未知");
+  QString startTime{""}, endTime{""};
+
+  if (state.begin > 0 && state.end > 0 && YDHelper::getTestStart()) {
+    startTime = STRTQSTR(
+        yd::CTimestamp::FormatTimeFromMicroseconds(state.begin).c_str());
+    endTime =
+        STRTQSTR(yd::CTimestamp::FormatTimeFromMicroseconds(state.end).c_str());
+  }
+
+  switch (state.state) {
+    case LOGIC_TASK_STATE_INVALID:
+      strState = YDModuleWidget::tr("不可用");
+      break;
+    case LOGIC_TASK_STATE_READY:
+      strState = YDModuleWidget::tr("已就绪");
+      break;
+    case LOGIC_TASK_STATE_IN_PROCESSING:
+      strState = YDModuleWidget::tr("运行中");
+      break;
+    case LOGIC_TASK_STATE_COMPLETED:
+      strState = YDModuleWidget::tr("已完成");
+      break;
+    case LOGIC_TASK_STATE_FAILED:
+      strState = YDModuleWidget::tr("已失败");
+      break;
+  }
+  return strState.append(" 起始: " + startTime + " 结束: " + endTime);
 }

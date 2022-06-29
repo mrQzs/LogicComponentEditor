@@ -37,10 +37,12 @@ class YDHelper {
   static uint8 getCompareIndex(const QString& str);
   static QString getCompareStr(uint8 index);
   static bool isDebugMode();
+  static bool getTestStart();
 
   // set
   static void setMainW(MainWindow* mainW);
   static void setUserInfo(YDUserInfo* usrInfo);
+  static void setTestStart(bool);
 
   // other
   static QString getMD5(const QString& str);
@@ -56,6 +58,7 @@ class YDHelper {
   static QString readFile(const QString& name);
   static void writeFile(const QString& name, const QString& data);
   static void resizeModel(QListWidget* list);
+  static QString moduleLog(const YDModule* p);
 
  private:
   static YDHelper* s_instance;
@@ -73,10 +76,12 @@ class YDHelper {
 
   // calcu
   bool m_isStart;
+  bool m_isTestStart;
   QElapsedTimer* m_timer;
   QTextStream* m_stream;
 };
 
 #define QSTRTSTR(str) YDHelper::qstringToString(str)
+#define STRTQSTR(str) QString::fromLocal8Bit(str)
 
 #endif  // YDHELPER_H

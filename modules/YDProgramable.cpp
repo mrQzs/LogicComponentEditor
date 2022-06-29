@@ -18,6 +18,11 @@ class YDProgramableName : public YDPropertyName {
   virtual void set(YDModule *m, QString str) {
     if (!str.isEmpty()) {
       auto name = QSTRTSTR(str);
+      if (HOME_MOVE_SCRIPT_NAME == name) {
+        QMessageBox::warning(nullptr, YDProgramableName::tr("错误"),
+                             YDProgramableName::tr("名称已重复!"));
+        return;
+      }
       int ret = YDProjectManage::updateLogicProcessName(
           m->getYDTask()->id(), m->getLogicProcessId(), name);
       switch (ret) {
@@ -100,8 +105,8 @@ YDProgramable::YDProgramable() {
 
   m_properties << new YDProgramableName;
   m_properties << new YDProgramableSafe;
-  m_properties << new YDProgramableTime;
-  m_properties << new YDProgramableSize;
+  // m_properties << new YDProgramableTime;
+  // m_properties << new YDProgramableSize;
 
   QStringList type;
   type << "VB.NET"
@@ -150,4 +155,15 @@ void YDProgramable::setData() {
   setWaitTime(m_programModule->wait_time);
   setDataCashSize(m_programModule->data_cache_size);
   setCodeType(m_programModule->script_type - SCRIPT_TYPE_VB_NET);
+
+  auto name = QSTRTSTR(this->name());
+  auto type = m_programModule->script_type;
+  auto file = YDProjectManage::getProgrammableProcessCodeFilePath(name, type);
+  auto filestr = STRTQSTR(file.c_str());
+  auto code = YDHelper::readFile(filestr);
+  if (code.isEmpty()) {
+    setCodeList(QStringList{YDProgramable::tr("无代码")});
+  } else {
+    setCodeList(QStringList{YDProgramable::tr("待检查")});
+  }
 }

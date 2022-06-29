@@ -70,8 +70,8 @@ int YDBuildOptDialog::getWay() const { return m_cpuBox->currentIndex(); }
 
 void YDBuildOptDialog::slotOkClicked(bool) {
   if (m_structBox->currentText().isEmpty()) {
-    QMessageBox::warning(nullptr, QObject::tr("错误"),
-                         QObject::tr("没有可用的.Net库!"));
+    QMessageBox::warning(nullptr, YDBuildOptDialog::tr("错误"),
+                         YDBuildOptDialog::tr("没有可用的.Net库!"));
   } else
     accept();
 }
@@ -84,13 +84,13 @@ void YDBuildOptDialog::slotCpuChanged(int index) {
     std::vector<std::string> fram;
     YDProjectManage::enumFrameworks(TARGET_CPU_X64, fram);
     QStringList list;
-    for (auto i : fram) list.push_back(QString::fromLocal8Bit(i.c_str()));
+    for (auto i : fram) list.push_back(STRTQSTR(i.c_str()));
     m_structBox->addItems(list);
   } else {
     std::vector<std::string> fram;
     YDProjectManage::enumFrameworks(TARGET_CPU_X86, fram);
     QStringList list;
-    for (auto i : fram) list.push_back(QString::fromLocal8Bit(i.c_str()));
+    for (auto i : fram) list.push_back(STRTQSTR(i.c_str()));
     m_structBox->addItems(list);
   }
 }

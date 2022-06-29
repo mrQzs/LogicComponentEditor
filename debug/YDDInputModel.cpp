@@ -4,6 +4,7 @@
 #include <QStyleOption>
 
 #include "YDDgHelper.h"
+#include "common/YDHelper.h"
 #include "core/YDProjectManage.h"
 
 YDDInputModel::YDDInputModel(QObject *parent)
@@ -67,11 +68,11 @@ QVariant YDDInputModel::data(const QModelIndex &index, int role) const {
   if (role == Qt::DisplayRole) {
     switch (column) {
       case 0:
-        return QString::fromLocal8Bit(var->io_name.c_str());
+        return STRTQSTR(var->io_name.c_str());
       case 1:
         return state ? "True" : "False";
       case 2:
-        return QString::fromLocal8Bit(var->io_label.c_str());
+        return STRTQSTR(var->io_label.c_str());
     }
   } else if ((Qt::UserRole + 1) == role) {
     return state;

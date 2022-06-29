@@ -121,7 +121,7 @@ class YDModule {
   int getInplaceWait() const;
 
   // other
-  QString getCallTask() const;
+  uint32 getCallTask() const;
   int getAlarmLevel() const;
   QString getAlarmContent() const;
   QStringList getAlarmActions() const;
@@ -170,7 +170,7 @@ class YDModule {
   void setLoopTimes(uint32 times);
 
   // other
-  void setTaskCall(const QString &str);
+  void setTaskCall(uint32 id);
   void setAlarmLevel(int index);
   void setAlarmContent(const QString &str);
   void setAlarmActions(const QStringList &);
@@ -219,7 +219,7 @@ class YDModule {
   int m_doState;
   QString m_ioName;
   uint32 m_loopTimes;
-  QString m_callTask;
+  uint32 m_callTask;
   int m_inplaceWait;
   QString m_safeVarName;
   double m_inplaceWaitValue;

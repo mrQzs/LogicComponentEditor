@@ -8,6 +8,11 @@
 YDReciVariableModel::YDReciVariableModel(QObject *parent)
     : QAbstractTableModel{parent} {}
 
+void YDReciVariableModel::updateData() {
+  beginResetModel();
+  endResetModel();
+}
+
 QVariant YDReciVariableModel::headerData(int section,
                                          Qt::Orientation orientation,
                                          int role) const {
@@ -51,15 +56,15 @@ QVariant YDReciVariableModel::data(const QModelIndex &index, int role) const {
 
     switch (index.column()) {
       case 0:
-        return QString::fromLocal8Bit(var->variable_name.c_str());
+        return STRTQSTR(var->variable_name.c_str());
       case 1:
         return YDHelper::getDataType(var->value_type);
       case 2:
-        return QString::fromLocal8Bit(var->init_value.c_str());
+        return STRTQSTR(var->current_value.c_str());
       case 3:
-        return QString::fromLocal8Bit(var->min_value.c_str());
+        return STRTQSTR(var->min_value.c_str());
       case 4:
-        return QString::fromLocal8Bit(var->max_value.c_str());
+        return STRTQSTR(var->max_value.c_str());
       default:
         break;
     }
@@ -108,7 +113,7 @@ bool YDReciVariableModel::setData(const QModelIndex &index,
 }
 
 Qt::ItemFlags YDReciVariableModel::flags(const QModelIndex &) const {
-  return Qt::ItemIsEnabled;
+  return Qt::ItemIsEnabled | Qt::ItemIsSelectable;
 }
 
 void YDReciVariableModel::setGroupId(uint16 id) {

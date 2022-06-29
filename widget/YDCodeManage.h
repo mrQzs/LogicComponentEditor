@@ -14,7 +14,6 @@ class YDCodeManage : public QDialog {
   YDCodeManage(QWidget *parent = nullptr);
 
  public:
-  bool isSaved();
   void setScript(yd::adv::ExtendScript *script);
 
  protected:
@@ -30,7 +29,7 @@ class YDCodeManage : public QDialog {
  private:
   YDCodeEditor *m_codeW;
   yd::adv::ExtendScript *m_script;
-  bool m_isSaved;
+  QString m_code;
 };
 
 #endif  // YDCODEMANAGE_H

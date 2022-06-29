@@ -103,7 +103,7 @@ QVariant YDDeviceAxisModel::data(const QModelIndex &index, int role) const {
       break;
     case 1:
       if (role == Qt::DisplayRole)
-        return QString::fromLocal8Bit(var->name.c_str());
+        return STRTQSTR(var->name.c_str());
       break;
     case 2:
       if (role == Qt::CheckStateRole)
@@ -193,7 +193,7 @@ QVariant YDDeviceAxisModel::data(const QModelIndex &index, int role) const {
       break;
     case 19:
       if (role == Qt::DisplayRole) {
-        switch (var->manual_control_mode + 1) {
+        switch (var->manual_control_mode) {
           case AXIS_MANUALCTRL_HORIZONTAL_LEFTPOS_RIGHTNEG:
             return "平移_左正右负";
           case AXIS_MANUALCTRL_HORIZONTAL_LEFTNEG_RIGHTPOS:
@@ -207,7 +207,7 @@ QVariant YDDeviceAxisModel::data(const QModelIndex &index, int role) const {
           case AXIS_MANUALCTRL_ROTATE_CLOCKWISE_DECREASE:
             return "旋转_顺时针减";
           default:
-            break;
+            return " ";
         }
       }
       break;
@@ -258,7 +258,7 @@ QVariant YDDeviceAxisModel::data(const QModelIndex &index, int role) const {
       break;
     case 27:
       if (role == Qt::DisplayRole) {
-        switch (var->home.capture_electric_level + 1) {
+        switch (var->home.capture_electric_level) {
           case ELECTRIC_CAPTURE_RISING_EDGE:
             return "上升沿";
           case ELECTRIC_CAPTURE_FALLING_EDGE:
@@ -273,7 +273,7 @@ QVariant YDDeviceAxisModel::data(const QModelIndex &index, int role) const {
       break;
     case 29:
       if (role == Qt::DisplayRole)
-        return QString::fromLocal8Bit(var->remarks.c_str());
+        return STRTQSTR(var->remarks.c_str());
       break;
     default:
       break;
@@ -496,8 +496,13 @@ QWidget *YDDeviceAxisDelegate::createEditor(QWidget *parent,
     }
     case 19: {
       QComboBox *editor = new QComboBox(parent);
-      QStringList itemList{"平移_左正右负", "平移_左负右正", "平移_上正下负",
-                           "平移_上负下正", "旋转_顺时针加", "旋转_顺时针减"};
+      QStringList itemList{" ",
+                           "平移_左正右负",
+                           "平移_左负右正",
+                           "平移_上正下负",
+                           "平移_上负下正",
+                           "旋转_顺时针加",
+                           "旋转_顺时针减"};
       editor->addItems(itemList);
       editor->setEditable(false);
       return editor;
@@ -580,10 +585,14 @@ void YDDeviceAxisDelegate::setModelData(QWidget *editor,
     case 18:
     case 19:
     case 20:
-    case 21:
-    case 27: {
+    case 21: {
       QComboBox *comboBox = static_cast<QComboBox *>(editor);
       model->setData(index, comboBox->currentIndex(), Qt::EditRole);
+      break;
+    }
+    case 27: {
+      QComboBox *comboBox = static_cast<QComboBox *>(editor);
+      model->setData(index, comboBox->currentIndex() + 1, Qt::EditRole);
       break;
     }
     default: {

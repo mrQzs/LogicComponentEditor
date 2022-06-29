@@ -9,10 +9,10 @@ class YDTableView : public QTableView {
   YDTableView(QWidget *parent = nullptr);
 };
 
-class YDAxisTableView : public QTableView {
+class YDSingleTableView : public QTableView {
   Q_OBJECT
  public:
-  YDAxisTableView(QWidget *parent = nullptr);
+  YDSingleTableView(QWidget *parent = nullptr);
 
  protected:
   void mousePressEvent(QMouseEvent *event);

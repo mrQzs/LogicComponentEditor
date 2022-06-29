@@ -15,6 +15,7 @@
 #include "YDModuleWidget.h"
 #include "common/YDGlobal.h"
 #include "common/YDHelper.h"
+#include "common/YDLogger.h"
 #include "core/YDTask.h"
 #include "model/YDModulePropModel.h"
 #include "modules/YDModule.h"
@@ -91,6 +92,7 @@ void YDModuleConditionWidget::addModule(YDModule *m, int row) {
     insertItem(row, Item);
   }
   setItemWidget(Item, m->widget());
+
   emit addNew();
 }
 
@@ -144,6 +146,18 @@ int YDModuleConditionWidget::realCount() {
 
 void YDModuleConditionWidget::resizeModule() { YDHelper::resizeModel(this); }
 
+bool YDModuleConditionWidget::isParent(YDModule *p, quint32 id) {
+  lg::LogicProcess *tmp = nullptr;
+  YDProjectManage::getProcess(id, tmp);
+  if (nullptr == tmp) return false;
+  if (tmp->parent_id == p->getLogicProcessId())
+    return true;
+  else
+    return isParent(p, tmp->parent_id);
+
+  return false;
+}
+
 void YDModuleConditionWidget::dragEnterEvent(QDragEnterEvent *e) {
   if (e->mimeData()->hasFormat(YDModuleConditionWidget::mimeType()))
     e->accept();
@@ -175,21 +189,37 @@ void YDModuleConditionWidget::dropEvent(QDropEvent *e) {
     auto pos = e->position().toPoint();
 
     auto pid = module->getParentId();
-    if (module->type() == Module::Jump_Loop) {
+    if (module->type() == Module::Jump_Loop ||
+        module->type() == Module::If_Condition ||
+        module->type() == Module::IfElse_Condition ||
+        module->type() == Module::Times_Loop ||
+        module->type() == Module::Condition_Loop) {
       module->setParentId(m_module->getLogicProcessId());
     }
+
     if (module->isValid()) {
-      insertModule(module, indexAt(pos).row());
-      m_module->getYDTask()->resizeModel();
-      e->accept();
+      if (module->getLogicProcessId() == m_module->getLogicProcessId()) {
+        module->setParentId(pid);
+        e->ignore();
+      } else if (isParent(module, m_module->getLogicProcessId())) {
+        QMessageBox::warning(nullptr, YDModuleConditionWidget::tr("提示"),
+                             YDModuleConditionWidget::tr("不允许往内部拖放!"));
+        module->setParentId(pid);
+        e->ignore();
+      } else {
+        insertModule(module, indexAt(pos).row());
+        m_module->getYDTask()->resizeModel();
+        e->accept();
+      }
     } else {
       QMessageBox::warning(
-          this, YDModuleConditionWidget::tr("提示"),
+          nullptr, YDModuleConditionWidget::tr("提示"),
           YDModuleConditionWidget::tr("跳出循环控件只能添加到循环控件里面!"));
       module->setParentId(pid);
       e->ignore();
     }
-  } else if (e->mimeData()->hasFormat(QStringLiteral("YD/Module"))) {
+  } else if (e->mimeData()->hasFormat(QStringLiteral("YD/Module")) &&
+             !YDProjectManage::IsOnlineDebugOpened()) {
     YDModuleCast cast;
     QByteArray encoded = e->mimeData()->data("YD/Module");
     QDataStream stream(&encoded, QIODeviceBase::ReadOnly);
@@ -200,6 +230,9 @@ void YDModuleConditionWidget::dropEvent(QDropEvent *e) {
     if (module->isValid()) {
       auto pos = e->position().toPoint();
       addModule(module, indexAt(pos).row());
+
+      QString log = YDHelper::moduleLog(module);
+      YDLogger::info(YDModuleConditionWidget::tr("添加 %1 成功").arg(log));
     } else {
       QMessageBox::warning(
           nullptr, YDModuleConditionWidget::tr("提示"),
@@ -230,16 +263,7 @@ void YDModuleConditionWidget::startDrag(Qt::DropActions) {
   drag->setMimeData(mimeData);
   drag->setHotSpot({0, 0});
 
-  switch (m->type()) {
-    case Module::IfElse_Condition:
-    case Module::Times_Loop:
-    case Module::Condition_Loop: {
-      drag->setPixmap(m->preview(1));
-    } break;
-    default: {
-      drag->setPixmap(m->preview());
-    } break;
-  }
+  drag->setPixmap(m->preview());
 
   if (drag->exec(Qt::MoveAction) == Qt::MoveAction) {
     auto w = itemWidget(item);
@@ -254,7 +278,8 @@ Qt::DropActions YDModuleConditionWidget::supportedDropActions() const {
 
 void YDModuleConditionWidget::slotMenu(const QPoint &pos) {
   auto index = indexAt(pos);
-  if (index.isValid()) m_menu->exec(QCursor::pos());
+  if (index.isValid() && !YDProjectManage::IsOnlineDebugOpened())
+    m_menu->exec(QCursor::pos());
 }
 
 void YDModuleConditionWidget::slotRemoveModule(bool) {
@@ -265,7 +290,7 @@ void YDModuleConditionWidget::slotRemoveModule(bool) {
     cast.ptr->getData();
 
     auto rb =
-        QMessageBox::information(this, YDModuleConditionWidget::tr("提示"),
+        QMessageBox::information(nullptr, YDModuleConditionWidget::tr("提示"),
                                  YDModuleConditionWidget::tr("是否删除?"),
                                  YDModuleConditionWidget::tr("确认"),
                                  YDModuleConditionWidget::tr("取消"));
@@ -273,6 +298,8 @@ void YDModuleConditionWidget::slotRemoveModule(bool) {
     if (0 == rb) {
       delete takeItem(index.row());
       YDHelper::getModPropModel()->setModule(nullptr);
+      QString log = YDHelper::moduleLog(cast.ptr);
+      YDLogger::info(YDModuleConditionWidget::tr("删除 %1 成功").arg(log));
       cast.ptr->release();
       delete cast.ptr;
       selectModule = nullptr;

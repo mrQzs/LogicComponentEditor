@@ -99,7 +99,7 @@ void YDControlDO::getData() {
   auto doname = getDOName();
   auto doinfos = YDProjectManage::getDOInfos();
   for (auto a : doinfos) {
-    auto name = QString::fromLocal8Bit(a->io_name.c_str());
+    auto name = STRTQSTR(a->io_name.c_str());
     if (doname == name) {
       m_doControlModule->device_id = a->device_id;
       m_doControlModule->do_index = a->io_index;
@@ -118,7 +118,7 @@ void YDControlDO::setData() {
   auto doinfos = YDProjectManage::getDOInfos();
   for (auto a : doinfos) {
     if (id == a->device_id && index == a->io_index) {
-      setDOName(QString::fromLocal8Bit(a->io_name.c_str()));
+      setDOName(STRTQSTR(a->io_name.c_str()));
       break;
     }
   }

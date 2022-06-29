@@ -8,6 +8,10 @@
 #include <QPushButton>
 #include <QVBoxLayout>
 
+#include "common/YDHelper.h"
+#include "common/YDLogger.h"
+#include "core/YDProjectManage.h"
+#include "core/YDVariable.h"
 #include "widget/YDConditionDialog.h"
 #include "widget/YDNameLineEdit.h"
 
@@ -21,7 +25,8 @@ YDAddSafeVarDialog::YDAddSafeVarDialog(QWidget *parent)
       m_condBtn{new QPushButton(this)},
       m_okBtn{new QPushButton(this)},
       m_cancelBtn{new QPushButton(this)},
-      m_condDialog{nullptr} {
+      m_condDialog{nullptr},
+      m_isUpdate{false} {
   setWindowTitle(YDAddSafeVarDialog::tr("逻辑运算符、判定条件"));
 
   auto glay = new QGridLayout;
@@ -81,7 +86,50 @@ void YDAddSafeVarDialog::setTextList(const QStringList &list) {
   }
 }
 
-void YDAddSafeVarDialog::slotOkBtnClicked() { accept(); }
+void YDAddSafeVarDialog::setUpdateParam(const QModelIndex &groupIndex,
+                                        const QModelIndex &viewIndex,
+                                        bool flag) {
+  m_groupIndex = groupIndex;
+  m_viewIndex = viewIndex;
+  m_isUpdate = flag;
+}
+
+void YDAddSafeVarDialog::slotOkBtnClicked() {
+  if (m_nameEdit->text().isEmpty()) {
+    QMessageBox::warning(this, YDAddSafeVarDialog::tr("错误"),
+                         YDAddSafeVarDialog::tr("名字不能为空!"));
+    return;
+  }
+
+  if (m_isUpdate) {
+    YDVariable *vg =
+        reinterpret_cast<YDVariable *>(m_groupIndex.internalPointer());
+    int row = m_viewIndex.row();
+    auto vars = YDProjectManage::GetGroupedGlobalVars(vg->groupId());
+
+    if (row < vars.size()) {
+      auto var = vars[row];
+      auto result = YDProjectManage::UpdateVariableName(
+          var->variable_id, QSTRTSTR(m_nameEdit->text()));
+      switch (result) {
+        case -1:
+          QMessageBox::warning(nullptr, YDAddSafeVarDialog::tr("提示"),
+                               YDAddSafeVarDialog::tr("修改安全变量名称失败!"));
+          return;
+        case 0:
+          break;
+        case 1:
+          QMessageBox::warning(nullptr, YDAddSafeVarDialog::tr("提示"),
+                               YDAddSafeVarDialog::tr("安全变量名称有重复!"));
+          return;
+        default:
+          return;
+      }
+    }
+    m_isUpdate = false;
+  }
+  accept();
+}
 
 void YDAddSafeVarDialog::slotCancelBtnClicked() { reject(); }
 

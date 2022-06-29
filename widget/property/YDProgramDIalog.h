@@ -7,6 +7,7 @@ class YDCodeEditor;
 class YDBuildOptDialog;
 class YDModule;
 class QPushButton;
+class QLabel;
 
 class YDProgramDIalog : public YDDialog {
   Q_OBJECT
@@ -17,7 +18,12 @@ class YDProgramDIalog : public YDDialog {
   virtual QStringList textList() const;
   virtual void setTextList(const QStringList& list);
   void setType(int);
-  bool isSaved();
+
+ protected:
+  void mousePressEvent(QMouseEvent* e) override;
+  void mouseMoveEvent(QMouseEvent* e) override;
+  void mouseReleaseEvent(QMouseEvent* e) override;
+  void paintEvent(QPaintEvent* event) override;
 
  signals:
   void sigResult(const QString&);
@@ -28,11 +34,14 @@ class YDProgramDIalog : public YDDialog {
   void slotClose(bool);
 
  private:
+  QLabel* m_titleLabel;
   QPushButton* m_btn;
   YDModule* m_module;
   YDCodeEditor* m_widget;
-  bool m_isSaved;
   bool m_isCompile;
+  QPoint m_curPos;
+  bool m_clicked;
+  QString m_code;
 };
 
 #endif  // YDPROGRAMDIALOG_H

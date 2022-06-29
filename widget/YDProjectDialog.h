@@ -5,7 +5,7 @@
 
 class QListWidget;
 class YDNameLineEdit;
-class YDLogo;
+class YDLabel;
 class QLabel;
 class YDPicButton;
 class YDNameDialog;
@@ -23,14 +23,17 @@ class YDProjectDialog : public QDialog {
   void slotCreateClicked();
   void slotDiaFinished();
   void slotItemClicked(const QModelIndex& index);
+  void slotWidgetClicked(const QString& text);
 
  private:
   void init();
   void initWidget1();
   void initWidget2();
+  QString getFileChangeTime(const QString& path);
 
  private:
-  YDLogo* m_logo;
+  YDLabel* m_logo;
+  YDLabel* m_text;
 
   QWidget* m_widget1;
   QLabel* m_lab;

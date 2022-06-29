@@ -14,9 +14,10 @@ YDMenuHead::YDMenuHead(QWidget *parent)
       m_isItem{false},
       m_isHover{false} {
   setFixedHeight(30);
-  m_icon = ":/Icon/plus.png";
+  m_icon = "";
   m_text = "自定义脚本";
   setAttribute(Qt::WA_Hover);
+  m_font.setPixelSize(14);
 }
 
 YDMenuHead::~YDMenuHead() {}
@@ -73,9 +74,7 @@ void YDMenuHead::paintEvent(QPaintEvent *) {
 
     if (!m_text.isEmpty()) {
       p.setPen(Qt::black);
-      QFont font;
-      font.setPixelSize(14);
-      p.setFont(font);
+      p.setFont(m_font);
       x = x + w + 10;
       auto m = p.fontMetrics();
       h = m.height();
@@ -106,9 +105,7 @@ void YDMenuHead::paintEvent(QPaintEvent *) {
 
     if (!m_text.isEmpty()) {
       p.setPen(Qt::black);
-      QFont font;
-      font.setPixelSize(14);
-      p.setFont(font);
+      p.setFont(m_font);
       x = x + w + 10;
       auto m = p.fontMetrics();
       h = m.height();

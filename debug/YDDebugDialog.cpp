@@ -117,7 +117,6 @@ YDDebugDialog::YDDebugDialog(QWidget *parent)
 
 YDDebugDialog::~YDDebugDialog() {
   emit stop();
-  QThread::msleep(100);
   m_timerThread->requestInterruption();
   m_timerThread->exit(0);
   m_timerThread->wait();

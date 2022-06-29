@@ -1,5 +1,6 @@
 #include "YDAxisListModel.h"
 
+#include "common/YDHelper.h"
 #include "core/YDProjectManage.h"
 
 YDAxisListModel::YDAxisListModel(QObject *parent) : QAbstractListModel{parent} {
@@ -26,7 +27,7 @@ void YDAxisListModel::updateData() {
   m_strlist.clear();
   auto axis = YDProjectManage::getAxisList();
   for (auto a : axis) {
-    QString name = QString::fromLocal8Bit(a->axis_name.c_str());
+    QString name = STRTQSTR(a->axis_name.c_str());
     m_strlist.push_back(name);
   }
 }

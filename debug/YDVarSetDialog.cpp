@@ -87,16 +87,16 @@ void YDVarSetDialog::setVar(yd::vr::SystemVariable *var,
   m_var = var;
   QString time;
   if (varstate.ullTimestamp > 0)
-    time = QString::fromLocal8Bit(
+    time = STRTQSTR(
         yd::CTimestamp::FormatTimeFromMicroseconds(varstate.ullTimestamp)
             .c_str());
 
-  m_nameEdit->setText(QString::fromLocal8Bit(var->variable_name.c_str()));
+  m_nameEdit->setText(STRTQSTR(var->variable_name.c_str()));
   m_typeEdit->setText(YDHelper::getDataType(var->value_type));
-  m_minEdit->setText(QString::fromLocal8Bit(var->min_value.c_str()));
-  m_maxEdit->setText(QString::fromLocal8Bit(var->max_value.c_str()));
+  m_minEdit->setText(STRTQSTR(var->min_value.c_str()));
+  m_maxEdit->setText(STRTQSTR(var->max_value.c_str()));
   m_valueEdit->setText(
-      QString::fromLocal8Bit(varstate.strRealtimeValue.c_str()));
+      STRTQSTR(varstate.strRealtimeValue.c_str()));
 
   m_timeEdit->setText(time);
 }

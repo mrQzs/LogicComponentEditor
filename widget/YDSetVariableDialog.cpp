@@ -68,11 +68,6 @@ void YDSetVariableDialog::setTextList(const QStringList &list) {
     if (!s.isEmpty()) setContent(s);
 }
 
-void YDSetVariableDialog::focusOutEvent(QFocusEvent *e) {
-  setFocus();
-  show();
-}
-
 void YDSetVariableDialog::slotOkBtnClicked() { accept(); }
 
 void YDSetVariableDialog::slotCancelBtnClicked() { reject(); }

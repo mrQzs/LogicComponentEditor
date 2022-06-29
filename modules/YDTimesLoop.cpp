@@ -95,7 +95,7 @@ void YDTimesLoop::setData() {
   auto loopIds = m_timesLoopModule->listProcessIds;
   if (!loopIds.empty()) {
     std::vector<yd::lg::LogicProcess *> listProcesses;
-    YDProjectManage::getProcesses(loopIds, listProcesses);
+    YDProjectManage::getProcesses(getLogicProcessId(), loopIds, listProcesses);
     m_widget->addLoopModules(m_task, listProcesses);
   }
 

@@ -1,5 +1,7 @@
 #include "YDVariableGroupModel.h"
 
+#include <QKeyEvent>
+#include <QMessageBox>
 #include <QMimeData>
 
 #include "MainWindow.h"
@@ -167,7 +169,9 @@ void YDVariableGroupModel::updateRoot(YDVariable *root) {
 }
 
 YDVarGroupDeletegate::YDVarGroupDeletegate(QObject *parent)
-    : QStyledItemDelegate{parent} {}
+    : QStyledItemDelegate{parent} {
+  this->installEventFilter(this);
+}
 
 QWidget *YDVarGroupDeletegate::createEditor(QWidget *parent,
                                             const QStyleOptionViewItem &option,
@@ -200,7 +204,24 @@ void YDVarGroupDeletegate::setModelData(QWidget *editor,
   if (index.data(Qt::DisplayRole).canConvert<QString>()) {
     YDNameLineEdit *YDEditor = qobject_cast<YDNameLineEdit *>(editor);
     auto var = reinterpret_cast<YDVariable *>(index.internalPointer());
-    var->setName(YDEditor->text());
+    auto result = YDProjectManage::updateVariableGroupName(
+        var->groupId(), QSTRTSTR(YDEditor->text()));
+    switch (result) {
+      case -1:
+        QMessageBox::warning(nullptr, YDVarGroupDeletegate::tr("提示"),
+                             YDVarGroupDeletegate::tr("更新变量分组名称失败!"));
+        break;
+      case 0:
+        qDebug() << __FUNCTION__ << YDEditor->text();
+        var->setName(YDEditor->text());
+        break;
+      case 1:
+        QMessageBox::warning(nullptr, YDVarGroupDeletegate::tr("提示"),
+                             YDVarGroupDeletegate::tr("变量分组名称有重复!"));
+        break;
+      default:
+        break;
+    }
   } else {
     QStyledItemDelegate::setModelData(editor, model, index);
   }
@@ -220,6 +241,16 @@ QSize YDVarGroupDeletegate::sizeHint(const QStyleOptionViewItem &option,
                                      const QModelIndex &index) const {
   auto size = QStyledItemDelegate::sizeHint(option, index);
   return size;
+}
+
+bool YDVarGroupDeletegate::eventFilter(QObject *object, QEvent *event) {
+  if (object == this) {
+    QKeyEvent *k = static_cast<QKeyEvent *>(event);
+    if (k->key() == Qt::Key_Return) {
+      return true;
+    }
+  }
+  return false;
 }
 
 void YDVarGroupDeletegate::commitAndCloseEditor() {

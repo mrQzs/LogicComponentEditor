@@ -97,6 +97,8 @@ void YDIfElseCondition::initModule(yd::lg::LogicProcess *lp) {
 }
 
 void YDIfElseCondition::getData() {
+  Q_ASSERT(m_ifElseProcess->pModule);
+
   m_ifElseProcess->pModule->listTrueProcessIds.clear();
   m_ifElseProcess->pModule->listFalseProcessIds.clear();
 
@@ -110,24 +112,28 @@ void YDIfElseCondition::getData() {
 }
 
 void YDIfElseCondition::setData() {
+  Q_ASSERT(m_ifElseProcess->pModule);
   auto tlist = m_ifElseProcess->pModule->listTrueProcessIds;
   if (!tlist.empty()) {
     std::vector<yd::lg::LogicProcess *> listTrueProcesses;
-    YDProjectManage::getProcesses(tlist, listTrueProcesses);
+    YDProjectManage::getProcesses(getLogicProcessId(), tlist,
+                                  listTrueProcesses);
     m_widget->addTrueModules(m_task, listTrueProcesses);
   }
 
   auto flist = m_ifElseProcess->pModule->listFalseProcessIds;
   if (!flist.empty()) {
     std::vector<yd::lg::LogicProcess *> listFalseProcesses;
-    YDProjectManage::getProcesses(flist, listFalseProcesses);
+    YDProjectManage::getProcesses(getLogicProcessId(), flist,
+                                  listFalseProcesses);
     m_widget->addFalseModules(m_task, listFalseProcesses);
   }
 }
 
 int YDIfElseCondition::high() const { return m_widget->high(); }
 
-void YDIfElseCondition::setStateMap(const QMap<uint32, yd::proto::ProcState> &map) {
+void YDIfElseCondition::setStateMap(
+    const QMap<uint32, yd::proto::ProcState> &map) {
   m_widget->setState(map);
 }
 

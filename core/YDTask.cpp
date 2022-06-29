@@ -37,9 +37,9 @@ YDTask *YDTask::parent() const { return m_parent; }
 
 QString YDTask::name() const {
   if (m_logicTask)
-    return QString::fromLocal8Bit(m_logicTask->name.c_str());
+    return STRTQSTR(m_logicTask->name.c_str());
   else
-    return QString::fromLocal8Bit(m_logicSubTask->name.c_str());
+    return STRTQSTR(m_logicSubTask->name.c_str());
 }
 
 QList<YDTask *> YDTask::childs() const { return m_childs; }
@@ -100,7 +100,7 @@ void YDTask::setExecuteMethod(uint8 method) {
     m_logicSubTask->execute_method = method;
 }
 
-void YDTask::setState(const yd::proto::TaskState &state) {
+void YDTask::setState(yd::proto::TaskState &state) {
   m_tabWidget->setModulesState(state.process_states);
 }
 

@@ -78,7 +78,7 @@ QVariant YDDeviceOutputModel::data(const QModelIndex &index, int role) const {
       if (role == Qt::DisplayRole) return QString::number(var->index);
       break;
     case 2:
-      if (role == Qt::DisplayRole) return QString::fromLocal8Bit(var->name);
+      if (role == Qt::DisplayRole) return STRTQSTR(var->name);
       break;
     case 3:
       if (role == Qt::CheckStateRole)
@@ -93,10 +93,10 @@ QVariant YDDeviceOutputModel::data(const QModelIndex &index, int role) const {
         return YDDeviceOutputModel::tr("是");
       break;
     case 5:
-      if (role == Qt::DisplayRole) return QString::fromLocal8Bit(var->label);
+      if (role == Qt::DisplayRole) return STRTQSTR(var->label);
       break;
     case 6:
-      if (role == Qt::DisplayRole) return QString::fromLocal8Bit(var->remarks);
+      if (role == Qt::DisplayRole) return STRTQSTR(var->remarks);
       break;
   }
 

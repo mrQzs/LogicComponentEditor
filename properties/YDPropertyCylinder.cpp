@@ -4,6 +4,7 @@
 #include <QDebug>
 #include <QStringDecoder>
 
+#include "common/YDHelper.h"
 #include "core/YDProjectManage.h"
 
 YDPropertyCylinder::YDPropertyCylinder(YDProperty *parent)
@@ -46,5 +47,5 @@ void YDPropertyCylinder::updateStrList() {
   m_enum.clear();
   m_enum << "";
   auto varList = YDProjectManage::getCylinders();
-  for (auto a : varList) m_enum << QString::fromLocal8Bit(a->base.name.c_str());
+  for (auto a : varList) m_enum << STRTQSTR(a->base.name.c_str());
 }

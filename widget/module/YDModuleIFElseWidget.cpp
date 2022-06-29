@@ -115,7 +115,8 @@ QList<uint32> YDModuleIFElseWidget::getTrueProcessIds(uint32 id) {
         nextcast.i =
             qvariant_cast<qintptr>(m_ifWidget->item(i + 1)->data(Qt::UserRole));
         m->setNextId(nextcast.ptr->getLogicProcessId());
-      }
+      } else
+        m->setNextId(0);
     } else if (i > 0 && i <= m_ifWidget->count() - 2) {
       YDModuleCast precast;
       YDModuleCast nextcast;
@@ -156,7 +157,8 @@ QList<uint32> YDModuleIFElseWidget::getFalseProcessIds(uint32 id) {
         nextcast.i = qvariant_cast<qintptr>(
             m_elseWidget->item(i + 1)->data(Qt::UserRole));
         m->setNextId(nextcast.ptr->getLogicProcessId());
-      }
+      } else
+        m->setNextId(0);
     } else if (i > 0 && i <= m_elseWidget->count() - 2) {
       YDModuleCast precast;
       YDModuleCast nextcast;
@@ -206,7 +208,8 @@ void YDModuleIFElseWidget::addFalseModules(
   }
 }
 
-void YDModuleIFElseWidget::setState(const QMap<uint32, yd::proto::ProcState> &map) {
+void YDModuleIFElseWidget::setState(
+    const QMap<uint32, yd::proto::ProcState> &map) {
   for (int i = 0; i < m_ifWidget->count(); ++i) {
     auto item = m_ifWidget->item(i);
     YDModuleCast cast;

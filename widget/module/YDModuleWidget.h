@@ -19,6 +19,9 @@ class YDModuleWidget : public QWidget {
   void paintEvent(QPaintEvent *);
 
  private:
+  QString getStateInfo();
+
+ private:
   QString m_text;
   YDModule *m_module;
   QColor m_color;

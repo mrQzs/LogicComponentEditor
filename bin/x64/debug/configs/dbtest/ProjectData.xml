@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project>
+    <variables>
+        <variable id="1" value="0"/>
+        <variable id="2" value="0"/>
+        <variable id="910001000012001" value="0"/>
+        <variable id="910001000012002" value="100"/>
+        <variable id="910001000012003" value="120"/>
+        <variable id="910001000012004" value="360"/>
+        <variable id="910001000012005" value="0"/>
+        <variable id="910001000012006" value="750"/>
+        <variable id="910001000012007" value="25"/>
+        <variable id="910001000012008" value="145"/>
+        <variable id="910001000012009" value="0"/>
+        <variable id="910001000012010" value="450"/>
+        <variable id="910001000012011" value="125"/>
+        <variable id="910001000012012" value="320"/>
+        <variable id="910001000012013" value="{&quot;ctrl_type&quot;:0,&quot;number&quot;:3,&quot;coords&quot;:[{&quot;device_id&quot;:1,&quot;card&quot;:0,&quot;axis&quot;:1,&quot;type&quot;:108,&quot;target&quot;:{&quot;use_variable&quot;:false,&quot;refer_value&quot;:&quot;123&quot;},&quot;velocity&quot;:{&quot;use_variable&quot;:false,&quot;refer_value&quot;:&quot;123&quot;}},{&quot;device_id&quot;:1,&quot;card&quot;:0,&quot;axis&quot;:2,&quot;type&quot;:108,&quot;target&quot;:{&quot;use_variable&quot;:false,&quot;refer_value&quot;:&quot;456&quot;},&quot;velocity&quot;:{&quot;use_variable&quot;:false,&quot;refer_value&quot;:&quot;456&quot;}},{&quot;device_id&quot;:1,&quot;card&quot;:0,&quot;axis&quot;:3,&quot;type&quot;:108,&quot;target&quot;:{&quot;use_variable&quot;:false,&quot;refer_value&quot;:&quot;369&quot;},&quot;velocity&quot;:{&quot;use_variable&quot;:false,&quot;refer_value&quot;:&quot;369&quot;}}]}"/>
+        <variable id="910001000012014" value="{&quot;ctrl_type&quot;:0,&quot;number&quot;:2,&quot;coords&quot;:[{&quot;device_id&quot;:1,&quot;card&quot;:0,&quot;axis&quot;:1,&quot;type&quot;:108,&quot;target&quot;:{&quot;use_variable&quot;:false,&quot;refer_value&quot;:&quot;333&quot;},&quot;velocity&quot;:{&quot;use_variable&quot;:false,&quot;refer_value&quot;:&quot;333&quot;}},{&quot;device_id&quot;:1,&quot;card&quot;:0,&quot;axis&quot;:2,&quot;type&quot;:108,&quot;target&quot;:{&quot;use_variable&quot;:false,&quot;refer_value&quot;:&quot;422&quot;},&quot;velocity&quot;:{&quot;use_variable&quot;:false,&quot;refer_value&quot;:&quot;422&quot;}}]}"/>
+    </variables>
+</project>

@@ -97,7 +97,9 @@ contains(TARGET_ARCH, x86_64){
 
 SOURCES += \
     MainWindow.cpp \
+    common/YDDebugLoger.cpp \
     common/YDHelper.cpp \
+    common/YDLogThread.cpp \
     common/YDLogger.cpp \
     core/YDProjectManage.cpp \
     core/YDTask.cpp \
@@ -105,6 +107,7 @@ SOURCES += \
     core/YDVariable.cpp \
     debug/YDAXisListView.cpp \
     debug/YDAxisListModel.cpp \
+    debug/YDDAxisControl.cpp \
     debug/YDDAxisVarModel.cpp \
     debug/YDDAxisVarView.cpp \
     debug/YDDAxisVarWidget.cpp \
@@ -115,6 +118,7 @@ SOURCES += \
     debug/YDDOutputModel.cpp \
     debug/YDDOutputWidget.cpp \
     debug/YDDTaskWidget.cpp \
+    debug/YDDVarWidget.cpp \
     debug/YDDVariableModel.cpp \
     debug/YDDVariableWidget.cpp \
     debug/YDDVariableview.cpp \
@@ -197,6 +201,9 @@ SOURCES += \
     view/YDModuleView.cpp \
     view/YDTableView.cpp \
     view/YDTreeView.cpp \
+    widget/YDAboutDialog.cpp \
+    widget/YDBPCodeManage.cpp \
+    widget/YDBackPointDialog.cpp \
     widget/YDBuildOptDialog.cpp \
     widget/YDCodeEditor.cpp \
     widget/YDCodeManage.cpp \
@@ -208,7 +215,7 @@ SOURCES += \
     widget/YDDialog.cpp \
     widget/YDInplaceWaitDialog.cpp \
     widget/YDIntVarComboBox.cpp \
-    widget/YDLogo.cpp \
+    widget/YDLabel.cpp \
     widget/YDMenu.cpp \
     widget/YDMenuHead.cpp \
     widget/YDMenuItem.cpp \
@@ -216,11 +223,15 @@ SOURCES += \
     widget/YDNameLineEdit.cpp \
     widget/YDPicButton.cpp \
     widget/YDProjectDialog.cpp \
+    widget/YDProjectItem.cpp \
     widget/YDScriptPropDialog.cpp \
     widget/YDSetVariableDialog.cpp \
     widget/YDVariableDialog.cpp \
     widget/YDWidget.cpp \
     widget/YDShowMessage.cpp \
+    widget/base/YDDoubleLineEdit.cpp \
+    widget/base/YDIPLineEdit.cpp \
+    widget/base/YDIntLineEdit.cpp \
     widget/module/YDIfConditionWidget.cpp \
     widget/module/YDModuleConditionWidget.cpp \
     widget/module/YDModuleHead.cpp \
@@ -244,8 +255,10 @@ SOURCES += \
 
 HEADERS += \
     MainWindow.h \
+    common/YDDebugLoger.h \
     common/YDGlobal.h \
     common/YDHelper.h \
+    common/YDLogThread.h \
     common/YDLogger.h \
     core/YDProjectManage.h \
     core/YDTask.h \
@@ -253,6 +266,7 @@ HEADERS += \
     core/YDVariable.h \
     debug/YDAXisListView.h \
     debug/YDAxisListModel.h \
+    debug/YDDAxisControl.h \
     debug/YDDAxisVarModel.h \
     debug/YDDAxisVarView.h \
     debug/YDDAxisVarWidget.h \
@@ -263,6 +277,7 @@ HEADERS += \
     debug/YDDOutputModel.h \
     debug/YDDOutputWidget.h \
     debug/YDDTaskWidget.h \
+    debug/YDDVarWidget.h \
     debug/YDDVariableModel.h \
     debug/YDDVariableWidget.h \
     debug/YDDVariableview.h \
@@ -346,6 +361,9 @@ HEADERS += \
     view/YDModuleView.h \
     view/YDTableView.h \
     view/YDTreeView.h \
+    widget/YDAboutDialog.h \
+    widget/YDBPCodeManage.h \
+    widget/YDBackPointDialog.h \
     widget/YDBuildOptDialog.h \
     widget/YDCodeEditor.h \
     widget/YDCodeManage.h \
@@ -357,7 +375,7 @@ HEADERS += \
     widget/YDDialog.h \
     widget/YDInplaceWaitDialog.h \
     widget/YDIntVarComboBox.h \
-    widget/YDLogo.h \
+    widget/YDLabel.h \
     widget/YDMenu.h \
     widget/YDMenuHead.h \
     widget/YDMenuItem.h \
@@ -365,11 +383,15 @@ HEADERS += \
     widget/YDNameLineEdit.h \
     widget/YDPicButton.h \
     widget/YDProjectDialog.h \
+    widget/YDProjectItem.h \
     widget/YDScriptPropDialog.h \
     widget/YDSetVariableDialog.h \
     widget/YDVariableDialog.h \
     widget/YDWidget.h \
     widget/YDShowMessage.h \
+    widget/base/YDDoubleLineEdit.h \
+    widget/base/YDIPLineEdit.h \
+    widget/base/YDIntLineEdit.h \
     widget/module/YDIfConditionWidget.h \
     widget/module/YDModuleConditionWidget.h \
     widget/module/YDModuleHead.h \

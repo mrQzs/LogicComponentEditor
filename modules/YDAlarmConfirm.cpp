@@ -119,13 +119,13 @@ void YDAlarmConfirm::setData() {
   QStringList actions;
 
   auto nm1 =
-      QString::fromLocal8Bit(m_messageModule->pAction1->action_name.c_str());
+      STRTQSTR(m_messageModule->pAction1->action_name.c_str());
   auto nm2 =
-      QString::fromLocal8Bit(m_messageModule->pAction2->action_name.c_str());
+      STRTQSTR(m_messageModule->pAction2->action_name.c_str());
   auto nm3 =
-      QString::fromLocal8Bit(m_messageModule->pAction3->action_name.c_str());
+      STRTQSTR(m_messageModule->pAction3->action_name.c_str());
   auto nm4 =
-      QString::fromLocal8Bit(m_messageModule->pAction4->action_name.c_str());
+      STRTQSTR(m_messageModule->pAction4->action_name.c_str());
 
   if (m_messageModule->pAction1->selected) actions << nm1;
   if (m_messageModule->pAction2->selected) actions << nm2;

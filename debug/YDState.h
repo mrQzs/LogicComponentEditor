@@ -23,6 +23,7 @@ class YDState : public QLabel {
   QString m_gray;
   QString m_green;
   QString m_text;
+  QFont m_font;
 };
 
 #endif  // YDSTATE_H

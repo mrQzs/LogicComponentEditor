@@ -61,6 +61,7 @@ class YDVarGroupDeletegate : public QStyledItemDelegate {
  protected:
   QSize sizeHint(const QStyleOptionViewItem &option,
                  const QModelIndex &index) const override;
+  bool eventFilter(QObject *object, QEvent *event) override;
 
  private slots:
   void commitAndCloseEditor();

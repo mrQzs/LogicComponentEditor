@@ -10,7 +10,7 @@
 #include "common/YDHelper.h"
 
 YDOtherModel::YDOtherModel(QObject *parent) : QAbstractListModel{parent} {
-  m_strlist << YDOtherModel::tr("例程调用") << YDOtherModel::tr("任务完成等待")
+  m_strlist << YDOtherModel::tr("任务调用") << YDOtherModel::tr("任务完成等待")
             << YDOtherModel::tr("报警确认") << YDOtherModel::tr("可编程控件")
             << YDOtherModel::tr("跳转控件");
 }
@@ -26,7 +26,7 @@ QVariant YDOtherModel::data(const QModelIndex &index, int role) const {
   if (Qt::DisplayRole == role)
     return m_strlist[index.row()];
   else if (Qt::DecorationRole == role)
-    return QIcon(":/Module/Module.png");
+    return QIcon(":/Module/ModuleS.png");
   return QVariant();
 }
 

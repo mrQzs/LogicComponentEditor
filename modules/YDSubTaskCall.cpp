@@ -44,10 +44,8 @@ class YDSubTaskCallTask : public YDPropertyTask {
   QString codeName() const { return "Task"; }
 
  protected:
-  virtual QString get(YDModule *m) const { return m->getCallTask(); }
-  virtual void set(YDModule *m, QString str) {
-    if (!str.isEmpty()) m->setTaskCall(str);
-  }
+  virtual quint32 get(YDModule *m) const { return m->getCallTask(); }
+  virtual void set(YDModule *m, quint32 id) { m->setTaskCall(id); }
 };
 
 YDSubTaskCall::YDSubTaskCall() {
@@ -68,7 +66,7 @@ void YDSubTaskCall::initModule(YDTask *task, uint64 parentId) {
   YDProjectManage::attachTaskCallerModule(logicProcessId, m_subTaskModule);
   Q_ASSERT(m_subTaskModule);
   if (0 != parentId) m_logicProcess->parent_id = parentId;
-  QString name = YDSubTaskCall::tr("调用例程%1").arg(m_logicProcess->id);
+  QString name = YDSubTaskCall::tr("任务调用%1").arg(m_logicProcess->id);
   m_logicProcess->name = std::string(name.toLocal8Bit().data());
 }
 
@@ -81,21 +79,7 @@ void YDSubTaskCall::initModule(yd::lg::LogicProcess *lp) {
 
 void YDSubTaskCall::getData() {
   m_logicProcess->type = LOGIC_PROCESS_TASK_CALLER;
-  auto name = getCallTask();
-  std::map<uint32, std::string> names;
-  YDProjectManage::GetTaskNames(names);
-  for (auto itor = names.begin(); itor != names.end(); ++itor) {
-    auto n = QString::fromLocal8Bit(itor->second.c_str());
-    if (name == n) {
-      m_subTaskModule->task_id = itor->first;
-      break;
-    }
-  }
+  m_subTaskModule->task_id = getCallTask();
 }
 
-void YDSubTaskCall::setData() {
-  auto id = m_subTaskModule->task_id;
-  std::map<uint32, std::string> name;
-  YDProjectManage::GetTaskNames(name);
-  setTaskCall(QString::fromLocal8Bit(name[id]));
-}
+void YDSubTaskCall::setData() { setTaskCall(m_subTaskModule->task_id); }

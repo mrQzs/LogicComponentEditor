@@ -153,7 +153,7 @@ void YDCodeEditor::changeType(int type) {
     } break;
 
     default:
-      break;
+      return;
   }
 
   m_editor->setLexer(m_textLexer);

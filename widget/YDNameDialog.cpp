@@ -7,6 +7,7 @@
 #include <QVBoxLayout>
 
 #include "YDNameLineEdit.h"
+#include "common/YDHelper.h"
 #include "core/YDProjectManage.h"
 
 YDNameDialog::YDNameDialog(QWidget *parent)
@@ -63,7 +64,7 @@ void YDNameDialog::slotOkClicked() {
   std::vector<std::string> list;
   YDProjectManage::enumuerateProjects(list);
   for (auto v : list) {
-    auto str = QString::fromLocal8Bit(v.c_str());
+    auto str = STRTQSTR(v.c_str());
     if (str == name) {
       QMessageBox::warning(nullptr, YDNameDialog::tr("错误"),
                            YDNameDialog::tr("名称已存在!"));

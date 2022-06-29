@@ -1,6 +1,7 @@
 #include "YDDeviceSetDialog.h"
 
 #include <QHBoxLayout>
+#include <QMessageBox>
 #include <QMouseEvent>
 #include <QTabWidget>
 #include <QToolButton>
@@ -27,13 +28,13 @@ YDDeviceSetDialog::YDDeviceSetDialog(QWidget *parent)
       m_deviceView{new YDListView(this)},
       m_deviceModel{new YDDeviceModel(this)},
       m_axisW{new QWidget(this)},
-      m_axisView{new YDAxisTableView(m_axisW)},
+      m_axisView{new YDSingleTableView(m_axisW)},
       m_axisModel{new YDDeviceAxisModel(m_axisW)},
       m_inputW{new QWidget(this)},
-      m_inputView{new YDTableView(m_inputW)},
+      m_inputView{new YDSingleTableView(m_inputW)},
       m_inputModel{new YDDeviceInputModel(m_inputW)},
       m_outputW{new QWidget(this)},
-      m_outputView{new YDTableView(m_outputW)},
+      m_outputView{new YDSingleTableView(m_outputW)},
       m_outputModel{new YDDeviceOutputModel(m_outputW)} {
   setWindowTitle(YDDeviceSetDialog::tr("设备管理"));
 
@@ -43,10 +44,16 @@ YDDeviceSetDialog::YDDeviceSetDialog(QWidget *parent)
   m_delDevice->setIconSize(size);
   m_download->setIconSize(size);
 
+  m_addDevice->setToolTip(YDDeviceSetDialog::tr("添加设备"));
+  m_editDevice->setToolTip(YDDeviceSetDialog::tr("修改设备"));
+  m_delDevice->setToolTip(YDDeviceSetDialog::tr("删除设备"));
+  m_download->setToolTip(YDDeviceSetDialog::tr(""));
+
   m_addDevice->setIcon(QIcon(":/Icon/addBtn.png"));
   m_editDevice->setIcon(QIcon(":/Icon/edit.png"));
   m_delDevice->setIcon(QIcon(":/Icon/delBtn.png"));
   m_download->setIcon(QIcon(":/Icon/redo.png"));
+  m_download->hide();  //暂无接口 隐藏 2022-06-20
 
   m_deviceView->setModel(m_deviceModel);
 
@@ -66,7 +73,8 @@ void YDDeviceSetDialog::setTextList(const QStringList &) {}
 
 void YDDeviceSetDialog::slotDeviceAddClicked(bool) {
   if (m_addDeviceDlg) delete m_addDeviceDlg;
-  m_addDeviceDlg = new YDAddDeviceDialog(this);
+  m_addDeviceDlg =
+      new YDAddDeviceDialog(YDAddDeviceDialog::tr("添加设备"), this);
   connect(m_addDeviceDlg, &YDAddDeviceDialog::finished, this,
           &YDDeviceSetDialog::slotAddDeviceFinished);
   m_addDeviceDlg->open();
@@ -76,22 +84,33 @@ void YDDeviceSetDialog::slotDeviceEditClicked(bool) {
   auto index = m_deviceView->currentIndex();
   if (index.isValid()) {
     slotDeviceItemDoubleClick(index);
+  } else {
+    QMessageBox::warning(nullptr, YDDeviceSetDialog::tr("提示"),
+                         YDDeviceSetDialog::tr("请选择要修改的设备!"));
   }
 }
 
 void YDDeviceSetDialog::slotDeviceDelClicked(bool) {
   auto index = m_deviceView->currentIndex();
   if (index.isValid()) {
-    int row = index.row();
-    auto list = YDProjectManage::getMotionDevices();
-    if (row < list.size()) {
-      auto device = list[row];
-      YDProjectManage::deleteMotionDevice(device->base.id);
-      updateDeviceModels();
-      m_axisModel->clearModel();
-      m_inputModel->cleaerModel();
-      m_outputModel->cleaerModel();
+    auto rb = QMessageBox::information(
+        this, YDDeviceSetDialog::tr("提示"), YDDeviceSetDialog::tr("是否删除?"),
+        YDDeviceSetDialog::tr("确认"), YDDeviceSetDialog::tr("取消"));
+    if (0 == rb) {
+      int row = index.row();
+      auto list = YDProjectManage::getMotionDevices();
+      if (row < list.size()) {
+        auto device = list[row];
+        YDProjectManage::deleteMotionDevice(device->base.id);
+        updateDeviceModels();
+        m_axisModel->clearModel();
+        m_inputModel->cleaerModel();
+        m_outputModel->cleaerModel();
+      }
     }
+  } else {
+    QMessageBox::warning(nullptr, YDDeviceSetDialog::tr("提示"),
+                         YDDeviceSetDialog::tr("请选择要删除的设备!"));
   }
 }
 
@@ -102,8 +121,8 @@ void YDDeviceSetDialog::slotAddDeviceFinished() {
     int i = 0;
     for (; i < types.size(); ++i) {
       auto t = types[i];
-      auto str = QString("%1 %2").arg(QString::fromLocal8Bit(t->vendor.c_str()),
-                                      QString::fromLocal8Bit(t->model));
+      auto str =
+          QString("%1 %2").arg(STRTQSTR(t->vendor.c_str()), STRTQSTR(t->model));
       if (str == infos[2]) break;
     }
     if (i < types.size()) {
@@ -111,7 +130,6 @@ void YDDeviceSetDialog::slotAddDeviceFinished() {
       yd::dev::MCDevice *dev = nullptr;
       auto type = types[i];
       if (YDProjectManage::createMotionDevice(name, type, dev)) {
-        qDebug() << "Device create sucessfule!";
         dev->base.name = YDHelper::qstringToString(infos[0]);
         dev->card.index = infos[1].toUInt();
         dev->card.config = YDHelper::qstringToString(infos[3]);
@@ -137,7 +155,6 @@ void YDDeviceSetDialog::slotChangeDeviceFinished() {
     dev->card.config = YDHelper::qstringToString(infos[3]);
     dev->base.remarks = YDHelper::qstringToString(infos[4]);
     if (YDProjectManage::updateMCDeviceVariables(dev)) {
-      qDebug() << "Update deviceinfo successful!";
       updateDeviceModels();
       m_axisModel->updateModel(dev->listAxises);
       m_inputModel->updateModel(dev->listDIGroups);
@@ -164,15 +181,15 @@ void YDDeviceSetDialog::slotDeviceItemDoubleClick(const QModelIndex &index) {
     m_deviceIndex = index;
     auto dev = list[row];
     QStringList infos;
-    infos << QString::fromLocal8Bit(dev->base.name.c_str());
+    infos << STRTQSTR(dev->base.name.c_str());
     infos << QString::number(dev->card.index);
-    infos << QString("%1 %2").arg(
-        QString::fromLocal8Bit(dev->base.vendor.c_str()),
-        QString::fromLocal8Bit(dev->base.model));
-    infos << QString::fromLocal8Bit(dev->card.config.c_str());
-    infos << QString::fromLocal8Bit(dev->base.remarks.c_str());
+    infos << QString("%1 %2").arg(STRTQSTR(dev->base.vendor.c_str()),
+                                  STRTQSTR(dev->base.model));
+    infos << STRTQSTR(dev->card.config.c_str());
+    infos << STRTQSTR(dev->base.remarks.c_str());
     if (m_addDeviceDlg) delete m_addDeviceDlg;
-    m_addDeviceDlg = new YDAddDeviceDialog(this);
+    m_addDeviceDlg =
+        new YDAddDeviceDialog(YDAddDeviceDialog::tr("编辑设备"), this);
     m_addDeviceDlg->setTextList(infos);
     connect(m_addDeviceDlg, &YDAddDeviceDialog::finished, this,
             &YDDeviceSetDialog::slotChangeDeviceFinished);
@@ -202,9 +219,12 @@ void YDDeviceSetDialog::initTabWidget() {
 
   m_axisView->setEditTriggers(QTableView::CurrentChanged);
   m_axisView->setModel(m_axisModel);
+  m_axisView->setColumnWidth(21, 135);
   m_axisView->setItemDelegate(new YDDeviceAxisDelegate(m_axisView));
+  m_inputView->setEditTriggers(QTableView::CurrentChanged);
   m_inputView->setModel(m_inputModel);
   m_inputView->setItemDelegate(new YDDeviceInputDelegate(m_inputView));
+  m_outputView->setEditTriggers(QTableView::CurrentChanged);
   m_outputView->setModel(m_outputModel);
   m_outputView->setItemDelegate(new YDDeviceOutputDelegate(m_outputView));
 }

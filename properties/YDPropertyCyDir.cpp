@@ -4,6 +4,7 @@
 #include <QDebug>
 #include <QStringDecoder>
 
+#include "common/YDHelper.h"
 #include "core/YDProjectManage.h"
 #include "modules/YDModule.h"
 
@@ -50,10 +51,10 @@ void YDPropertyCyDir::updateStrList() {
   auto cyname = m_module->getCylinder();
   if (!cyname.isEmpty()) {
     for (auto a : varList) {
-      QString name = QString::fromLocal8Bit(a->base.name);
+      QString name = STRTQSTR(a->base.name);
       if (name == cyname) {
-        m_enum << QString::fromLocal8Bit(a->direction1_name);
-        m_enum << QString::fromLocal8Bit(a->direction2_name);
+        m_enum << STRTQSTR(a->direction1_name);
+        m_enum << STRTQSTR(a->direction2_name);
         break;
       }
     }

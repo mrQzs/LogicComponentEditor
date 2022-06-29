@@ -104,6 +104,8 @@ void YDJumpToTask::getData() {
 
 void YDJumpToTask::setData() {
   auto map = YDProjectManage::getProcessNames();
-  std::string name = map.at(m_jumpToModule->process_id);
-  setSelectModule(QString::fromLocal8Bit(name.c_str()));
+  if (0 != m_jumpToModule->process_id) {
+    std::string name = map.at(m_jumpToModule->process_id);
+    setSelectModule(STRTQSTR(name.c_str()));
+  }
 }

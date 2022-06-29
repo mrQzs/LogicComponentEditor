@@ -27,7 +27,7 @@ QVariant YDScriptModel::data(const QModelIndex &index, int role) const {
   if (row < 0 || row >= list.size()) return QVariant();
 
   if (Qt::DisplayRole == role)
-    return QString::fromLocal8Bit(list[row]->script_name.c_str());
+    return STRTQSTR(list[row]->script_name.c_str());
   else if (Qt::DecorationRole == role)
     return QIcon(":/Icon/subtask.png");
 

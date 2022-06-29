@@ -70,6 +70,12 @@ int32 YDDgHelper::getDIStates(uint32 id, std::map<uint64, bool> &map) {
   return s_i->m_pProtocolClient->GetDIStates(id, map);
 }
 
+int32 YDDgHelper::sendDOState(uint32 uiDeviceId, uint16 usIndex, uint16 usType,
+                              bool bStatus) {
+  return s_i->m_pProtocolClient->SendDOControl(uiDeviceId, usIndex, usType,
+                                               bStatus);
+}
+
 int32 YDDgHelper::getDOStates(uint32 id, std::map<uint64, bool> &map) {
   return s_i->m_pProtocolClient->GetDOStates(id, map);
 }
@@ -178,4 +184,35 @@ int32 YDDgHelper::getTaskState(uint32 id, yd::proto::TaskState *state) {
 int32 YDDgHelper::getLogicStates(const std::vector<uint32> &ids,
                                  yd::proto::LogicStates *states) {
   return s_i->m_pProtocolClient->GetLogicStates(ids, states);
+}
+
+int32 YDDgHelper::ExecuteHomeMove() {
+  return s_i->m_pProtocolClient->ExecuteHomeMove();
+}
+
+int32 YDDgHelper::StartMainLogicTask() {
+  return s_i->m_pProtocolClient->StartMainLogicTask();
+}
+
+int32 YDDgHelper::SuspendMainLogicTask() {
+  return s_i->m_pProtocolClient->SuspendMainLogicTask();
+}
+
+int32 YDDgHelper::StopMainLogicTask() {
+  return s_i->m_pProtocolClient->StopMainLogicTask();
+}
+
+int32 YDDgHelper::DownloadProject(const std::string &strDirectory,
+                                  const std::string &strProjectName) {
+  return s_i->m_pProtocolClient->DownloadProject(strDirectory, strProjectName);
+}
+
+int32 YDDgHelper::UploadProject(const std::string &strDirectory,
+                                std::string &strProjectName) {
+  return s_i->m_pProtocolClient->UploadProject(strDirectory, strProjectName);
+}
+
+int32 YDDgHelper::GetLogMessages(uint64 ullBegin, uint64 ullEnd,
+                                 std::vector<std::string> &listMessage) {
+  return s_i->m_pProtocolClient->GetLogMessages(ullBegin, ullEnd, listMessage);
 }

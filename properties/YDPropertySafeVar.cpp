@@ -4,6 +4,7 @@
 #include <QDebug>
 #include <QStringDecoder>
 
+#include "common/YDHelper.h"
 #include "core/YDProjectManage.h"
 
 YDPropertySafeVar::YDPropertySafeVar(YDProperty *parent)
@@ -47,8 +48,7 @@ void YDPropertySafeVar::updateStrList() {
   m_enum << "";
   auto varList = YDProjectManage::getAllSafeVariables();
   for (auto a : varList) {
-    QString name = QString::fromLocal8Bit(a->variable_name.c_str(),
-                                          a->variable_name.size());
+    QString name = STRTQSTR(a->variable_name.c_str());
     m_enum << name;
   }
 }

@@ -12,6 +12,7 @@
 #include "YDTask.h"
 #include "YDVariable.h"
 #include "common/YDHelper.h"
+#include "common/YDLogger.h"
 #include "modules/YDModules.h"
 
 YDProjectManage *YDProjectManage::s_instance = nullptr;
@@ -59,11 +60,29 @@ void YDProjectManage::initCode() {
     s_instance->m_vcCode = stream.readAll();
   }
   file2.close();
+
+  QFile file3(":/Code/BPVB");
+  if (file3.open(QFile::ReadOnly)) {
+    stream.setDevice(&file3);
+    s_instance->m_bpVBCode = stream.readAll();
+  }
+  file3.close();
+
+  QFile file4(":/Code/BPVC");
+  if (file4.open(QFile::ReadOnly)) {
+    stream.setDevice(&file4);
+    s_instance->m_bpVCCode = stream.readAll();
+  }
+  file4.close();
 }
 
 QString YDProjectManage::getVbCode() { return s_instance->m_vbCode; }
 
 QString YDProjectManage::getVcCode() { return s_instance->m_vcCode; }
+
+QString YDProjectManage::getBPVbCode() { return s_instance->m_bpVBCode; }
+
+QString YDProjectManage::getBPVCCode() { return s_instance->m_bpVCCode; }
 
 bool YDProjectManage::init() {
   std::string str{"test"};
@@ -132,11 +151,10 @@ bool YDProjectManage::CreateProject(const std::string &name) {
 bool YDProjectManage::openProject(const std::string &name) {
   s_instance->m_projectManager->OpenProject(name);
 
-  auto root = YDProjectManage::getYDTaskRoot();
-  root->clear();
-
   std::vector<yd::lg::LogicTask *> listLogicTasks;
   s_instance->m_logicManager->GetTasks(listLogicTasks);
+
+  auto root = YDProjectManage::getYDTaskRoot();
 
   for (auto t : listLogicTasks) {
     auto task = new YDTask(t, root);
@@ -163,7 +181,8 @@ void YDProjectManage::saveModuleData(uint32 id,
       m->setPreviousId(0);
       if (modules.size() > 1) {
         m->setNextId(modules[i + 1]->getLogicProcessId());
-      }
+      } else
+        m->setNextId(0);
     } else if (i > 0 && i <= modules.size() - 2) {
       m->setPreviousId(modules[i - 1]->getLogicProcessId());
       m->setNextId(modules[i + 1]->getLogicProcessId());
@@ -187,10 +206,11 @@ void YDProjectManage::saveProject() {
       s_instance->saveModuleData(sc->id(), subModules);
     }
   }
-  auto filePath =
-      s_instance->m_projectPath + "/" + s_instance->m_fileName + ".xml";
 
-  if (s_instance->m_projectManager->SaveProject()) qDebug() << "Save Successed";
+  if (s_instance->m_projectManager->SaveProject()) {
+    qDebug() << "Save Successed";
+    YDLogger::info(QObject::tr("项目保存成功!"));
+  }
 }
 
 void YDProjectManage::setVariableGruopModle(YDVariableGroupModel *model) {
@@ -216,6 +236,12 @@ void YDProjectManage::deleteTaskProcess(uint32 taskId, uint32 processId) {
 
 void YDProjectManage::GetTaskNames(std::map<uint32, std::string> &name) {
   s_instance->m_logicManager->GetTaskNames(name);
+}
+
+QString YDProjectManage::getTaskName(uint32 taskId) {
+  std::map<uint32, std::string> name;
+  GetTaskNames(name);
+  return STRTQSTR(name[taskId]);
 }
 
 bool YDProjectManage::deleteMotionDevice(uint32 uiDeviceId) {
@@ -275,7 +301,7 @@ QString YDProjectManage::getVarName(uint64 id) {
   auto list = YDProjectManage::getAllVariables();
   for (auto v : list) {
     if (id == v->variable_id) {
-      str = QString::fromLocal8Bit(v->variable_name);
+      str = STRTQSTR(v->variable_name);
       break;
     }
   }
@@ -286,7 +312,7 @@ uint64 YDProjectManage::getVarId(const QString &name) {
   uint64 id = 0;
   auto list = YDProjectManage::getAllVariables();
   for (auto v : list) {
-    if (name == QString::fromLocal8Bit(v->variable_name)) {
+    if (name == STRTQSTR(v->variable_name)) {
       id = v->variable_id;
       break;
     }
@@ -299,7 +325,7 @@ QString YDProjectManage::getVirtualVarName(uint64 id) {
   auto list = YDProjectManage::getAllVirtualVariables();
   for (auto v : list) {
     if (id == v->variable_id) {
-      str = QString::fromLocal8Bit(v->variable_name);
+      str = STRTQSTR(v->variable_name);
       break;
     }
   }
@@ -310,7 +336,7 @@ uint64 YDProjectManage::getVirtualVarId(const QString &name) {
   uint64 id = 0;
   auto list = YDProjectManage::getAllVirtualVariables();
   for (auto v : list) {
-    if (name == QString::fromLocal8Bit(v->variable_name)) {
+    if (name == STRTQSTR(v->variable_name)) {
       id = v->variable_id;
       break;
     }
@@ -323,7 +349,7 @@ QString YDProjectManage::getSafeVirtualVarName(uint64 id) {
   auto list = YDProjectManage::getAllSafeVariables();
   for (auto v : list) {
     if (id == v->variable_id) {
-      str = QString::fromLocal8Bit(v->variable_name);
+      str = STRTQSTR(v->variable_name);
       break;
     }
   }
@@ -334,7 +360,7 @@ uint64 YDProjectManage::getSafeVirtualVarId(const QString &name) {
   uint64 id = 0;
   auto list = YDProjectManage::getAllSafeVariables();
   for (auto v : list) {
-    if (name == QString::fromLocal8Bit(v->variable_name)) {
+    if (name == STRTQSTR(v->variable_name)) {
       id = v->variable_id;
       break;
     }
@@ -608,7 +634,12 @@ std::vector<yd::dev::IOInfo *> &YDProjectManage::getAOInfos() {
 
 int32 YDProjectManage::updateVariableGroupName(uint16 gid,
                                                const std::string &gname) {
-  return s_instance->m_varGroupManage->UpdateGroupName(gid, gname);
+  return s_instance->m_projectManager->UpdateVariableGroupName(gid, gname);
+}
+
+int32 YDProjectManage::UpdateVariableName(uint64 vid,
+                                          const std::string &vname) {
+  return s_instance->m_projectManager->UpdateVariableName(vid, vname);
 }
 
 int32 YDProjectManage::updateLogicTaskName(uint32 tid,
@@ -688,9 +719,9 @@ void YDProjectManage::getSubTaskProcesses(
   s_instance->m_logicManager->GetSubTaskProcesses(subTaskId, list);
 }
 
-void YDProjectManage::getProcesses(std::vector<uint32> &ids,
+bool YDProjectManage::getProcesses(uint32 pid, std::vector<uint32> &ids,
                                    std::vector<yd::lg::LogicProcess *> &list) {
-  s_instance->m_logicManager->GetProcesses(ids, list);
+  return s_instance->m_logicManager->GetProcesses(pid, ids, list);
 }
 
 // Motion
@@ -874,9 +905,8 @@ int32 YDProjectManage::createScript(const std::string &sname,
   return s_instance->m_scriptManage->CreateScript(sname, esc);
 }
 
-int32 YDProjectManage::updateScript(const std::string &osname,
-                                    adv::ExtendScript *esc) {
-  return s_instance->m_scriptManage->UpdateScript(osname, esc);
+int32 YDProjectManage::updateScript(adv::ExtendScript *pExtendScript) {
+  return s_instance->m_scriptManage->UpdateScript(pExtendScript);
 }
 
 int32 YDProjectManage::deleteScript(const std::string &sname) {
@@ -929,7 +959,7 @@ bool YDProjectManage::closeProject() {
 
 QString YDProjectManage::getCurrentProject() {
   auto data = s_instance->m_projectManager->GetCurrentProject();
-  return QString::fromLocal8Bit(data);
+  return STRTQSTR(data);
 }
 
 bool YDProjectManage::renameProject(const std::string &strProjectNewName) {
@@ -991,7 +1021,7 @@ bool YDProjectManage::saveRecipeAs(const std::string &strRecipeOldName,
 
 QString YDProjectManage::getCurrentRecipe() {
   auto data = s_instance->m_projectManager->GetCurrentRecipe();
-  return QString::fromLocal8Bit(data);
+  return STRTQSTR(data);
 }
 
 bool YDProjectManage::renameRecipe(const std::string &strRecipeNewName) {
@@ -1304,4 +1334,34 @@ bool YDProjectManage::UpdateTempVarValue(uint64 ullTempVarId,
                                          const std::string &strTempVarValue) {
   return s_instance->m_localVarManage->UpdateVariableValue(ullTempVarId,
                                                            strTempVarValue);
+}
+
+bool YDProjectManage::DeleteSafeVar(uint64 ullTempVarId) {
+  return s_instance->m_safeVarManage->DeleteVariable(ullTempVarId);
+}
+
+bool YDProjectManage::GetDeviceType(uint32 uiDeviceId,
+                                    dev::DeviceType *&pDeviceType) {
+  return s_instance->m_deviceManager->GetDeviceType(uiDeviceId, pDeviceType);
+}
+
+const char *YDProjectManage::GetDeviceName(uint32 uiDeviceId) {
+  return s_instance->m_deviceManager->GetDeviceName(uiDeviceId);
+}
+
+uint32 YDProjectManage::GetDeviceTypeId(uint32 uiDeviceId) {
+  return s_instance->m_deviceManager->GetDeviceTypeId(uiDeviceId);
+}
+
+const char *YDProjectManage::GetDeviceTypeName(uint32 uiDeviceId) {
+  return s_instance->m_deviceManager->GetDeviceTypeName(uiDeviceId);
+}
+
+bool YDProjectManage::GetDevice(uint32 uiDeviceId, dev::Device *&pDevice) {
+  return s_instance->m_deviceManager->GetDevice(uiDeviceId, pDevice);
+}
+
+bool YDProjectManage::GetDevice(const std::string &strDeviceName,
+                                dev::Device *&pDevice) {
+  return s_instance->m_deviceManager->GetDevice(strDeviceName, pDevice);
 }

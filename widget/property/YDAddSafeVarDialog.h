@@ -1,6 +1,8 @@
 #ifndef YDADDSAFEVARDIALOG_H
 #define YDADDSAFEVARDIALOG_H
 
+#include <QModelIndex>
+
 #include "widget/YDDialog.h"
 
 class QLabel;
@@ -22,6 +24,9 @@ class YDAddSafeVarDialog : public YDDialog {
   // set
   virtual void setTextList(const QStringList &list);
 
+  void setUpdateParam(const QModelIndex &groupIndex,
+                      const QModelIndex &viewIndex, bool flag);
+
  public slots:
   void slotOkBtnClicked();
   void slotCancelBtnClicked();
@@ -42,6 +47,10 @@ class YDAddSafeVarDialog : public YDDialog {
   QPushButton *m_cancelBtn;
 
   YDConditionDialog *m_condDialog;
+
+  bool m_isUpdate;
+  QModelIndex m_groupIndex;
+  QModelIndex m_viewIndex;
 };
 
 #endif  // YDADDSAFEVARDIALOG_H

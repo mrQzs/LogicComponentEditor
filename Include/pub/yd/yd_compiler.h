@@ -49,16 +49,6 @@ namespace yd {
 			const std::string& strTargetFramework,
 			uint8 ucTargetCPU,
 			std::string& strCompileInformation) = 0;
-
-		// 移动可编程控件编译结果
-		virtual bool MoveProgrammableProcessTarget(
-			const std::string& strProcessName,
-			const std::string& strDestinationDirectory) = 0;
-
-		// 移动扩展脚本编译结果
-		virtual bool MoveExtendableScriptTarget(
-			const std::string& strScriptName,
-			const std::string& strDestinationDirectory) = 0;
 	};
 	typedef ICompiler* (*funcGetICompiler)(uint32, const char*);
 }

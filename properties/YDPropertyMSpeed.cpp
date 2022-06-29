@@ -3,6 +3,7 @@
 #include <QComboBox>
 #include <QStringDecoder>
 
+#include "common/YDHelper.h"
 #include "core/YDProjectManage.h"
 #include "modules/YDModules.h"
 
@@ -70,8 +71,7 @@ void YDPropertyMSpeed::updateStrList() {
     m_enum << "";
     auto varList = YDProjectManage::getAllVirtualVariables();
     for (auto a : varList) {
-      QString name = QString::fromLocal8Bit(a->variable_name.c_str(),
-                                            a->variable_name.size());
+      QString name = STRTQSTR(a->variable_name.c_str());
       m_enum << name;
     }
   }

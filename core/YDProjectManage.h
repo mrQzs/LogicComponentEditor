@@ -32,6 +32,10 @@ class YDProjectManage {
 
   static QString getVcCode();
 
+  static QString getBPVbCode();
+
+  static QString getBPVCCode();
+
  public:
   static bool init();
 
@@ -52,6 +56,8 @@ class YDProjectManage {
   static void deleteTaskProcess(uint32 taskId, uint32 processId);
 
   static void GetTaskNames(std::map<uint32, std::string>& name);
+
+  static QString getTaskName(uint32 taskId);
 
   static bool deleteMotionDevice(uint32 uiDeviceId);
 
@@ -157,6 +163,8 @@ class YDProjectManage {
  public:
   static int32 updateVariableGroupName(uint16 gid, const std::string& gname);
 
+  static int32 UpdateVariableName(uint64 vid, const std::string& vname);
+
   static int32 updateLogicTaskName(uint32 tid, const std::string& tname);
 
   static int32 updateLogicProcessName(uint32 tid, uint32 pid,
@@ -199,8 +207,9 @@ class YDProjectManage {
   static void getSubTaskProcesses(uint32 subTaskId,
                                   std::vector<yd::lg::LogicProcess*>& list);
 
-  static void getProcesses(std::vector<uint32>& ids,
-                           std::vector<yd::lg::LogicProcess*>& list);
+  static bool getProcesses(uint32 uiParentId,
+                           std::vector<uint32>& listProcessIds,
+                           std::vector<yd::lg::LogicProcess*>& listProcesses);
 
   // Motion
   static void attachAbsoluteMoveModule(uint32 id,
@@ -292,8 +301,7 @@ class YDProjectManage {
   static int32 createScript(const std::string& strScriptName,
                             adv::ExtendScript*& pExtendScript);
 
-  static int32 updateScript(const std::string& strOldScriptName,
-                            adv::ExtendScript* pExtendScript);
+  static int32 updateScript(adv::ExtendScript* pExtendScript);
 
   static int32 deleteScript(const std::string& strScriptName);
 
@@ -553,6 +561,30 @@ class YDProjectManage {
 
   //+++++++++++++++++++++++++++++++++++
 
+  static bool DeleteSafeVar(uint64 ullTempVarId);
+
+  //+++++++++++++++++++++++++++++++++++
+
+  // 获取指定设备类型
+  static bool GetDeviceType(uint32 uiDeviceId, dev::DeviceType*& pDeviceType);
+
+  // 获取指定设备名称
+  static const char* GetDeviceName(uint32 uiDeviceId);
+
+  // 获取指定设备类型id
+  static uint32 GetDeviceTypeId(uint32 uiDeviceId);
+
+  // 获取指定设备类型名称
+  static const char* GetDeviceTypeName(uint32 uiDeviceId);
+
+  //+++++++++++++++++++++++++++++++++++
+
+  // 获取指定设备
+  static bool GetDevice(uint32 uiDeviceId, dev::Device*& pDevice);
+
+  static bool GetDevice(const std::string& strDeviceName,
+                        dev::Device*& pDevice);
+
  private:
   QString m_fileName;
   QString m_projectPath;
@@ -565,6 +597,8 @@ class YDProjectManage {
  private:
   QString m_vbCode;
   QString m_vcCode;
+  QString m_bpVBCode;
+  QString m_bpVCCode;
 
  private:
   static YDProjectManage* s_instance;

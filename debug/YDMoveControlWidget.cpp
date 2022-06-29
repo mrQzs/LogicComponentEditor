@@ -168,7 +168,6 @@ void YDMoveControlWidget::updateData() {
   auto row = m_view->currentIndex().row();
   auto axisList = YDProjectManage::getAxisList();
   if (row < 0 && row >= axisList.size()) return;
-  qDebug() << "Row: " << row;
   auto axis = axisList[row];
   yd::proto::AxisState axisState;
   YDDgHelper::getAxisState(axis->device_id, axis->axis_index, &axisState);
@@ -212,7 +211,6 @@ void YDMoveControlWidget::sliderchanged(int value) {
 }
 
 void YDMoveControlWidget::slotViewClicked(const QModelIndex &index) {
-  qDebug() << index.row();
   updateData();
 }
 
@@ -230,11 +228,12 @@ void YDMoveControlWidget::slotJogStart() {
 
 void YDMoveControlWidget::slotJogStop() {
   if (m_cbox1->checkState() == Qt::Checked) {
-    YDDgHelper::stopAxisMove(m_axis->device_id, m_axis->axis_index, true);
+    if (m_axis)
+      YDDgHelper::stopAxisMove(m_axis->device_id, m_axis->axis_index, true);
   } else {
     if (m_edit3->text().isEmpty()) {
-      QMessageBox::warning(nullptr, QObject::tr("错误"),
-                           QObject::tr("运动距离不能为空!"));
+      QMessageBox::warning(nullptr, YDMoveControlWidget::tr("错误"),
+                           YDMoveControlWidget::tr("运动距离不能为空!"));
       return;
     }
     if (!setData()) return;
@@ -263,11 +262,12 @@ void YDMoveControlWidget::slotDJogStart() {
 
 void YDMoveControlWidget::slotDJogStop() {
   if (m_cbox1->checkState() == Qt::Checked) {
-    YDDgHelper::stopAxisMove(m_axis->device_id, m_axis->axis_index, true);
+    if (m_axis)
+      YDDgHelper::stopAxisMove(m_axis->device_id, m_axis->axis_index, true);
   } else {
     if (m_edit3->text().isEmpty()) {
-      QMessageBox::warning(nullptr, QObject::tr("错误"),
-                           QObject::tr("运动距离不能为空!"));
+      QMessageBox::warning(nullptr, YDMoveControlWidget::tr("错误"),
+                           YDMoveControlWidget::tr("运动距离不能为空!"));
       return;
     }
 
@@ -286,6 +286,11 @@ void YDMoveControlWidget::slotDJogStop() {
 void YDMoveControlWidget::textChanged(const QString &str) {}
 
 bool YDMoveControlWidget::setData() {
+  if (!m_view->currentIndex().isValid()) {
+    QMessageBox::warning(nullptr, YDMoveControlWidget::tr("错误"),
+                         YDMoveControlWidget::tr("请选择需要控制的轴!"));
+    return false;
+  }
   auto row = m_view->currentIndex().row();
   auto axisList = YDProjectManage::getAxisList();
   if (row < 0 && row >= axisList.size()) return false;

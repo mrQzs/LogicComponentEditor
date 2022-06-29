@@ -7,8 +7,11 @@ YDTimer::~YDTimer() { stop(); }
 
 void YDTimer::setTime(int msec) {
   m_msec = msec;
-  m_timer->stop();
-  m_timer->start(m_msec);
+  if (m_timer) {
+    m_timer->stop();
+    m_timer->start(m_msec);
+  } else
+    startrun();
 }
 
 void YDTimer::startrun() {

@@ -10,7 +10,7 @@
 #include "widget/YDDeviceTypeComboBox.h"
 #include "widget/YDNameLineEdit.h"
 
-YDAddDeviceDialog::YDAddDeviceDialog(QWidget *parent)
+YDAddDeviceDialog::YDAddDeviceDialog(const QString &title, QWidget *parent)
     : YDDialog{parent},
       m_nameLab{new QLabel(this)},
       m_nameEdit{new YDNameLineEdit(this)},
@@ -25,7 +25,7 @@ YDAddDeviceDialog::YDAddDeviceDialog(QWidget *parent)
       m_remarkEdit{new QLineEdit(this)},
       m_okBtn{new QPushButton(this)},
       m_cancelBtn{new QPushButton(this)} {
-  setWindowTitle(YDAddDeviceDialog::tr("添加设备"));
+  setWindowTitle(title);
 
   auto glay = new QGridLayout;
   glay->addWidget(m_nameLab, 0, 0, 1, 1);

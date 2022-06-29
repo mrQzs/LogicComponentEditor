@@ -54,7 +54,7 @@ class YDTask {
 
   void setExecuteMethod(uint8 method);
 
-  void setState(const yd::proto::TaskState& state);
+  void setState(yd::proto::TaskState& state);
 
   // other
   void initLogicProcess();

@@ -13,10 +13,7 @@
 #include "view/YDListView.h"
 
 YDCodeManage::YDCodeManage(QWidget *parent)
-    : QDialog{parent},
-      m_codeW{new YDCodeEditor(this)},
-      m_script{nullptr},
-      m_isSaved{false} {
+    : QDialog{parent}, m_codeW{new YDCodeEditor(this)}, m_script{nullptr} {
   setWindowTitle(YDCodeManage::tr("自定义脚本管理"));
 
   QHBoxLayout *hlay = new QHBoxLayout(this);
@@ -33,29 +30,29 @@ YDCodeManage::YDCodeManage(QWidget *parent)
   connect(this, &YDCodeManage::sigResult, m_codeW, &YDCodeEditor::slotResult);
 }
 
-bool YDCodeManage::isSaved() { return m_isSaved; }
-
 void YDCodeManage::setScript(yd::adv::ExtendScript *script) {
   m_script = script;
   auto name = m_script->script_name;
   auto type = m_script->script_type;
   auto file = YDProjectManage::getExtendableScriptCodeFilePath(name, type);
-  auto filestr = QString::fromLocal8Bit(file.c_str());
+  auto filestr = STRTQSTR(file.c_str());
   auto code = YDHelper::readFile(filestr);
   if (code.isEmpty()) {
     if (type == SCRIPT_TYPE_VB_NET)
-      code = YDProjectManage::getVbCode();
+      code = YDProjectManage::getBPVbCode();
     else
-      code = YDProjectManage::getVcCode();
+      code = YDProjectManage::getBPVCCode();
     QString str = QString("YDTemp_%1").arg(YDHelper::genarateTail());
     code.replace("YDTemplate", str);
   }
 
+  m_codeW->changeType(type - SCRIPT_TYPE_VB_NET);
   m_codeW->setText(code);
+  m_code = code;
 }
 
 void YDCodeManage::closeEvent(QCloseEvent *) {
-  if (!m_isSaved) {
+  if (m_code != m_codeW->getText()) {
     auto rt = QMessageBox::information(nullptr, YDCodeManage::tr("提示"),
                                        YDCodeManage::tr("代码未保存,是否保存?"),
                                        YDCodeManage::tr("是"),
@@ -67,13 +64,12 @@ void YDCodeManage::closeEvent(QCloseEvent *) {
 }
 
 void YDCodeManage::slotSaveClicked() {
-  m_isSaved = true;
   auto name = m_script->script_name;
   auto type = m_script->script_type;
   auto code = m_codeW->getText();
   auto file = YDProjectManage::getExtendableScriptCodeFilePath(name, type);
-  auto filestr = QString::fromLocal8Bit(file.c_str());
-
+  auto filestr = STRTQSTR(file.c_str());
+  m_code = code;
   YDHelper::writeFile(filestr, code);
 }
 
@@ -88,6 +84,6 @@ void YDCodeManage::slotCompileClicked() {
   auto framstr = QSTRTSTR(str);
   std::string result;
   YDProjectManage::compileExtendableScript(name, type, framstr, cpu, result);
-  auto ret = QString::fromLocal8Bit(result.c_str());
+  auto ret = STRTQSTR(result.c_str());
   emit sigResult(ret);
 }

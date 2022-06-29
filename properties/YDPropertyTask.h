@@ -12,6 +12,7 @@ class YDPropertyTask : public YDProperty {
   YDPropertyTask(YDProperty *parent = nullptr);
 
  public:
+ public:
   QVariant value(YDModule *m) const override;
   void setValue(YDModule *m, QVariant value) override;
 
@@ -24,10 +25,11 @@ class YDPropertyTask : public YDProperty {
  public:
   QComboBox *m_widget;
   QStringList m_enum;
+  QList<quint32> m_idList;
 
  protected:
-  virtual QString get(YDModule *m) const = 0;
-  virtual void set(YDModule *m, QString value) = 0;
+  virtual quint32 get(YDModule *m) const = 0;
+  virtual void set(YDModule *m, quint32 value) = 0;
   void updateStrList();
 
  private:
