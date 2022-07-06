@@ -21,6 +21,8 @@ class YDDgHelper {
 
   static bool connect(uint8 ucMaxRetries);
 
+  static bool Disconnect();
+
   static int32 getDIStates(uint32 uiDeviceId,
                            std::map<uint64, bool>& mapId2Status);
 
@@ -97,6 +99,8 @@ class YDDgHelper {
 
   // 结束主任务
   static int32 StopMainLogicTask();
+
+  static int32 GetTaskDebugState(uint32 uiTaskId, uint8& ucState);
 
   // 下载项目配置
   static int32 DownloadProject(const std::string& strDirectory,

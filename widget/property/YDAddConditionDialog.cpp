@@ -2,6 +2,7 @@
 
 #include <QCheckBox>
 #include <QComboBox>
+#include <QCompleter>
 #include <QGridLayout>
 #include <QLabel>
 #include <QMessageBox>
@@ -63,6 +64,11 @@ YDAddConditionDialog::YDAddConditionDialog(QWidget* parent)
   connect(m_cancelBtn, &QPushButton::clicked, this,
           &YDAddConditionDialog::slotCancelBtnClicked);
 
+  m_varBox->setEditable(true);
+  QCompleter* pCompleter = new QCompleter(m_varBox->model(), this);
+  pCompleter->setFilterMode(Qt::MatchContains);
+  m_varBox->setCompleter(pCompleter);
+
   QStringList list;
   list << "";
   auto vars = YDProjectManage::getAllVariables();
@@ -119,7 +125,8 @@ void YDAddConditionDialog::slotOkBtnClicked() {
   if (m_errRangeEdit->text().isEmpty() || m_valueEdit->text().isEmpty())
     QMessageBox::warning(this, YDAddConditionDialog::tr("错误"),
                          YDAddConditionDialog::tr("值不能为空!"));
-  else if (0 == m_varBox->currentIndex())
+  else if (0 == m_varBox->currentIndex() ||
+           m_varBox->currentIndex() >= m_varBox->count())
     QMessageBox::warning(this, YDAddConditionDialog::tr("错误"),
                          YDAddConditionDialog::tr("请选择变量!"));
   else

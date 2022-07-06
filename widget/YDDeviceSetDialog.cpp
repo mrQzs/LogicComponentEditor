@@ -71,6 +71,15 @@ QStringList YDDeviceSetDialog::textList() const {
 
 void YDDeviceSetDialog::setTextList(const QStringList &) {}
 
+void YDDeviceSetDialog::setControlEnabled(bool enable) {
+  m_axisView->setEnabled(enable);
+  m_inputView->setEnabled(enable);
+  m_outputView->setEnabled(enable);
+  m_addDevice->setDisabled(!enable);
+  m_editDevice->setDisabled(!enable);
+  m_delDevice->setDisabled(!enable);
+}
+
 void YDDeviceSetDialog::slotDeviceAddClicked(bool) {
   if (m_addDeviceDlg) delete m_addDeviceDlg;
   m_addDeviceDlg =
@@ -193,6 +202,12 @@ void YDDeviceSetDialog::slotDeviceItemDoubleClick(const QModelIndex &index) {
     m_addDeviceDlg->setTextList(infos);
     connect(m_addDeviceDlg, &YDAddDeviceDialog::finished, this,
             &YDDeviceSetDialog::slotChangeDeviceFinished);
+
+    if (YDProjectManage::IsOnlineDebugOpened()) {
+      m_addDeviceDlg->setEnabled(false);
+    } else {
+      m_addDeviceDlg->setEnabled(true);
+    }
     m_addDeviceDlg->open();
   }
 }

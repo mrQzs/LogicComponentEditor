@@ -29,6 +29,7 @@ YDDCylinderWidget::YDDCylinderWidget(QWidget *parent)
       m_state6{new YDState(this)},
       m_forwardBtn{new QPushButton(this)},
       m_backBtn{new QPushButton(this)} {
+  setWindowTitle(YDDCylinderWidget::tr("气油缸监测"));
   auto grid = new QGridLayout;
   grid->addWidget(m_lab1, 0, 0, 1, 1);
   grid->addWidget(m_state1, 0, 1, 1, 1);
@@ -51,6 +52,7 @@ YDDCylinderWidget::YDDCylinderWidget(QWidget *parent)
   hhlay->addStretch();
 
   auto vlay = new QVBoxLayout;
+  vlay->setContentsMargins(0, 20, 0, 0);
   vlay->addLayout(grid);
   vlay->addLayout(hhlay);
   vlay->addStretch();
@@ -63,13 +65,13 @@ YDDCylinderWidget::YDDCylinderWidget(QWidget *parent)
 
   m_lab1->setText(YDDCylinderWidget::tr("方向一 关联DI状态"));
   m_lab2->setText(YDDCylinderWidget::tr("方向二 关联DI状态"));
-  m_lab3->setText(YDDCylinderWidget::tr("方向一 运动控制"));
-  m_lab4->setText(YDDCylinderWidget::tr("方向二 运动控制"));
-  m_lab5->setText(YDDCylinderWidget::tr("方向一 报警触发"));
-  m_lab6->setText(YDDCylinderWidget::tr("方向二 报警触发"));
+  m_lab3->setText(YDDCylinderWidget::tr("方向一 运动到位"));
+  m_lab4->setText(YDDCylinderWidget::tr("方向二 运动到位"));
+  m_lab5->setText(YDDCylinderWidget::tr("方向一 报警状态"));
+  m_lab6->setText(YDDCylinderWidget::tr("方向二 报警状态"));
 
-  m_forwardBtn->setText(YDDCylinderWidget::tr("前进"));
-  m_backBtn->setText(YDDCylinderWidget::tr("后退"));
+  m_forwardBtn->setText(YDDCylinderWidget::tr("方向一运动"));
+  m_backBtn->setText(YDDCylinderWidget::tr("方向二运动"));
 
   m_lab1->setAlignment(Qt::AlignRight);
   m_lab2->setAlignment(Qt::AlignRight);
@@ -97,6 +99,8 @@ YDDCylinderWidget::YDDCylinderWidget(QWidget *parent)
           &YDDCylinderWidget::slotItemClicked);
 }
 
+void YDDCylinderWidget::closeEvent(QCloseEvent *) { emit toclose(); }
+
 void YDDCylinderWidget::slotItemClicked(const QModelIndex &index) {
   updateData();
 }
@@ -120,6 +124,19 @@ void YDDCylinderWidget::updateData() {
 
     m_forwardBtn->setText(QString::fromLocal8Bit(cyl->direction1_name));
     m_backBtn->setText(QString::fromLocal8Bit(cyl->direction2_name));
+
+    m_lab1->setText(QString::fromLocal8Bit(cyl->direction1_name) +
+                    YDDCylinderWidget::tr(" 关联DI状态"));
+    m_lab2->setText(QString::fromLocal8Bit(cyl->direction2_name) +
+                    YDDCylinderWidget::tr(" 关联DI状态"));
+    m_lab3->setText(QString::fromLocal8Bit(cyl->direction1_name) +
+                    YDDCylinderWidget::tr(" 运动到位"));
+    m_lab4->setText(QString::fromLocal8Bit(cyl->direction2_name) +
+                    YDDCylinderWidget::tr(" 运动到位"));
+    m_lab5->setText(QString::fromLocal8Bit(cyl->direction1_name) +
+                    YDDCylinderWidget::tr(" 报警状态"));
+    m_lab6->setText(QString::fromLocal8Bit(cyl->direction2_name) +
+                    YDDCylinderWidget::tr(" 报警状态"));
   }
   update();
 }

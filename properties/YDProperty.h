@@ -9,7 +9,7 @@
 class YDModule;
 
 class YDProperty {
-  Q_DECLARE_TR_FUNCTIONS(YDModule)
+  Q_DECLARE_TR_FUNCTIONS(YDProperty)
  public:
   YDProperty(YDProperty *parent = nullptr);
   virtual ~YDProperty();

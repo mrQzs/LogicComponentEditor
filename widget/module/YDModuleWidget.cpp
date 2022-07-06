@@ -81,11 +81,21 @@ QString YDModuleWidget::getStateInfo() {
   QString strState = YDModuleWidget::tr("未知");
   QString startTime{""}, endTime{""};
 
-  if (state.begin > 0 && state.end > 0 && YDHelper::getTestStart()) {
-    startTime = STRTQSTR(
-        yd::CTimestamp::FormatTimeFromMicroseconds(state.begin).c_str());
-    endTime =
-        STRTQSTR(yd::CTimestamp::FormatTimeFromMicroseconds(state.end).c_str());
+  if (state.begin > 0 && state.end > 0 /* && YDHelper::getTestStart()*/) {
+    uint64 ullCurrent = yd::CTimestamp::GetCurrentMicroseconds();
+    uint64 timedx = 3600000000;
+    uint64 ullMin = ullCurrent - timedx;
+    uint64 ullMax = ullCurrent + timedx;
+
+    //    qDebug() << __FUNCTION__ << "---------1" << ullCurrent << ullMin <<
+    //    ullMax
+    //             << state.begin << state.end;
+    if (state.begin >= ullMin && state.end <= ullMax) {
+      startTime = STRTQSTR(
+          yd::CTimestamp::FormatTimeFromMicroseconds(state.begin).c_str());
+      endTime = STRTQSTR(
+          yd::CTimestamp::FormatTimeFromMicroseconds(state.end).c_str());
+    }
   }
 
   switch (state.state) {

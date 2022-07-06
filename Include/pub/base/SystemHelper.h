@@ -111,6 +111,11 @@ namespace yd {
 	class CTimestamp
 	{
 	public:
+		// 获取当前时间：纳秒
+		static uint64 GetCurrentNanoseconds() {
+			return std::chrono::duration_cast<std::chrono::nanoseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
+		}
+
 		// 获取当前时间：微秒
 		static uint64 GetCurrentMicroseconds() {
 			return std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
@@ -128,26 +133,34 @@ namespace yd {
 
 		// 获取当前时间：格式化字符串 - YYYY-MM-DD hh:mm:ss
 		static std::string GetCurrentFormatTime() {
-			std::chrono::system_clock::time_point tm_pt = std::chrono::system_clock::now();
-			uint64 ullMicroseconds = std::chrono::duration_cast<std::chrono::microseconds>(tm_pt.time_since_epoch()).count();
-			time_t cur_time = std::chrono::system_clock::to_time_t(tm_pt);
-			char szBuffer[60 + 1] = { 0x00 };
-			struct tm cur_tm; localtime_s(&cur_tm, &cur_time);
-			std::strftime(szBuffer, sizeof(szBuffer), "%Y-%m-%d %H:%M:%S", &cur_tm);
-			std::string strMilliSeconds = CStringHelper::Format("%.06llu", ullMicroseconds % 1000000);
-
-			return std::string(szBuffer) + std::string(".") + strMilliSeconds;
+			try {
+				std::chrono::system_clock::time_point tm_pt = std::chrono::system_clock::now();
+				uint64 ullMicroseconds = std::chrono::duration_cast<std::chrono::microseconds>(tm_pt.time_since_epoch()).count();
+				time_t cur_time = std::chrono::system_clock::to_time_t(tm_pt);
+				char szBuffer[60 + 1] = { 0x00 };
+				struct tm cur_tm; localtime_s(&cur_tm, &cur_time);
+				std::strftime(szBuffer, sizeof(szBuffer), "%Y-%m-%d %H:%M:%S", &cur_tm);
+				std::string strMilliSeconds = CStringHelper::Format("%.06llu", ullMicroseconds % 1000000);
+				return std::string(szBuffer) + std::string(".") + strMilliSeconds;
+			}
+			catch (...) {
+				return "";
+			}
 		}
 
 		// 格式化时间 - YYYY-MM-DD hh:mm:ss
 		static std::string FormatTimeFromMicroseconds(uint64 ullMicroseconds) {
-			time_t cur_time = (time_t)(ullMicroseconds / 1000000);
-			char szBuffer[40 + 1] = { 0x00 };
-			struct tm cur_tm; localtime_s(&cur_tm, &cur_time);
-			std::strftime(szBuffer, sizeof(szBuffer), "%Y-%m-%d %H:%M:%S", &cur_tm);
-			std::string strMilliSeconds = CStringHelper::Format("%.06llu", ullMicroseconds % 1000000);
-
-			return std::string(szBuffer) + std::string(".") + strMilliSeconds;
+			try {
+				time_t cur_time = (time_t)(ullMicroseconds / 1000000);
+				char szBuffer[40 + 1] = { 0x00 };
+				struct tm cur_tm; localtime_s(&cur_tm, &cur_time);
+				std::strftime(szBuffer, sizeof(szBuffer), "%Y-%m-%d %H:%M:%S", &cur_tm);
+				std::string strMilliSeconds = CStringHelper::Format("%.06llu", ullMicroseconds % 1000000);
+				return std::string(szBuffer) + std::string(".") + strMilliSeconds;
+			}
+			catch (...) {
+				return "";
+			}
 		}
 
 		// 日期时间转微秒
@@ -162,11 +175,16 @@ namespace yd {
 
 		// 获取指定天数之前的日期：格式化字符串 - YYYY-MM-DD
 		static std::string GetFormateDateDaysBefore(uint16 usDays) {
-			time_t cur_time = (time_t)(time(nullptr) - (time_t)usDays * 24 * 3600);
-			char szBuffer[60 + 1] = { 0x00 };
-			struct tm cur_tm; localtime_s(&cur_tm, &cur_time);
-			std::strftime(szBuffer, sizeof(szBuffer), "%Y-%m-%d", &cur_tm);
-			return szBuffer;
+			try {
+				time_t cur_time = (time_t)(time(nullptr) - (time_t)usDays * 24 * 3600);
+				char szBuffer[60 + 1] = { 0x00 };
+				struct tm cur_tm; localtime_s(&cur_tm, &cur_time);
+				std::strftime(szBuffer, sizeof(szBuffer), "%Y-%m-%d", &cur_tm);
+				return szBuffer;
+			}
+			catch (...) {
+				return "";
+			}
 		}
 	};
 

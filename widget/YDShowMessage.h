@@ -15,6 +15,12 @@ class YDShowMessage : public QDialog {
 
  private:
   QTextEdit *m_logText;
+  QString m_traceColor;
+  QString m_debugColor;
+  QString m_infoColor;
+  QString m_warnColor;
+  QString m_errorColor;
+  QString m_fatalColor;
 };
 
 #endif  // YDSHOWMESSAGE_H

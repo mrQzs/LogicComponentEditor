@@ -16,6 +16,10 @@ class YDDCylinderWidget : public QWidget {
   explicit YDDCylinderWidget(QWidget* parent = nullptr);
 
  signals:
+  void toclose();
+
+ protected:
+  void closeEvent(QCloseEvent*);
 
  private slots:
   void slotItemClicked(const QModelIndex& index);

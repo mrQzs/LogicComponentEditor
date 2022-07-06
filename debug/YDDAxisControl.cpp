@@ -71,7 +71,7 @@ void YDDAxisControl::initUi() {
   hlay->setSpacing(0);
   hlay->addWidget(m_menuTree);
   hlay->addWidget(m_widget);
-  m_menuTree->setFixedWidth(240);
+  m_menuTree->setFixedWidth(220);
 }
 
 void YDDAxisControl::initTree() {
@@ -89,7 +89,7 @@ void YDDAxisControl::initTree() {
   m_mci = new QTreeWidgetItem(item2);
   m_mci->setText(0, YDDAxisControl::tr("运动控制"));
 
-  connect(m_menuTree, &QTreeWidget::doubleClicked, this,
+  connect(m_menuTree, &QTreeWidget::clicked, this,
           &YDDAxisControl::slotTreeDooubleClick);
 }
 
@@ -111,14 +111,17 @@ void YDDAxisControl::showWidget(int type) {
   switch (type) {
     case 0:
       m_stateW->show();
+      m_stateW->clearStateInfo();
       hlay->addWidget(m_stateW);
       break;
     case 1:
       m_speedSetW->show();
+      m_speedSetW->clearStateInfo();
       hlay->addWidget(m_speedSetW);
       break;
     case 2:
       m_moveconW->show();
+      m_moveconW->clearStateInfo();
       hlay->addWidget(m_moveconW);
       break;
   }

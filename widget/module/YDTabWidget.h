@@ -26,6 +26,8 @@ class YDTabWidget : public QWidget {
 
   void resizeModel();
 
+  YDTask *getTask();
+
  signals:
 
  private:

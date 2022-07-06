@@ -20,7 +20,7 @@ YDDVarWidget::YDDVarWidget(QWidget *parent)
       m_widget{new QWidget(this)},
       m_varW{new YDDVariableWidget(this)},
       m_axisVarW{new YDDAxisVarWidget(this)} {
-  this->setWindowTitle(YDDVarWidget::tr("轴控制"));
+  this->setWindowTitle(YDDVarWidget::tr("变量监测"));
 
   initUi();
 
@@ -35,10 +35,10 @@ YDDVarWidget::~YDDVarWidget() {}
 void YDDVarWidget::updateData() {
   switch (m_type) {
     case 0:
-      m_varW->updateData();
+      //      m_varW->updateData();
       break;
     case 1:
-      m_axisVarW->updateData();
+      //      m_axisVarW->updateData();
       break;
     default:
       break;
@@ -59,7 +59,7 @@ void YDDVarWidget::initUi() {
   hlay->setSpacing(0);
   hlay->addWidget(m_menuTree);
   hlay->addWidget(m_widget);
-  m_menuTree->setFixedWidth(240);
+  m_menuTree->setFixedWidth(220);
 }
 
 void YDDVarWidget::initTree() {
@@ -74,7 +74,7 @@ void YDDVarWidget::initTree() {
   m_ssi = new QTreeWidgetItem(item2);
   m_ssi->setText(0, YDDVarWidget::tr("坐标变量监测"));
 
-  connect(m_menuTree, &QTreeWidget::doubleClicked, this,
+  connect(m_menuTree, &QTreeWidget::clicked, this,
           &YDDVarWidget::slotTreeDooubleClick);
 }
 

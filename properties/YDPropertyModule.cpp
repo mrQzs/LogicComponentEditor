@@ -58,5 +58,15 @@ void YDPropertyModule::updateStrList() {
       }
       break;
     }
+    auto c = s->childs();
+    for (auto cc : c) {
+      if (cc->id() == tid) {
+        QList<YDModule *> modules = cc->getModules();
+        for (auto m : modules) {
+          if (m_module->name() != m->name()) m_enum << m->name();
+        }
+        break;
+      }
+    }
   }
 }

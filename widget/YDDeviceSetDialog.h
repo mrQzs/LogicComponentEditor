@@ -29,6 +29,8 @@ class YDDeviceSetDialog : public YDDialog {
   // set
   virtual void setTextList(const QStringList &list);
 
+  void setControlEnabled(bool enable);
+
  private slots:
   void slotDeviceAddClicked(bool);
   void slotDeviceEditClicked(bool);

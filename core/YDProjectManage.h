@@ -121,6 +121,9 @@ class YDProjectManage {
   static bool createCylinder(const std::string& name, dev::DeviceType* type,
                              dev::Cylinder*& dev);
 
+  static bool deleteCylinder(uint32 uiDeviceId);
+  static bool deleteCylinder(const std::string& strDeviceName);
+
   static bool updateMCDeviceVariables(dev::MCDevice*& pMCDevice);
 
   static bool updateCylinderVariables(dev::Cylinder*& cly);

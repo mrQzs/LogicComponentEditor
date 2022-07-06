@@ -208,7 +208,6 @@ void YDProjectManage::saveProject() {
   }
 
   if (s_instance->m_projectManager->SaveProject()) {
-    qDebug() << "Save Successed";
     YDLogger::info(QObject::tr("项目保存成功!"));
   }
 }
@@ -520,6 +519,14 @@ bool YDProjectManage::createCylinder(const std::string &name,
   return s_instance->m_deviceManager->CreateCylinder(name, type, dev);
 }
 
+bool YDProjectManage::deleteCylinder(uint32 uiDeviceId) {
+  return s_instance->m_deviceManager->DeleteCylinder(uiDeviceId);
+}
+
+bool YDProjectManage::deleteCylinder(const std::string &strDeviceName) {
+  return s_instance->m_deviceManager->DeleteCylinder(strDeviceName);
+}
+
 bool YDProjectManage::updateMCDeviceVariables(dev::MCDevice *&dev) {
   return true;
 }
@@ -563,6 +570,7 @@ std::vector<yd::vr::SystemVariable *> &YDProjectManage::getAllVariables() {
 
 std::vector<yd::vr::SystemVariable *> &YDProjectManage::getAllVariables(
     uint16 id) {
+  s_instance->m_list.clear();
   std::vector<yd::vr::SystemVariable *> glist;
   s_instance->m_globalVarManage->GetGroupedVariables(id, glist);
   std::vector<yd::vr::SystemVariable *> rlist;

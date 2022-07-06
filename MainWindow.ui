@@ -53,6 +53,11 @@
         <height>16777215</height>
        </size>
       </property>
+      <property name="font">
+       <font>
+        <pointsize>10</pointsize>
+       </font>
+      </property>
       <property name="toolTipDuration">
        <number>-1</number>
       </property>
@@ -65,7 +70,7 @@
          <x>0</x>
          <y>0</y>
          <width>230</width>
-         <height>732</height>
+         <height>727</height>
         </rect>
        </property>
        <attribute name="label">
@@ -105,7 +110,7 @@
          <x>0</x>
          <y>0</y>
          <width>230</width>
-         <height>732</height>
+         <height>727</height>
         </rect>
        </property>
        <attribute name="label">
@@ -138,7 +143,7 @@
          <x>0</x>
          <y>0</y>
          <width>230</width>
-         <height>732</height>
+         <height>727</height>
         </rect>
        </property>
        <attribute name="label">
@@ -171,7 +176,7 @@
          <x>0</x>
          <y>0</y>
          <width>230</width>
-         <height>732</height>
+         <height>727</height>
         </rect>
        </property>
        <attribute name="label">
@@ -221,8 +226,13 @@
      <x>0</x>
      <y>0</y>
      <width>1920</width>
-     <height>21</height>
+     <height>22</height>
     </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>10</pointsize>
+    </font>
    </property>
    <widget class="QMenu" name="m_way">
     <property name="title">
@@ -263,6 +273,7 @@
      <string>窗口</string>
     </property>
     <addaction name="a_wpromg"/>
+    <addaction name="a_property"/>
     <addaction name="a_wgbvar"/>
     <addaction name="a_wwyvar"/>
     <addaction name="a_wtpvar"/>
@@ -271,6 +282,8 @@
     <addaction name="a_wfeida"/>
     <addaction name="a_wtrayp"/>
     <addaction name="a_wdanjia"/>
+    <addaction name="a_logOut"/>
+    <addaction name="a_debugInfo"/>
    </widget>
    <widget class="QMenu" name="m_debug">
     <property name="title">
@@ -349,12 +362,17 @@
    <addaction name="m_help"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
-  <widget class="QDockWidget" name="MenuDock">
+  <widget class="YDDockWidget" name="MenuDock">
    <property name="minimumSize">
     <size>
      <width>230</width>
      <height>296</height>
     </size>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>10</pointsize>
+    </font>
    </property>
    <property name="styleSheet">
     <string notr="true"/>
@@ -433,7 +451,7 @@ background: #90d7ec;
           <x>0</x>
           <y>0</y>
           <width>228</width>
-          <height>831</height>
+          <height>830</height>
          </rect>
         </property>
         <property name="sizePolicy">
@@ -448,12 +466,17 @@ background: #90d7ec;
     </layout>
    </widget>
   </widget>
-  <widget class="QDockWidget" name="PropertyDock">
+  <widget class="YDDockWidget" name="PropertyDock">
    <property name="minimumSize">
     <size>
      <width>120</width>
      <height>94</height>
     </size>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>10</pointsize>
+    </font>
    </property>
    <property name="windowTitle">
     <string>属性窗口</string>
@@ -484,12 +507,17 @@ background: #90d7ec;
     </layout>
    </widget>
   </widget>
-  <widget class="QDockWidget" name="VarDock">
+  <widget class="YDDockWidget" name="VarDock">
    <property name="minimumSize">
     <size>
      <width>520</width>
-     <height>128</height>
+     <height>148</height>
     </size>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>10</pointsize>
+    </font>
    </property>
    <property name="windowTitle">
     <string>全局变量</string>
@@ -521,7 +549,7 @@ background: #90d7ec;
       <number>0</number>
      </property>
      <item>
-      <layout class="QHBoxLayout" name="horizontalLayout_9">
+      <layout class="QHBoxLayout" name="horizontalLayout_3">
        <item>
         <widget class="QToolButton" name="AddVarG">
          <property name="toolTip">
@@ -563,6 +591,22 @@ background: #90d7ec;
         </widget>
        </item>
        <item>
+        <spacer name="horizontalSpacer_2">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeType">
+          <enum>QSizePolicy::Fixed</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>135</width>
+           <height>24</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item>
         <widget class="QToolButton" name="addVar">
          <property name="toolTip">
           <string>添加变量</string>
@@ -600,14 +644,14 @@ background: #90d7ec;
         </widget>
        </item>
        <item>
-        <spacer name="horizontalSpacer_2">
+        <spacer name="horizontalSpacer">
          <property name="orientation">
           <enum>Qt::Horizontal</enum>
          </property>
          <property name="sizeHint" stdset="0">
           <size>
            <width>40</width>
-           <height>24</height>
+           <height>20</height>
           </size>
          </property>
         </spacer>
@@ -637,7 +681,12 @@ background: #90d7ec;
     </layout>
    </widget>
   </widget>
-  <widget class="QDockWidget" name="CylinderDock">
+  <widget class="YDDockWidget" name="CylinderDock">
+   <property name="font">
+    <font>
+     <pointsize>10</pointsize>
+    </font>
+   </property>
    <property name="windowTitle">
     <string>气油缸</string>
    </property>
@@ -741,7 +790,12 @@ background: #90d7ec;
     </layout>
    </widget>
   </widget>
-  <widget class="QDockWidget" name="SafeVarDock">
+  <widget class="YDDockWidget" name="SafeVarDock">
+   <property name="font">
+    <font>
+     <pointsize>10</pointsize>
+    </font>
+   </property>
    <property name="windowTitle">
     <string>安全变量</string>
    </property>
@@ -806,6 +860,22 @@ background: #90d7ec;
           </size>
          </property>
         </widget>
+       </item>
+       <item>
+        <spacer name="horizontalSpacer_5">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeType">
+          <enum>QSizePolicy::Fixed</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>135</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
        </item>
        <item>
         <widget class="QToolButton" name="addSafeVar">
@@ -885,7 +955,12 @@ background: #90d7ec;
     </layout>
    </widget>
   </widget>
-  <widget class="QDockWidget" name="InputDock">
+  <widget class="YDDockWidget" name="InputDock">
+   <property name="font">
+    <font>
+     <pointsize>10</pointsize>
+    </font>
+   </property>
    <property name="windowTitle">
     <string>日志输出</string>
    </property>
@@ -922,7 +997,12 @@ background: #90d7ec;
     </layout>
    </widget>
   </widget>
-  <widget class="QDockWidget" name="PeiFVarDock">
+  <widget class="YDDockWidget" name="PeiFVarDock">
+   <property name="font">
+    <font>
+     <pointsize>10</pointsize>
+    </font>
+   </property>
    <property name="windowTitle">
     <string>配方变量</string>
    </property>
@@ -987,6 +1067,22 @@ background: #90d7ec;
           </size>
          </property>
         </widget>
+       </item>
+       <item>
+        <spacer name="horizontalSpacer_8">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeType">
+          <enum>QSizePolicy::Fixed</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>135</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
        </item>
        <item>
         <widget class="QToolButton" name="addVar_2">
@@ -1066,7 +1162,12 @@ background: #90d7ec;
     </layout>
    </widget>
   </widget>
-  <widget class="QDockWidget" name="DebugDock">
+  <widget class="YDDockWidget" name="DebugDock">
+   <property name="font">
+    <font>
+     <pointsize>10</pointsize>
+    </font>
+   </property>
    <property name="windowTitle">
     <string>调试信息</string>
    </property>
@@ -1075,7 +1176,12 @@ background: #90d7ec;
    </attribute>
    <widget class="QWidget" name="dockWidgetContents_5"/>
   </widget>
-  <widget class="QDockWidget" name="TempVarDock">
+  <widget class="YDDockWidget" name="TempVarDock">
+   <property name="font">
+    <font>
+     <pointsize>10</pointsize>
+    </font>
+   </property>
    <property name="windowTitle">
     <string>临时变量</string>
    </property>
@@ -1145,6 +1251,22 @@ background: #90d7ec;
             </size>
            </property>
           </widget>
+         </item>
+         <item>
+          <spacer name="horizontalSpacer_9">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeType">
+            <enum>QSizePolicy::Fixed</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>135</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
          </item>
          <item>
           <widget class="QToolButton" name="addVar_4">
@@ -1248,13 +1370,11 @@ background: #90d7ec;
    <attribute name="toolBarBreak">
     <bool>false</bool>
    </attribute>
-   <addaction name="a_save"/>
+   <addaction name="m_save"/>
    <addaction name="separator"/>
    <addaction name="a_startDebug"/>
    <addaction name="a_closeDebug"/>
    <addaction name="separator"/>
-   <addaction name="a_LogicStart"/>
-   <addaction name="a_LogicStop"/>
   </widget>
   <action name="a_new">
    <property name="icon">
@@ -1276,8 +1396,14 @@ background: #90d7ec;
    <property name="text">
     <string>保存项目</string>
    </property>
+   <property name="toolTip">
+    <string>保存项目</string>
+   </property>
    <property name="shortcut">
     <string>Ctrl+S</string>
+   </property>
+   <property name="menuRole">
+    <enum>QAction::TextHeuristicRole</enum>
    </property>
   </action>
   <action name="a_exit">
@@ -1452,7 +1578,10 @@ background: #90d7ec;
   </action>
   <action name="a_dstartz">
    <property name="text">
-    <string>启动回零</string>
+    <string>启动回原点</string>
+   </property>
+   <property name="toolTip">
+    <string>启动回原点</string>
    </property>
   </action>
   <action name="a_dstartm">
@@ -1500,34 +1629,34 @@ background: #90d7ec;
   <action name="a_startDebug">
    <property name="icon">
     <iconset resource="res/res.qrc">
-     <normaloff>:/Icon/startDebug.png</normaloff>:/Icon/startDebug.png</iconset>
+     <normaloff>:/Icon/onLine.png</normaloff>:/Icon/onLine.png</iconset>
    </property>
    <property name="text">
-    <string>启动调试</string>
+    <string/>
    </property>
    <property name="toolTip">
-    <string>启动调试</string>
+    <string>连接数据网关</string>
    </property>
   </action>
   <action name="a_closeDebug">
    <property name="icon">
     <iconset resource="res/res.qrc">
-     <normaloff>:/Icon/closeDebug.png</normaloff>:/Icon/closeDebug.png</iconset>
+     <normaloff>:/Icon/offLine.png</normaloff>:/Icon/offLine.png</iconset>
    </property>
    <property name="text">
-    <string>关闭调试</string>
+    <string/>
    </property>
    <property name="toolTip">
-    <string>关闭调试</string>
+    <string>关闭数据网关</string>
    </property>
   </action>
   <action name="a_LogicStart">
    <property name="icon">
     <iconset resource="res/res.qrc">
-     <normaloff>:/Icon/LogicStart.png</normaloff>:/Icon/LogicStart.png</iconset>
+     <normaloff>:/Icon/startDebug.png</normaloff>:/Icon/startDebug.png</iconset>
    </property>
    <property name="text">
-    <string>逻辑任务启动</string>
+    <string/>
    </property>
    <property name="toolTip">
     <string>逻辑任务启动</string>
@@ -1536,10 +1665,10 @@ background: #90d7ec;
   <action name="a_LogicStop">
    <property name="icon">
     <iconset resource="res/res.qrc">
-     <normaloff>:/Icon/LoginClose.png</normaloff>:/Icon/LoginClose.png</iconset>
+     <normaloff>:/Icon/closeDebug.png</normaloff>:/Icon/closeDebug.png</iconset>
    </property>
    <property name="text">
-    <string>逻辑任务启动</string>
+    <string/>
    </property>
    <property name="toolTip">
     <string>逻辑任务停止</string>
@@ -1597,6 +1726,59 @@ background: #90d7ec;
     <string>30分钟</string>
    </property>
   </action>
+  <action name="m_save">
+   <property name="icon">
+    <iconset resource="res/res.qrc">
+     <normaloff>:/Icon/disk.png</normaloff>:/Icon/disk.png</iconset>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="toolTip">
+    <string>保存项目</string>
+   </property>
+  </action>
+  <action name="a_reserve">
+   <property name="text">
+    <string/>
+   </property>
+  </action>
+  <action name="a_property">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>属性窗口</string>
+   </property>
+   <property name="toolTip">
+    <string>属性窗口</string>
+   </property>
+  </action>
+  <action name="a_logOut">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>日志输出</string>
+   </property>
+   <property name="toolTip">
+    <string>日志输出</string>
+   </property>
+  </action>
+  <action name="a_debugInfo">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>调试信息</string>
+   </property>
+   <property name="toolTip">
+    <string>调试信息</string>
+   </property>
+  </action>
  </widget>
  <customwidgets>
   <customwidget>
@@ -1623,6 +1805,12 @@ background: #90d7ec;
    <class>YDCylinderInfo</class>
    <extends>QWidget</extends>
    <header>widget/YDCylinderInfo.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>YDDockWidget</class>
+   <extends>QDockWidget</extends>
+   <header>widget/base/YDDockWidget.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

@@ -26,6 +26,7 @@ YDVarSetDialog::YDVarSetDialog(QWidget *parent)
       m_timeEdit{new QLineEdit(this)},
       m_ok{new QPushButton(this)},
       m_cancel{new QPushButton(this)} {
+  setWindowTitle(YDVarSetDialog::tr("修改变量"));
   auto grid = new QGridLayout;
   grid->addWidget(m_name, 0, 0, 1, 1);
   grid->addWidget(m_nameEdit, 0, 1, 1, 1);
@@ -95,8 +96,7 @@ void YDVarSetDialog::setVar(yd::vr::SystemVariable *var,
   m_typeEdit->setText(YDHelper::getDataType(var->value_type));
   m_minEdit->setText(STRTQSTR(var->min_value.c_str()));
   m_maxEdit->setText(STRTQSTR(var->max_value.c_str()));
-  m_valueEdit->setText(
-      STRTQSTR(varstate.strRealtimeValue.c_str()));
+  m_valueEdit->setText(STRTQSTR(varstate.strRealtimeValue.c_str()));
 
   m_timeEdit->setText(time);
 }
@@ -110,7 +110,7 @@ void YDVarSetDialog::slotCancelClicked(bool) { reject(); }
 
 void YDVarSetDialog::slotValueChanged(const QString &str) {
   if (!str.isEmpty()) {
-    std::string val = str.toUtf8().constData();
+    std::string val = QSTRTSTR(str);  // str.toUtf8().constData();
     m_var->init_value = val;
   }
 }

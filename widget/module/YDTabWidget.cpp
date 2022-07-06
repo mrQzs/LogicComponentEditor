@@ -76,3 +76,5 @@ void YDTabWidget::setModulesState(std::vector<proto::ProcState> &states) {
 }
 
 void YDTabWidget::resizeModel() { YDHelper::resizeModel(m_listWidget); }
+
+YDTask *YDTabWidget::getTask() { return m_task; }

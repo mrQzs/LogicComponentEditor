@@ -16,6 +16,10 @@ class YDDOutputWidget : public QWidget {
   void updateData();
 
  signals:
+  void toclose();
+
+ protected:
+  void closeEvent(QCloseEvent*);
 
  private:
   YDOutputStateView* m_view1;

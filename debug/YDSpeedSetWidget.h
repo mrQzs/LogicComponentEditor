@@ -8,6 +8,7 @@ class QLineEdit;
 class QPushButton;
 class YDAXisListView;
 class YDAxisListModel;
+class YDLoadingDialog;
 
 class YDSpeedSetWidget : public QWidget {
   Q_OBJECT
@@ -18,6 +19,10 @@ class YDSpeedSetWidget : public QWidget {
 
  public:
   void updateData();
+  void clearStateInfo();
+
+ private:
+  void setReturnState(qint32 code, const QString& name);
 
  private slots:
   void slotItemClicked(const QModelIndex& index);
@@ -28,6 +33,7 @@ class YDSpeedSetWidget : public QWidget {
  private:
   YDAXisListView* m_view;
   YDAxisListModel* m_model;
+  YDLoadingDialog* m_loading;
 
   QLabel* m_lab1;
   QLineEdit* m_edit1;
@@ -52,6 +58,8 @@ class YDSpeedSetWidget : public QWidget {
 
   QPushButton* m_btn;
   QPushButton* m_btn1;
+
+  QLabel* m_state;
 };
 
 #endif  // YDSPEEDSETWIDGET_H

@@ -14,6 +14,7 @@ YDDInputWidget::YDDInputWidget(QWidget *parent)
       m_deletegate2{new YDDInputDeletegate(m_view2)},
       m_model1{new YDDInputModel(this)},
       m_model2{new YDDInputModel(this)} {
+  setWindowTitle(YDDInputWidget::tr("输入状态监测"));
   auto hlay = new QHBoxLayout(this);
   m_model1->setGroup(0);
   m_model2->setGroup(1);
@@ -24,7 +25,7 @@ YDDInputWidget::YDDInputWidget(QWidget *parent)
   m_view2->horizontalHeader()->setStretchLastSection(true);
   m_view2->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
 
-  hlay->setContentsMargins(0, 0, 0, 0);
+  hlay->setContentsMargins(5, 10, 5, 10);
   hlay->setSpacing(20);
   hlay->addWidget(m_view1);
   hlay->addWidget(m_view2);
@@ -43,3 +44,5 @@ void YDDInputWidget::updateData() {
   m_model1->updateData();
   m_model2->updateData();
 }
+
+void YDDInputWidget::closeEvent(QCloseEvent *) { emit toclose(); }

@@ -27,8 +27,6 @@ YDAddSafeVarDialog::YDAddSafeVarDialog(QWidget *parent)
       m_cancelBtn{new QPushButton(this)},
       m_condDialog{nullptr},
       m_isUpdate{false} {
-  setWindowTitle(YDAddSafeVarDialog::tr("逻辑运算符、判定条件"));
-
   auto glay = new QGridLayout;
   glay->addWidget(m_nameLab, 0, 0, 1, 1);
   glay->addWidget(m_nameEdit, 0, 1, 1, 1);

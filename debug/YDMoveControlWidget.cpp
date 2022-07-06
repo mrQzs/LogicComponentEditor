@@ -1,10 +1,10 @@
 #include "YDMoveControlWidget.h"
 
-#include <QCheckBox>
 #include <QGridLayout>
 #include <QHBoxLayout>
 #include <QLabel>
 #include <QMessageBox>
+#include <QRadioButton>
 #include <QSlider>
 
 #include "YDAXisListView.h"
@@ -12,15 +12,17 @@
 #include "YDJogButton.h"
 #include "YDState.h"
 #include "core/YDProjectManage.h"
+#include "widget/YDLoadingDialog.h"
 #include "widget/YDNameLineEdit.h"
 
 YDMoveControlWidget::YDMoveControlWidget(QWidget *parent)
     : QWidget{parent},
       m_view{new YDAXisListView(this)},
       m_model{new YDAxisListModel(this)},
+      m_loading{new YDLoadingDialog(this)},
       m_lab1{new QLabel(this)},
-      m_cbox1{new QCheckBox(this)},
-      m_cbox2{new QCheckBox(this)},
+      m_rbox1{new QRadioButton(this)},
+      m_rbox2{new QRadioButton(this)},
       m_lab2{new QLabel(this)},
       m_sliderLab{new QLabel(this)},
       m_slider{new QSlider(Qt::Horizontal, this)},
@@ -39,14 +41,15 @@ YDMoveControlWidget::YDMoveControlWidget(QWidget *parent)
       m_btn1{new YDJogButton(this)},
       m_btn2{new YDJogButton(this)},
       m_axis{nullptr},
-      m_move{nullptr} {
+      m_move{nullptr},
+      m_state{new QLabel(this)} {
   m_view->setFixedWidth(200);
   m_view->setModel(m_model);
 
   auto grid = new QGridLayout;
   grid->addWidget(m_lab1, 0, 0, 1, 1);
-  grid->addWidget(m_cbox1, 0, 1, 1, 1);
-  grid->addWidget(m_cbox2, 0, 2, 1, 1);
+  grid->addWidget(m_rbox1, 0, 1, 1, 1);
+  grid->addWidget(m_rbox2, 0, 2, 1, 1);
 
   auto hhlay = new QHBoxLayout;
   hhlay->setContentsMargins(0, 0, 0, 0);
@@ -80,8 +83,14 @@ YDMoveControlWidget::YDMoveControlWidget(QWidget *parent)
   hlay3->addStretch();
 
   auto vlay = new QVBoxLayout;
+  vlay->setContentsMargins(20, 20, 20, 0);
   vlay->addLayout(hlay3);
   vlay->addStretch();
+  vlay->addWidget(m_state, 0, Qt::AlignBottom);
+  vlay->addStretch();
+
+  m_state->setAlignment(Qt::AlignCenter);
+  m_state->setFont(QFont("Microsoft YaHei", 16, 75));
 
   auto hlay = new QHBoxLayout(this);
   hlay->setContentsMargins(0, 0, 0, 0);
@@ -104,8 +113,8 @@ YDMoveControlWidget::YDMoveControlWidget(QWidget *parent)
   m_btn1->setFixedWidth(120);
 
   m_lab1->setText(YDMoveControlWidget::tr("运动类型:"));
-  m_cbox1->setText(YDMoveControlWidget::tr("Jog运动"));
-  m_cbox2->setText(YDMoveControlWidget::tr("相对运动"));
+  m_rbox1->setText(YDMoveControlWidget::tr("Jog运动"));
+  m_rbox2->setText(YDMoveControlWidget::tr("相对运动"));
   m_lab2->setText(YDMoveControlWidget::tr("运动速度:"));
   m_lab3->setText(YDMoveControlWidget::tr("运动距离:"));
   m_lab4->setText(YDMoveControlWidget::tr("毫米"));
@@ -122,14 +131,14 @@ YDMoveControlWidget::YDMoveControlWidget(QWidget *parent)
   m_btn1->setText(YDMoveControlWidget::tr("正向"));
   m_btn2->setText(YDMoveControlWidget::tr("反向"));
 
-  m_cbox1->setChecked(true);
-  m_cbox2->setChecked(false);
+  m_rbox1->setChecked(true);
+  m_rbox2->setChecked(false);
 
-  connect(m_cbox1, &QCheckBox::clicked, this,
-          &YDMoveControlWidget::box1checked);
+  //  connect(m_rbox1, &QCheckBox::clicked, this,
+  //          &YDMoveControlWidget::box1checked);
 
-  connect(m_cbox2, &QCheckBox::clicked, this,
-          &YDMoveControlWidget::box2checked);
+  //  connect(m_rbox2, &QCheckBox::clicked, this,
+  //          &YDMoveControlWidget::box2checked);
 
   m_slider->setMinimum(1);
   m_slider->setMaximum(100);
@@ -193,15 +202,29 @@ double YDMoveControlWidget::getDistance(int row) const {
   return m_distanceMap[row];
 }
 
-void YDMoveControlWidget::box1checked(bool b) {
-  m_cbox1->setChecked(b);
-  m_cbox2->setChecked(!b);
+void YDMoveControlWidget::clearStateInfo() { m_state->clear(); }
+
+void YDMoveControlWidget::setReturnState(qint32 code, const QString &name) {
+  m_loading->close();
+  switch (code) {
+    case PROJECT_ERROR_NONE:
+      m_state->setText(name + YDMoveControlWidget::tr(": 成功"));
+      break;
+    default:
+      m_state->setText(name + YDMoveControlWidget::tr(": 失败"));
+      break;
+  }
 }
 
-void YDMoveControlWidget::box2checked(bool b) {
-  m_cbox1->setChecked(!b);
-  m_cbox2->setChecked(b);
-}
+// void YDMoveControlWidget::box1checked(bool b) {
+//   m_cbox1->setChecked(b);
+//   m_cbox2->setChecked(!b);
+// }
+
+// void YDMoveControlWidget::box2checked(bool b) {
+//   m_cbox1->setChecked(!b);
+//   m_cbox2->setChecked(b);
+// }
 
 void YDMoveControlWidget::sliderchanged(int value) {
   m_sliderLab->setText(QString("%1%").arg(QString::number(value)));
@@ -215,19 +238,22 @@ void YDMoveControlWidget::slotViewClicked(const QModelIndex &index) {
 }
 
 void YDMoveControlWidget::slotJogStart() {
-  if (m_cbox1->checkState() == Qt::Checked) {
+  if (m_rbox1->isChecked()) {
     if (!setData()) return;
 
     double value = (m_slider->value() * 1.0) / 100.0;
     value = value * m_move->max_manual_velocity;
     std::string speed = QString::number(value).toUtf8().toStdString();
-    YDDgHelper::startJogMove(m_axis->device_id, m_axis->axis_index, false,
-                             speed, 1);
+
+    int32 code = YDDgHelper::startJogMove(m_axis->device_id, m_axis->axis_index,
+                                          false, speed, 1);
+
+    setReturnState(code, YDMoveControlWidget::tr("启动Jog运动正向"));
   }
 }
 
 void YDMoveControlWidget::slotJogStop() {
-  if (m_cbox1->checkState() == Qt::Checked) {
+  if (m_rbox1->isChecked()) {
     if (m_axis)
       YDDgHelper::stopAxisMove(m_axis->device_id, m_axis->axis_index, true);
   } else {
@@ -242,26 +268,30 @@ void YDMoveControlWidget::slotJogStop() {
     double value = (m_slider->value() * 1.0) / 100.0;
     value = value * m_move->max_manual_velocity;
     std::string speed = QString::number(value).toUtf8().toStdString();
+    m_loading->show();
+    int32 code = YDDgHelper::startRelativeMove(
+        m_axis->device_id, m_axis->axis_index, false, val, false, speed, 1);
 
-    YDDgHelper::startRelativeMove(m_axis->device_id, m_axis->axis_index, false,
-                                  val, false, speed, 1);
+    setReturnState(code, YDMoveControlWidget::tr("启动相对运动正向"));
   }
 }
 
 void YDMoveControlWidget::slotDJogStart() {
-  if (m_cbox1->checkState() == Qt::Checked) {
+  if (m_rbox1->isChecked()) {
     if (!setData()) return;
 
     double value = (m_slider->value() * 1.0) / 100.0;
     value = value * m_move->max_manual_velocity;
     std::string speed = QString::number(value).toUtf8().toStdString();
-    YDDgHelper::startJogMove(m_axis->device_id, m_axis->axis_index, false,
-                             speed, 2);
+    int32 code = YDDgHelper::startJogMove(m_axis->device_id, m_axis->axis_index,
+                                          false, speed, 2);
+
+    setReturnState(code, YDMoveControlWidget::tr("启动Jog运动反向"));
   }
 }
 
 void YDMoveControlWidget::slotDJogStop() {
-  if (m_cbox1->checkState() == Qt::Checked) {
+  if (m_rbox1->isChecked()) {
     if (m_axis)
       YDDgHelper::stopAxisMove(m_axis->device_id, m_axis->axis_index, true);
   } else {
@@ -277,9 +307,10 @@ void YDMoveControlWidget::slotDJogStop() {
     double value = (m_slider->value() * 1.0) / 100.0;
     value = value * m_move->max_manual_velocity;
     std::string speed = QString::number(value).toUtf8().toStdString();
-
-    YDDgHelper::startRelativeMove(m_axis->device_id, m_axis->axis_index, false,
-                                  val, false, speed, 2);
+    m_loading->show();
+    int32 code = YDDgHelper::startRelativeMove(
+        m_axis->device_id, m_axis->axis_index, false, val, false, speed, 2);
+    setReturnState(code, YDMoveControlWidget::tr("启动相对运动反向"));
   }
 }
 

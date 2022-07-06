@@ -30,6 +30,7 @@ class YDDVarWidget : public QDialog {
   void start();
   void stop();
   void updateTime(int);
+  void toclose();
 
  private:
   void initUi();

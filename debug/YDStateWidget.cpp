@@ -11,12 +11,14 @@
 #include "YDDgHelper.h"
 #include "YDState.h"
 #include "core/YDProjectManage.h"
+#include "widget/YDLoadingDialog.h"
 #include "widget/YDNameLineEdit.h"
 
 YDStateWidget::YDStateWidget(YDAXisListView *view, QWidget *parent)
     : QWidget{parent},
       m_view{new YDAXisListView(this)},
       m_model{new YDAxisListModel(this)},
+      m_loading{new YDLoadingDialog(this)},
       m_lab1{new QLabel(this)},
       m_zero{new YDState(this)},
       m_lab2{new QLabel(this)},
@@ -45,7 +47,8 @@ YDStateWidget::YDStateWidget(YDAXisListView *view, QWidget *parent)
       m_btn2{new QPushButton(this)},
       m_btn3{new QPushButton(this)},
       m_btn4{new QPushButton(this)},
-      m_btn5{new QPushButton(this)} {
+      m_btn5{new QPushButton(this)},
+      m_state{new QLabel(this)} {
   m_view->setFixedWidth(200);
   m_view->setModel(m_model);
 
@@ -96,16 +99,31 @@ YDStateWidget::YDStateWidget(YDAXisListView *view, QWidget *parent)
 
   auto hlay2 = new QHBoxLayout;
   hlay2->setSpacing(20);
+  hlay2->addStretch();
   hlay2->addWidget(m_btn1);
   hlay2->addWidget(m_btn2);
   hlay2->addWidget(m_btn3);
   hlay2->addWidget(m_btn4);
   hlay2->addWidget(m_btn5);
+  hlay2->addStretch();
+
+  m_btn1->setMinimumWidth(120);
+  m_btn2->setMinimumWidth(120);
+  m_btn3->setMinimumWidth(120);
+  m_btn4->setMinimumWidth(120);
+  m_btn5->setMinimumWidth(120);
 
   auto vlay = new QVBoxLayout;
+  vlay->setContentsMargins(20, 20, 0, 100);
   vlay->addLayout(grid);
+  vlay->addSpacing(30);
   vlay->addLayout(hlay2);
   vlay->addStretch();
+  vlay->addWidget(m_state, 0, Qt::AlignBottom);
+  vlay->addStretch();
+
+  m_state->setAlignment(Qt::AlignCenter);
+  m_state->setFont(QFont("Microsoft YaHei", 16, 75));
 
   auto hlay = new QHBoxLayout(this);
   hlay->setContentsMargins(0, 0, 10, 0);
@@ -131,6 +149,8 @@ YDStateWidget::YDStateWidget(YDAXisListView *view, QWidget *parent)
   m_btn3->setText(YDStateWidget::tr("状态清除"));
   m_btn4->setText(YDStateWidget::tr("位置清零"));
   m_btn5->setText(YDStateWidget::tr("回零"));
+
+  m_btn5->setVisible(false);  //暂时隐藏
 
   m_edit1->setDisabled(true);
   m_edit2->setDisabled(true);
@@ -165,7 +185,22 @@ void YDStateWidget::updateData() {
   m_edit2->setText(QString::number(axisState.profile_position));
   m_edit3->setText(QString::number(axisState.encoder_position));
   m_edit4->setText(QString::number(axisState.profile_velocity));
+
   update();
+}
+
+void YDStateWidget::clearStateInfo() { m_state->clear(); }
+
+void YDStateWidget::setReturnState(qint32 code, const QString &name) {
+  m_loading->close();
+  switch (code) {
+    case PROJECT_ERROR_NONE:
+      m_state->setText(name + YDStateWidget::tr(": 成功"));
+      break;
+    default:
+      m_state->setText(name + YDStateWidget::tr(": 失败"));
+      break;
+  }
 }
 
 void YDStateWidget::slotbtn1Clicked(bool) {
@@ -173,8 +208,10 @@ void YDStateWidget::slotbtn1Clicked(bool) {
   auto axisList = YDProjectManage::getAxisList();
   if (row < 0 && row >= axisList.size()) row = 0;
   auto axis = axisList[row];
-  YDDgHelper::enableAxis(axis->device_id, axis->axis_index, true);
+  m_loading->show();
+  int32 code = YDDgHelper::enableAxis(axis->device_id, axis->axis_index, true);
 
+  setReturnState(code, YDStateWidget::tr("打开使能"));
   updateData();
 }
 
@@ -183,8 +220,10 @@ void YDStateWidget::slotbtn2Clicked(bool) {
   auto axisList = YDProjectManage::getAxisList();
   if (row < 0 && row >= axisList.size()) row = 0;
   auto axis = axisList[row];
-  YDDgHelper::enableAxis(axis->device_id, axis->axis_index, false);
+  m_loading->show();
+  int32 code = YDDgHelper::enableAxis(axis->device_id, axis->axis_index, false);
 
+  setReturnState(code, YDStateWidget::tr("关闭使能"));
   updateData();
 }
 
@@ -193,8 +232,10 @@ void YDStateWidget::slotbtn3Clicked(bool) {
   auto axisList = YDProjectManage::getAxisList();
   if (row < 0 && row >= axisList.size()) row = 0;
   auto axis = axisList[row];
-  YDDgHelper::clearAxisStatus(axis->device_id, axis->axis_index);
+  m_loading->show();
+  int32 code = YDDgHelper::clearAxisStatus(axis->device_id, axis->axis_index);
 
+  setReturnState(code, YDStateWidget::tr("状态清除"));
   updateData();
 }
 
@@ -203,8 +244,10 @@ void YDStateWidget::slotbtn4Clicked(bool) {
   auto axisList = YDProjectManage::getAxisList();
   if (row < 0 && row >= axisList.size()) row = 0;
   auto axis = axisList[row];
-  YDDgHelper::zeroAxisPosition(axis->device_id, axis->axis_index);
+  m_loading->show();
+  int32 code = YDDgHelper::zeroAxisPosition(axis->device_id, axis->axis_index);
 
+  setReturnState(code, YDStateWidget::tr("位置清零"));
   updateData();
 }
 

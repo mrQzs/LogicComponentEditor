@@ -66,6 +66,15 @@ bool YDDgHelper::connect(uint8 ucMaxRetries) {
   return true;
 }
 
+bool YDDgHelper::Disconnect() {
+  if (!s_i->m_pProtocolClient->Disconnect()) {
+    QMessageBox::warning(nullptr, QObject::tr("错误"),
+                         QObject::tr("关闭网关失败！!"));
+    return false;
+  }
+  return true;
+}
+
 int32 YDDgHelper::getDIStates(uint32 id, std::map<uint64, bool> &map) {
   return s_i->m_pProtocolClient->GetDIStates(id, map);
 }
@@ -200,6 +209,10 @@ int32 YDDgHelper::SuspendMainLogicTask() {
 
 int32 YDDgHelper::StopMainLogicTask() {
   return s_i->m_pProtocolClient->StopMainLogicTask();
+}
+
+int32 YDDgHelper::GetTaskDebugState(uint32 uiTaskId, uint8 &ucState) {
+  return s_i->m_pProtocolClient->GetTaskDebugState(uiTaskId, ucState);
 }
 
 int32 YDDgHelper::DownloadProject(const std::string &strDirectory,

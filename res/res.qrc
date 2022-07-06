@@ -78,5 +78,14 @@
         <file>Icon/Timing.png</file>
         <file>Icon/close_normal.png</file>
         <file>Icon/close_press.png</file>
+        <file>Icon/offLine.png</file>
+        <file>Icon/onLine.png</file>
+        <file>Icon/loading.gif</file>
+        <file>Icon/close1.png</file>
+        <file>Icon/close2.png</file>
+        <file>Icon/start1.png</file>
+        <file>Icon/start2.png</file>
+        <file>Icon/stop1.png</file>
+        <file>Icon/stop2.png</file>
     </qresource>
 </RCC>

@@ -4,6 +4,7 @@
 #include <QHBoxLayout>
 #include <QLabel>
 #include <QPushButton>
+#include <QThread>
 #include <QTreeWidget>
 #include <QTreeWidgetItem>
 
@@ -19,7 +20,7 @@
 #include "YDState.h"
 #include "YDStateWidget.h"
 #include "common/YDHelper.h"
-#include "core/YDTimer.h"
+#include "core/thread/YDThreads.h"
 #include "widget/YDNameLineEdit.h"
 
 YDDebugDialog::YDDebugDialog(QWidget *parent)
@@ -191,7 +192,7 @@ void YDDebugDialog::initUi() {
   hlay->addWidget(m_menuTree);
   hlay->addLayout(vvlay);
 
-  m_menuTree->setFixedWidth(240);
+  m_menuTree->setFixedWidth(220);
   setFixedSize(1920, 1080);
 }
 
@@ -236,7 +237,7 @@ void YDDebugDialog::initTree() {
   m_tvi = new QTreeWidgetItem(m_menuTree);
   m_tvi->setText(0, YDDebugDialog::tr("逻辑调试"));
 
-  connect(m_menuTree, &QTreeWidget::doubleClicked, this,
+  connect(m_menuTree, &QTreeWidget::clicked, this,
           &YDDebugDialog::slotTreeDooubleClick);
 }
 

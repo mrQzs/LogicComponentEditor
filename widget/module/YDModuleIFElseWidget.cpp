@@ -66,7 +66,7 @@ int YDModuleIFElseWidget::high() const {
     return labh + 30 + count2 * 30;
   else if (!m_isHide1 && m_isHide2)
     return labh + count1 * 30 + 30;
-
+  //  m_ifWidget->setFixedHeight();
   return labh + count1 * 30 + count2 * 30;
 }
 
@@ -201,8 +201,8 @@ void YDModuleIFElseWidget::addFalseModules(
   for (auto lp : list) {
     auto m = YDProjectManage::getModule(lp->type);
     if (m) {
-      m->initModule(lp);
       m->setTask(task);
+      m->initModule(lp);
       m_elseWidget->addModule(m);
     }
   }

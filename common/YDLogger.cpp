@@ -10,7 +10,14 @@
 
 YDLogger *YDLogger::s_instance = nullptr;
 
-YDLogger::YDLogger() : m_msg{nullptr} {
+YDLogger::YDLogger()
+    : m_msg{nullptr},
+      m_traceStr{YDLogger::tr("[追踪]")},
+      m_debugStr{YDLogger::tr("[调试]")},
+      m_infoStr{YDLogger::tr("[信息]")},
+      m_warnStr{YDLogger::tr("[警告]")},
+      m_errorStr{YDLogger::tr("[错误]")},
+      m_fatalStr{YDLogger::tr("[致命]")} {
   Q_ASSERT(s_instance == nullptr);
   s_instance = this;
 
@@ -65,32 +72,35 @@ void YDLogger::log(const QString &str, LogLevel level) {
   std::lock_guard<std::mutex> lock(s_instance->m_mutex);
   Q_UNUSED(lock)
   QString time = QDateTime::currentDateTime().toString("[yyyy-MM-dd hh:mm:ss]");
-  QString hix;
+
   switch (level) {
-    case LogLevel::Trace:
-      hix = YDLogger::tr("[追踪]");
-      break;
-    case LogLevel::Debug:
-      hix = YDLogger::tr("[调试]");
-      break;
-    case LogLevel::Info:
-      hix = YDLogger::tr("[信息]");
-      break;
-    case LogLevel::Warning:
-      hix = YDLogger::tr("[警告]");
-      break;
-    case LogLevel::Error:
-      hix = YDLogger::tr("[错误]");
-      break;
-    case LogLevel::Fatal:
-      hix = YDLogger::tr("[致命]");
-      break;
+    case LogLevel::Trace: {
+      s_instance->m_msg->setShowMessage(
+          QString("%1 %2 %3").arg(time, s_instance->m_traceStr, str), level);
+    } break;
+    case LogLevel::Debug: {
+      s_instance->m_msg->setShowMessage(
+          QString("%1 %2 %3").arg(time, s_instance->m_debugStr, str), level);
+    } break;
+    case LogLevel::Info: {
+      s_instance->m_msg->setShowMessage(
+          QString("%1 %2 %3").arg(time, s_instance->m_infoStr, str), level);
+    } break;
+    case LogLevel::Warning: {
+      s_instance->m_msg->setShowMessage(
+          QString("%1 %2 %3").arg(time, s_instance->m_warnStr, str), level);
+    } break;
+    case LogLevel::Error: {
+      s_instance->m_msg->setShowMessage(
+          QString("%1 %2 %3").arg(time, s_instance->m_errorStr, str), level);
+    } break;
+    case LogLevel::Fatal: {
+      s_instance->m_msg->setShowMessage(
+          QString("%1 %2 %3").arg(time, s_instance->m_fatalStr, str), level);
+    } break;
     default:
       break;
   }
-
-  auto text = QString("%1 %2 %3").arg(time, hix, str);
-  s_instance->m_msg->setShowMessage(text, level);
 }
 
 void YDLogger::trace(const QString &str) { log(str, LogLevel::Trace); }

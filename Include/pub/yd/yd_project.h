@@ -1444,6 +1444,7 @@ namespace yd
 		// 获取所有变量
 		virtual bool GetAllVariables(VRVARIABLES* pVariables) = 0;
 		virtual bool GetAllVariables(std::vector<vr::SystemVariable*>& listVariables) = 0;
+		virtual bool GetTypedVariables(uint8 ucType, std::vector<vr::SystemVariable*>& listVariables) = 0;
 
 		// 获取流程接口方法对象
 		virtual bool GetLogicProcessMethodObjects(std::vector<lib::MethodObject*>& listMethodObjects) = 0;

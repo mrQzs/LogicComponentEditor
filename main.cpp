@@ -1,3 +1,5 @@
+#include <SingleApplication.h>
+
 #include <QApplication>
 
 #include "MainWindow.h"
@@ -31,7 +33,7 @@ int main(int argc, char *argv[]) {
       google_breakpad::ExceptionHandler::HANDLER_ALL);
 #endif
 
-  QApplication a(argc, argv);
+  SingleApplication a(argc, argv);
 
   YDHelper ydhelper;
   Q_UNUSED(ydhelper);

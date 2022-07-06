@@ -9,6 +9,7 @@
 
 namespace yd
 {
+#pragma pack(push, 8)
 	// 设备类型
 	typedef struct _PreDIType {
 		uint8			ucTypeId;
@@ -435,6 +436,7 @@ namespace yd
 		bool			bEnable;
 		bool			bReverse;
 	}IOINFO;
+#pragma pack(pop)
 
 	//数据成员信息
 	struct datamemberinfo

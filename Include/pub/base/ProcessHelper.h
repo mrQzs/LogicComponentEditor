@@ -23,6 +23,33 @@ namespace yd {
 	class CProcessHelper
 	{
 	public:
+		// 指定进程是否运行中
+		static bool IsRunning(const std::string& strProcessName) {
+			uint32 uiCurrentProcessId = yd::CSystemHelper::CurrentProcessId();
+			uint32 uiProcessId = 0;
+			PROCESSENTRY32 procEntry;
+			procEntry.dwSize = sizeof(PROCESSENTRY32);
+			HANDLE hSnapshot = ::CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
+			if (INVALID_HANDLE_VALUE == hSnapshot && 0 == uiCurrentProcessId) {
+				return false;
+			}
+			bool bIsRunning = false;
+			BOOL bMore = ::Process32First(hSnapshot, &procEntry);
+			while (bMore) {
+				std::string strExeName = procEntry.szExeFile;
+				if (std::string::npos != strExeName.find(strProcessName)) {
+					uiProcessId = (uint32)procEntry.th32ProcessID;
+					if (uiProcessId != uiCurrentProcessId) {
+						bIsRunning = true;
+						break;
+					}
+				}
+				bMore = ::Process32Next(hSnapshot, &procEntry);
+			}
+			::CloseHandle(hSnapshot);
+			return bIsRunning;
+		}
+
 		// 获取进程id
 		static bool GetPid(uint32& uiProcessId, const std::string& strProcessName) {
 			uiProcessId = 0;

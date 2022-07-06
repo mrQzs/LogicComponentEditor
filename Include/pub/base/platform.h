@@ -294,6 +294,7 @@ constexpr uint32 MAX_TOTAL_VARIABLE_NUMBER = 6000;
 constexpr uint32 MAX_LOGIC_TASK_NUMBER = 40;
 
 // 变量类型定义
+constexpr uint8 VARIABLE_TYPE_NONE = 0;	// 无
 constexpr uint8 VARIABLE_TYPE_DI = 1;	// DI变量，只读
 constexpr uint8 VARIABLE_TYPE_DO = 2;	// DO变量，读/写
 constexpr uint8 VARIABLE_TYPE_AI = 3;	// AI变量，只读

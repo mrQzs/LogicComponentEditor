@@ -2,6 +2,7 @@
 
 #include <QHBoxLayout>
 #include <QHeaderView>
+#include <QMessageBox>
 #include <QTreeWidget>
 
 #include "YDDVariableModel.h"
@@ -24,6 +25,8 @@ YDDVariableWidget::YDDVariableWidget(QWidget *parent)
   m_view2->horizontalHeader()->setStretchLastSection(true);
   m_view2->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
 
+  m_view2->setSelectionBehavior(QAbstractItemView::SelectRows);
+
   auto hlay = new QHBoxLayout(this);
   hlay->setContentsMargins(0, 0, 0, 0);
   hlay->setSpacing(0);
@@ -33,6 +36,7 @@ YDDVariableWidget::YDDVariableWidget(QWidget *parent)
   m_model1->setState(false);
   m_view1->setModel(m_model1);
   m_view2->setModel(m_model2);
+  m_view2->setColumnWidth(5, 180);
 
   connect(m_view1, &YDTreeView::clicked, this,
           &YDDVariableWidget::slotItemClicked);
@@ -65,13 +69,19 @@ void YDDVariableWidget::slotItemDBClicked(const QModelIndex &index) {
     yd::proto::MapId2VariableRTValue map;
     auto list = YDProjectManage::getAllVariables(id);
     YDDgHelper::getGroupedVariableValues(id, map);
-    yd::proto::VariableRTValue value = map.at(list[row]->variable_id);
-    if (m_setDialog) delete m_setDialog;
-    m_setDialog = new YDVarSetDialog(this);
-    m_setDialog->setVar(list[row], value);
 
-    m_setDialog->resize(280, 240);
-    m_setDialog->open();
+    if (map.count(list[row]->variable_id) == 1) {
+      yd::proto::VariableRTValue value = map.at(list[row]->variable_id);
+      if (m_setDialog) delete m_setDialog;
+      m_setDialog = new YDVarSetDialog(this);
+      m_setDialog->setVar(list[row], value);
+
+      m_setDialog->resize(280, 240);
+      m_setDialog->open();
+    } else {
+      QMessageBox::warning(nullptr, YDDVariableWidget::tr("提示"),
+                           YDDVariableWidget::tr("指定分组变量数据为空."));
+    }
   }
 }
 

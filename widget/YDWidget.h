@@ -7,6 +7,7 @@ class YDWidget : public QWidget {
   Q_OBJECT
  public:
   YDWidget(int type = 0, QWidget* parent = nullptr);
+  ~YDWidget();
 
  public:
   int getType();

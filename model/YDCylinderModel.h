@@ -9,6 +9,8 @@ class YDCylinderModel : public QAbstractListModel {
   explicit YDCylinderModel(QObject *parent = nullptr);
   ~YDCylinderModel();
 
+  void updateModel();
+
   // QAbstractItemModel interface
  public:
   QVariant headerData(int section, Qt::Orientation orientation,

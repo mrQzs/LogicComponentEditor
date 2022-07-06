@@ -7,6 +7,8 @@
 #include <QPushButton>
 #include <QVBoxLayout>
 
+#include "common/YDHelper.h"
+#include "core/YDProjectManage.h"
 #include "widget/YDNameLineEdit.h"
 #include "widget/base/YDIPLineEdit.h"
 #include "widget/base/YDIntLineEdit.h"
@@ -53,9 +55,20 @@ YDNetSetDialog::YDNetSetDialog(QWidget *parent)
   connect(m_cancelBtn, &QPushButton::clicked, this,
           &YDNetSetDialog::slotCancelBtnclicked);
 
-  m_ipEdit->setText("127.0.0.1");
-  m_portEdit->setText("40001");
-  m_timeEdit->setText("1000");
+  std::string strAddress = "";
+  uint16 usPort = 0;
+  uint32 uiTimeout = 0;
+  YDProjectManage::GetDataGateway(strAddress, usPort, uiTimeout);
+
+  if (strAddress.empty()) {
+    m_ipEdit->setText("127.0.0.1");
+    m_portEdit->setText("40001");
+    m_timeEdit->setText("1000");
+  } else {
+    m_ipEdit->setText(STRTQSTR(strAddress));
+    m_portEdit->setText(QString::number(usPort));
+    m_timeEdit->setText(QString::number(uiTimeout));
+  }
 }
 
 QString YDNetSetDialog::getIP() const { return m_ipEdit->text(); }

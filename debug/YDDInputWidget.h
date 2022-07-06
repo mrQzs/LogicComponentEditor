@@ -16,6 +16,10 @@ class YDDInputWidget : public QWidget {
   void updateData();
 
  signals:
+  void toclose();
+
+ protected:
+  void closeEvent(QCloseEvent *);
 
  private:
   YDInputStateView *m_view1;

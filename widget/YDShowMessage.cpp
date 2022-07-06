@@ -4,7 +4,14 @@
 #include <QVBoxLayout>
 
 YDShowMessage::YDShowMessage(QWidget *parent)
-    : QDialog{parent}, m_logText{new QTextEdit(this)} {
+    : QDialog{parent},
+      m_logText{new QTextEdit(this)},
+      m_traceColor{"#4C4C4C"},
+      m_debugColor{"#0053AE"},
+      m_infoColor{"#006000"},
+      m_warnColor{"#808000"},
+      m_errorColor{"#800000"},
+      m_fatalColor{"#FF0000"} {
   setWindowFlags(Qt::CustomizeWindowHint | Qt::FramelessWindowHint);
   QVBoxLayout *layout = new QVBoxLayout(this);
   layout->setContentsMargins(0, 0, 0, 0);
@@ -37,26 +44,30 @@ YDShowMessage::YDShowMessage(QWidget *parent)
 }
 
 void YDShowMessage::setShowMessage(const QString &info, const LogLevel &level) {
-  QString fontColor = "#000000";
   switch (level) {
     case Trace:
-      fontColor = "#4C4C4C";
+      m_logText->append(
+          QString("<font color=%1>%2</font>").arg(m_traceColor, info));
       break;
     case Debug:
-      fontColor = "#0053AE";
+      m_logText->append(
+          QString("<font color=%1>%2</font>").arg(m_debugColor, info));
       break;
     case Info:
-      fontColor = "#006000";
+      m_logText->append(
+          QString("<font color=%1>%2</font>").arg(m_infoColor, info));
       break;
     case Warning:
-      fontColor = "#808000";
+      m_logText->append(
+          QString("<font color=%1>%2</font>").arg(m_warnColor, info));
       break;
     case Error:
-      fontColor = "#800000";
+      m_logText->append(
+          QString("<font color=%1>%2</font>").arg(m_errorColor, info));
       break;
     case Fatal:
-      fontColor = "#FF0000";
+      m_logText->append(
+          QString("<font color=%1>%2</font>").arg(m_fatalColor, info));
       break;
   }
-  m_logText->append(QString("<font color=%1>%2</font>").arg(fontColor, info));
 }

@@ -8,13 +8,14 @@
 #include "yd_project.h"
 
 class QLabel;
-class QCheckBox;
+class QRadioButton;
 class QSlider;
 class YDJogButton;
 class QLineEdit;
 class YDAXisListView;
 class YDAxisListModel;
 class YDState;
+class YDLoadingDialog;
 
 class YDMoveControlWidget : public QWidget {
   Q_OBJECT
@@ -28,12 +29,17 @@ class YDMoveControlWidget : public QWidget {
 
   double getDistance(int row) const;
 
+  void clearStateInfo();
+
+ private:
+  void setReturnState(qint32 code, const QString& name);
+
  signals:
 
  private slots:
-  void box1checked(bool);
+  //  void box1checked(bool);
 
-  void box2checked(bool);
+  //  void box2checked(bool);
 
   void sliderchanged(int);
 
@@ -55,10 +61,11 @@ class YDMoveControlWidget : public QWidget {
  private:
   YDAXisListView* m_view;
   YDAxisListModel* m_model;
+  YDLoadingDialog* m_loading;
 
   QLabel* m_lab1;
-  QCheckBox* m_cbox1;
-  QCheckBox* m_cbox2;
+  QRadioButton* m_rbox1;
+  QRadioButton* m_rbox2;
 
   QLabel* m_lab2;
   QLabel* m_sliderLab;
@@ -87,6 +94,8 @@ class YDMoveControlWidget : public QWidget {
   QMap<int, double> m_distanceMap;
   yd::dev::MCAxisInfo* m_axis;
   yd::dev::MCAxisMoveSetup* m_move;
+
+  QLabel* m_state;
 };
 
 #endif  // YDMOVECONTROLWIDGET_H

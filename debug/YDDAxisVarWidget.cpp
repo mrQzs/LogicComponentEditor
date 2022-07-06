@@ -24,6 +24,7 @@ YDDAxisVarWidget::YDDAxisVarWidget(QWidget *parent)
   m_tree->setFixedWidth(200);
   m_view->horizontalHeader()->setStretchLastSection(true);
   m_view->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+  m_view->setSelectionBehavior(QAbstractItemView::SelectRows);
 
   auto hhlay = new QHBoxLayout;
   hhlay->addStretch();
@@ -102,8 +103,7 @@ void YDDAxisVarWidget::initTree() {
           YDVarCast cast;
           cast.ptr = list[y];
           yitem->setData(0, Qt::UserRole + 1, cast.i);
-          yitem->setText(
-              0, STRTQSTR(list[y]->variable_name.c_str()));
+          yitem->setText(0, STRTQSTR(list[y]->variable_name.c_str()));
         }
       }
     }

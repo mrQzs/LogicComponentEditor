@@ -9,6 +9,7 @@ class QLineEdit;
 class QPushButton;
 class YDAXisListView;
 class YDAxisListModel;
+class YDLoadingDialog;
 
 class YDStateWidget : public QWidget {
   Q_OBJECT
@@ -17,6 +18,10 @@ class YDStateWidget : public QWidget {
 
  public:
   void updateData();
+  void clearStateInfo();
+
+ private:
+  void setReturnState(qint32 code, const QString& name);
 
  signals:
 
@@ -30,6 +35,7 @@ class YDStateWidget : public QWidget {
  private:
   YDAXisListView* m_view;
   YDAxisListModel* m_model;
+  YDLoadingDialog* m_loading;
 
   QLabel* m_lab1;
   YDState* m_zero;
@@ -62,6 +68,8 @@ class YDStateWidget : public QWidget {
   QPushButton* m_btn3;
   QPushButton* m_btn4;
   QPushButton* m_btn5;
+
+  QLabel* m_state;
 };
 
 #endif  // YDSTATEWIDGET_H

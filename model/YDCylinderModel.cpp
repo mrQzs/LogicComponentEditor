@@ -8,6 +8,11 @@ YDCylinderModel::YDCylinderModel(QObject *parent)
 
 YDCylinderModel::~YDCylinderModel() {}
 
+void YDCylinderModel::updateModel() {
+  beginResetModel();
+  endResetModel();
+}
+
 QVariant YDCylinderModel::headerData(int section, Qt::Orientation orientation,
                                      int role) const {
   if ((Qt::Horizontal != orientation) || (Qt::DisplayRole != role))

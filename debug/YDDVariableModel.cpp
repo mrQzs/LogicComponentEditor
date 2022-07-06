@@ -53,8 +53,12 @@ QVariant YDDVariableModel::data(const QModelIndex &index, int role) const {
   if (row < 0 || row >= m_varList.size()) return QVariant();
 
   auto var = m_varList[row];
-
-  yd::proto::VariableRTValue varstate = m_stateMap.at(var->variable_id);
+  yd::proto::VariableRTValue varstate;
+  if (m_stateMap.count(var->variable_id) == 1) {
+    varstate = m_stateMap.at(var->variable_id);
+  } else {
+    varstate.ullTimestamp = 0;
+  }
 
   QString time;
   if (varstate.ullTimestamp > 0)
@@ -91,7 +95,7 @@ Qt::ItemFlags YDDVariableModel::flags(const QModelIndex &index) const {
   if (index.isValid() && index.column() == 6)
     return Qt::ItemIsEnabled | Qt::ItemIsEditable;
 
-  return Qt::ItemIsEnabled;
+  return Qt::ItemIsEnabled | Qt::ItemIsSelectable;
 }
 
 void YDDVariableModel::updateData(uint16 id) {

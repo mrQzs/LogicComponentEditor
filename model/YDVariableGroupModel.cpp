@@ -19,9 +19,12 @@ void YDVariableGroupModel::setState(bool b) { m_enable = b; }
 QVariant YDVariableGroupModel::headerData(int section,
                                           Qt::Orientation orientation,
                                           int role) const {
-  if ((orientation != Qt::Horizontal) || (role != Qt::DisplayRole))
-    return QVariant();
-  if (section == 0) return YDVariableGroupModel::tr("变量组");
+  //  if ((orientation != Qt::Horizontal) || (role != Qt::DisplayRole))
+  //    return QVariant();
+  //  if (section == 0) return YDVariableGroupModel::tr("变量组");
+  Q_UNUSED(section);
+  Q_UNUSED(orientation);
+  Q_UNUSED(role);
   return QVariant();
 }
 

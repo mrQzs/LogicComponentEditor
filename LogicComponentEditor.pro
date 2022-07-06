@@ -16,6 +16,10 @@ TARGET = LogicComponentEditor
 RC_FILE = res/icon.rc
 
 
+include(singleapplication/singleapplication.pri)
+DEFINES += QAPPLICATION_CLASS=QApplication
+
+
 INCLUDEPATH += "Include/pub"
 INCLUDEPATH += "Include/pub/thridparty"
 INCLUDEPATH += "Include/pub/yd"
@@ -31,8 +35,8 @@ LIBS += -L$$PWD/third/lib/debug -lqscintilla2_qt6d
 LIBS += -L$$PWD/third/lib/release -lqscintilla2_qt6
 }
 
-
-
+QMAKE_CXXFLAGS_EXCEPTIONS_ON = /EHa
+QMAKE_CXXFLAGS_STL_ON = /EHa
 
 QMAKE_CXXFLAGS_RELEASE += $$QMAKE_CFLAGS_RELEASE_WITH_DEBUGINFO
 QMAKE_LFLAGS_RELEASE += $$QMAKE_LFLAGS_RELEASE_WITH_DEBUGINFO
@@ -103,8 +107,10 @@ SOURCES += \
     common/YDLogger.cpp \
     core/YDProjectManage.cpp \
     core/YDTask.cpp \
-    core/YDTimer.cpp \
     core/YDVariable.cpp \
+    core/thread/YDTaskState.cpp \
+    core/thread/YDThread.cpp \
+    core/thread/YDTimer.cpp \
     debug/YDAXisListView.cpp \
     debug/YDAxisListModel.cpp \
     debug/YDDAxisControl.cpp \
@@ -216,6 +222,7 @@ SOURCES += \
     widget/YDInplaceWaitDialog.cpp \
     widget/YDIntVarComboBox.cpp \
     widget/YDLabel.cpp \
+    widget/YDLoadingDialog.cpp \
     widget/YDMenu.cpp \
     widget/YDMenuHead.cpp \
     widget/YDMenuItem.cpp \
@@ -229,6 +236,7 @@ SOURCES += \
     widget/YDVariableDialog.cpp \
     widget/YDWidget.cpp \
     widget/YDShowMessage.cpp \
+    widget/base/YDDockWidget.cpp \
     widget/base/YDDoubleLineEdit.cpp \
     widget/base/YDIPLineEdit.cpp \
     widget/base/YDIntLineEdit.cpp \
@@ -262,8 +270,11 @@ HEADERS += \
     common/YDLogger.h \
     core/YDProjectManage.h \
     core/YDTask.h \
-    core/YDTimer.h \
     core/YDVariable.h \
+    core/thread/YDTaskState.h \
+    core/thread/YDThread.h \
+    core/thread/YDThreads.h \
+    core/thread/YDTimer.h \
     debug/YDAXisListView.h \
     debug/YDAxisListModel.h \
     debug/YDDAxisControl.h \
@@ -376,6 +387,7 @@ HEADERS += \
     widget/YDInplaceWaitDialog.h \
     widget/YDIntVarComboBox.h \
     widget/YDLabel.h \
+    widget/YDLoadingDialog.h \
     widget/YDMenu.h \
     widget/YDMenuHead.h \
     widget/YDMenuItem.h \
@@ -389,6 +401,7 @@ HEADERS += \
     widget/YDVariableDialog.h \
     widget/YDWidget.h \
     widget/YDShowMessage.h \
+    widget/base/YDDockWidget.h \
     widget/base/YDDoubleLineEdit.h \
     widget/base/YDIPLineEdit.h \
     widget/base/YDIntLineEdit.h \

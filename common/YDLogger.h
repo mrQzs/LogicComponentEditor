@@ -38,6 +38,12 @@ class YDLogger {
   std::mutex m_mutex;
   std::shared_ptr<spdlog::logger> m_consoleLog;
   YDShowMessage* m_msg;
+  QString m_traceStr;
+  QString m_debugStr;
+  QString m_infoStr;
+  QString m_warnStr;
+  QString m_errorStr;
+  QString m_fatalStr;
 };
 
 #define TRACE(...)                                                             \

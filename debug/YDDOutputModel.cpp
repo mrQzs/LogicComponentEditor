@@ -103,7 +103,13 @@ void YDDOutputModel::updateData() {
 void YDDOutputModel::setGroup(int id) { m_id = id; }
 
 void YDDOutputModel::SlotButtonClicked(const QModelIndex &index) {
-  const auto &var = m_ioInfos.at(index.row());
+  int rowIndex = 0;
+  if (m_id == 0) {
+    rowIndex = index.row();
+  } else {
+    rowIndex = index.row() + m_ioInfos.size() / 2 + 1;
+  }
+  const auto &var = m_ioInfos.at(rowIndex);
   uint64 ullData = ((uint64)var->device_id << 32) + var->io_index;
 
   auto state = false;

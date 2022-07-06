@@ -60,6 +60,8 @@ class YDDAxisControl;
 class YDTimer;
 class YDDVarWidget;
 class YDAboutDialog;
+class QPushButton;
+class YDTaskState;
 
 class MainWindow : public QMainWindow {
   Q_OBJECT
@@ -82,9 +84,15 @@ class MainWindow : public QMainWindow {
   void stop();
   void updateTime(int);
 
+  //定时保存
   void startTiming();
   void stopTiming();
   void updateTiming(int);
+
+  //定时保存
+  void startTask();
+  void stopTask();
+  void updateTask(int, quint32);
 
  private slots:
   void slotTreeMenu(const QPoint &pos);
@@ -251,7 +259,9 @@ class MainWindow : public QMainWindow {
 
   void slotBPDialogFinished();
 
-  void slotTabClosed(int);
+  void slotTabClosed();
+
+  void slotDebugFinished();
 
  private slots:
   // menu
@@ -280,6 +290,8 @@ class MainWindow : public QMainWindow {
   void slotWidgetAction(bool);
 
   void showMotionMonitoring(int type);
+
+  void slotTabChanged(int);
 
   //菜单栏
 
@@ -339,6 +351,8 @@ class MainWindow : public QMainWindow {
 
   void SlotTimingSave();
 
+  void SlotTaskState(quint8 state);
+
   void on_a_notSave_triggered();
 
   void on_a_save5_triggered();
@@ -350,6 +364,10 @@ class MainWindow : public QMainWindow {
   void on_a_save30_triggered();
 
   void on_a_habout_triggered();
+
+  void on_m_save_triggered();
+
+  void on_GasDel_clicked();
 
  private:
   void initThread();
@@ -536,5 +554,13 @@ class MainWindow : public QMainWindow {
   QThread *m_timerThread;
   YDTimer *m_timingSave;
   QThread *m_timingThread;
+  YDTaskState *m_taskTimer;
+  QThread *m_taskThread;
+
+  int m_curTabIndex;
+  QWidget *m_tabButton;
+  QPushButton *m_logicStart;
+  QPushButton *m_logicStop;
+  QPushButton *m_closeWidget;
 };
 #endif  // MAINWINDOW_H

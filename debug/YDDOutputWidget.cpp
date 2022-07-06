@@ -14,6 +14,7 @@ YDDOutputWidget::YDDOutputWidget(QWidget *parent)
       m_deletegate2{new YDDOutputDeletegate(m_view2)},
       m_model1{new YDDOutputModel(this)},
       m_model2{new YDDOutputModel(this)} {
+  setWindowTitle(YDDOutputWidget::tr("输出状态监测"));
   auto hlay = new QHBoxLayout(this);
   m_model1->setGroup(0);
   m_model2->setGroup(1);
@@ -27,7 +28,7 @@ YDDOutputWidget::YDDOutputWidget(QWidget *parent)
   m_view1->setItemDelegateForColumn(1, m_deletegate1);
   m_view2->setItemDelegateForColumn(1, m_deletegate2);
 
-  hlay->setContentsMargins(0, 0, 0, 0);
+  hlay->setContentsMargins(5, 10, 5, 10);
   hlay->setSpacing(20);
   hlay->addWidget(m_view1);
   hlay->addWidget(m_view2);
@@ -48,3 +49,5 @@ void YDDOutputWidget::updateData() {
   m_model1->updateData();
   m_model2->updateData();
 }
+
+void YDDOutputWidget::closeEvent(QCloseEvent *) { emit toclose(); }

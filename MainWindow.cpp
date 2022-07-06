@@ -20,8 +20,8 @@
 #include "common/YDLogger.h"
 #include "core/YDProjectManage.h"
 #include "core/YDTask.h"
-#include "core/YDTimer.h"
 #include "core/YDVariable.h"
+#include "core/thread/YDThreads.h"
 #include "debug/YDDAxisControl.h"
 #include "debug/YDDCylinderWidget.h"
 #include "debug/YDDInputWidget.h"
@@ -58,6 +58,8 @@
 #include "widget/YDNameDialog.h"
 #include "widget/YDScriptPropDialog.h"
 #include "widget/YDShowMessage.h"
+#include "widget/base/YDDockWidget.h"
+#include "widget/module/YDTabWidget.h"
 #include "widget/property/YDAddCylinderDialog.h"
 #include "widget/property/YDAddDeviceDialog.h"
 #include "widget/property/YDAddReciVarDialog.h"
@@ -140,12 +142,19 @@ MainWindow::MainWindow(QWidget *parent)
       m_timer{new YDTimer},
       m_timerThread{new QThread},
       m_timingSave{new YDTimer},
-      m_timingThread{new QThread} {
+      m_timingThread{new QThread},
+      m_taskTimer{new YDTaskState},
+      m_taskThread{new QThread},
+      m_curTabIndex{-1},
+      m_logicStart{new QPushButton},
+      m_logicStop{new QPushButton},
+      m_closeWidget{new QPushButton} {
   ui->setupUi(this);
-  m_menuModel = new YDMenuModel(YDProjectManage::getYDTaskRoot(), this);
 
+  m_menuModel = new YDMenuModel(YDProjectManage::getYDTaskRoot(), this);
   m_varGroupModel =
       new YDVariableGroupModel(YDProjectManage::getVarRoot(), this);
+  m_tabButton = new QWidget(ui->tabWidget->tabBar());
 
   YDHelper::setMainW(this);
   initThread();
@@ -163,6 +172,13 @@ MainWindow::MainWindow(QWidget *parent)
 }
 
 MainWindow::~MainWindow() {
+  emit stopTask();
+  m_taskThread->requestInterruption();
+  m_taskThread->exit(0);
+  m_taskThread->wait();
+  delete m_taskTimer;
+  delete m_taskThread;
+
   emit stop();
   m_timerThread->requestInterruption();
   m_timerThread->exit(0);
@@ -252,6 +268,7 @@ void MainWindow::slotRemoveTask(bool) {
             m_menuModel->data(m_taskIndex, Qt::DisplayRole).toString()) {
       selectModule = nullptr;
     }
+
     m_menuModel->removeTree(m_taskIndex);
     m_taskIndex = QModelIndex();
     m_logicTree->setCurrentIndex(m_taskIndex);
@@ -492,20 +509,22 @@ void MainWindow::slotTaskItemClick(const QModelIndex &index) {
 }
 
 void MainWindow::slotTaskItemDoubleClick(const QModelIndex &index) {
-  YDTask *o = reinterpret_cast<YDTask *>(index.internalPointer());
-  auto tabW = ui->tabWidget;
-  auto name = o->name();
-  QWidget *w = o->widget();
+  if (!YDHelper::getTestStart()) {
+    YDTask *o = reinterpret_cast<YDTask *>(index.internalPointer());
+    auto tabW = ui->tabWidget;
+    auto name = o->name();
+    QWidget *w = o->widget();
 
-  for (int i = 0; i < tabW->count(); ++i) {
-    if (tabW->widget(i) == w) {
-      tabW->setCurrentIndex(i);
-      return;
+    for (int i = 0; i < tabW->count(); ++i) {
+      if (tabW->widget(i) == w) {
+        tabW->setCurrentIndex(i);
+        return;
+      }
     }
-  }
 
-  tabW->addTab(w, name);
-  tabW->setCurrentWidget(w);
+    auto idx = tabW->addTab(w, name);
+    tabW->setCurrentIndex(idx);
+  }
 }
 
 void MainWindow::initThread() {
@@ -526,6 +545,17 @@ void MainWindow::initThread() {
   QObject::connect(this, &MainWindow::updateTiming, m_timingSave,
                    &YDTimer::setTime);
   m_timingThread->start();
+
+  m_taskTimer->moveToThread(m_taskThread);
+  QObject::connect(m_taskTimer, &YDTaskState::sigTransState, this,
+                   &MainWindow::SlotTaskState);
+  QObject::connect(this, &MainWindow::startTask, m_taskTimer,
+                   &YDTaskState::startrun);
+  QObject::connect(this, &MainWindow::stopTask, m_taskTimer,
+                   &YDTaskState::stop);
+  QObject::connect(this, &MainWindow::updateTask, m_taskTimer,
+                   &YDTaskState::setTime);
+  m_taskThread->start();
 }
 
 void MainWindow::initMenu() {
@@ -656,6 +686,7 @@ void MainWindow::initMenu() {
   debugLayout->addWidget(m_infoDlg);
 
   ui->a_wpromg->setChecked(true);
+  ui->a_property->setChecked(true);
   ui->a_wgbvar->setChecked(true);
   ui->a_wwyvar->setChecked(true);
   ui->a_wtpvar->setChecked(true);
@@ -664,6 +695,8 @@ void MainWindow::initMenu() {
   ui->a_wfeida->setChecked(true);
   ui->a_wtrayp->setChecked(true);
   ui->a_wdanjia->setChecked(true);
+  ui->a_logOut->setChecked(true);
+  ui->a_debugInfo->setChecked(true);
 
   if (YDProjectManage::IsOnlineDebugOpened()) {
     ui->a_doldebug->setChecked(true);
@@ -677,6 +710,39 @@ void MainWindow::initMenu() {
     initDebugActionEnable(false);
   }
 
+  QHBoxLayout *tabLayout = new QHBoxLayout(m_tabButton);
+
+  m_logicStart->setStyleSheet(
+      "QPushButton{width:20px; height:20px; image: "
+      "url(:/Icon/start2.png);border:none;}"
+      "QPushButton:hover {background-color:rgba(20,20,20,20)}"
+      "QPushButton:disabled {image: url(:/Icon/start1.png)}");
+  m_logicStop->setStyleSheet(
+      "QPushButton{width:20px; height:20px; image: "
+      "url(:/Icon/stop2.png);border:none;}"
+      "QPushButton:hover {background-color:rgba(20,20,20,20)}"
+      "QPushButton:disabled {image: url(:/Icon/stop1.png)}");
+  m_closeWidget->setStyleSheet(
+      "QPushButton{width:20px; height:20px; image: "
+      "url(:/Icon/close1.png);border:none;} "
+      "QPushButton:hover {image: url(:/Icon/close2.png)}");
+
+  m_logicStart->setToolTip(MainWindow::tr("逻辑任务启动"));
+  m_logicStop->setToolTip(MainWindow::tr("逻辑任务停止"));
+  m_closeWidget->setToolTip(MainWindow::tr("关闭Tab"));
+
+  tabLayout->setSpacing(0);
+  tabLayout->setContentsMargins(0, 0, 0, 0);
+  tabLayout->addWidget(m_logicStart);
+  tabLayout->addWidget(m_logicStop);
+  tabLayout->addWidget(m_closeWidget);
+  connect(m_logicStart, &QPushButton::clicked, this,
+          &MainWindow::on_a_LogicStart_triggered);
+  connect(m_logicStop, &QPushButton::clicked, this,
+          &MainWindow::on_a_LogicStop_triggered);
+  connect(m_closeWidget, &QPushButton::clicked, this,
+          &MainWindow::slotTabClosed);
+
   ui->a_ecopy->setEnabled(false);  //菜单栏编辑 功能缺失
   ui->a_ecut->setEnabled(false);
   ui->e_epaste->setEnabled(false);
@@ -684,6 +750,8 @@ void MainWindow::initMenu() {
   ui->a_eprop->setEnabled(false);
 
   connect(ui->a_wpromg, &QAction::triggered, this,
+          &MainWindow::slotWidgetAction);
+  connect(ui->a_property, &QAction::triggered, this,
           &MainWindow::slotWidgetAction);
   connect(ui->a_wgbvar, &QAction::triggered, this,
           &MainWindow::slotWidgetAction);
@@ -700,6 +768,10 @@ void MainWindow::initMenu() {
   connect(ui->a_wtrayp, &QAction::triggered, this,
           &MainWindow::slotWidgetAction);
   connect(ui->a_wdanjia, &QAction::triggered, this,
+          &MainWindow::slotWidgetAction);
+  connect(ui->a_logOut, &QAction::triggered, this,
+          &MainWindow::slotWidgetAction);
+  connect(ui->a_debugInfo, &QAction::triggered, this,
           &MainWindow::slotWidgetAction);
 
   connect(ui->a_doldebug, &QAction::triggered, this,
@@ -811,7 +883,6 @@ void MainWindow::initMenuTree() {
   t->setEditTriggers(QTreeView::DoubleClicked);
   t->setSelectionBehavior(QTreeView::SelectRows);
   t->setSelectionMode(QTreeView::SingleSelection);
-  t->setAlternatingRowColors(true);
   t->setFocusPolicy(Qt::NoFocus);
 
   // drag and drop 追加
@@ -1010,8 +1081,30 @@ void MainWindow::initConnect() {
   connect(m_backPDlg, &QDialog::finished, this,
           &MainWindow::slotBPDialogFinished);
 
-  connect(ui->tabWidget, &QTabWidget::tabCloseRequested, this,
-          &MainWindow::slotTabClosed);
+  //  connect(ui->tabWidget, &QTabWidget::tabCloseRequested, this,
+  //          &MainWindow::slotTabClosed);
+
+  connect(ui->tabWidget, &QTabWidget::currentChanged, this,
+          &MainWindow::slotTabChanged);
+
+  connect(ui->MenuDock, &YDDockWidget::sigCloseClicked, this,
+          [this]() { ui->a_wpromg->setChecked(false); });
+  connect(ui->PropertyDock, &YDDockWidget::sigCloseClicked, this,
+          [this]() { ui->a_property->setChecked(false); });
+  connect(ui->VarDock, &YDDockWidget::sigCloseClicked, this,
+          [this]() { ui->a_wgbvar->setChecked(false); });
+  connect(ui->PeiFVarDock, &YDDockWidget::sigCloseClicked, this,
+          [this]() { ui->a_wwyvar->setChecked(false); });
+  connect(ui->TempVarDock, &YDDockWidget::sigCloseClicked, this,
+          [this]() { ui->a_wtpvar->setChecked(false); });
+  connect(ui->SafeVarDock, &YDDockWidget::sigCloseClicked, this,
+          [this]() { ui->a_wsfvar->setChecked(false); });
+  connect(ui->CylinderDock, &YDDockWidget::sigCloseClicked, this,
+          [this]() { ui->a_wcylinder->setChecked(false); });
+  connect(ui->InputDock, &YDDockWidget::sigCloseClicked, this,
+          [this]() { ui->a_logOut->setChecked(false); });
+  connect(ui->DebugDock, &YDDockWidget::sigCloseClicked, this,
+          [this]() { ui->a_debugInfo->setChecked(false); });
 }
 
 void MainWindow::initOtherSetting() {
@@ -1056,10 +1149,13 @@ void MainWindow::initOtherSetting() {
 
   m_codeManage->resize(1744, 970);
 
-  ui->a_LogicStart->setDisabled(true);
-  ui->a_LogicStop->setDisabled(true);
+  //  ui->a_LogicStart->setDisabled(true);
+  //  ui->a_LogicStop->setDisabled(true);
 
-  ui->tabWidget->setTabsClosable(true);
+  m_logicStart->setDisabled(true);
+  m_logicStop->setDisabled(true);
+
+  //  ui->tabWidget->setTabsClosable(true);
 
   ui->a_notSave->setChecked(true);
 
@@ -1150,7 +1246,8 @@ void MainWindow::initDebugActionEnable(const bool &flag) {
   ui->a_dstartm->setEnabled(flag);
   ui->a_dpausem->setEnabled(flag);
   ui->a_dstopm->setEnabled(flag);
-  ui->a_LogicStart->setEnabled(flag);
+  //  ui->a_LogicStart->setEnabled(flag);
+  m_logicStart->setEnabled(flag);
   m_isLogicTaskStart = false;
 
   setControlEnabled(!flag);
@@ -1535,17 +1632,20 @@ void MainWindow::updateData() {
 
 void MainWindow::updateTaskData() {
   if (m_isLogicTaskStart) {
-    auto index = m_logicTree->currentIndex();
-    YDTask *o = reinterpret_cast<YDTask *>(index.internalPointer());
-    if (o) {
-      auto id = o->id();
-      yd::proto::TaskState state;
-      state.id = 0;
-      state.state = 0;
-      state.process_states.clear();
+    auto index = ui->tabWidget->currentIndex();
+    if (index >= 0) {
+      auto w = static_cast<YDTabWidget *>(ui->tabWidget->widget(index));
+      YDTask *o = w->getTask();
+      if (o) {
+        auto id = o->id();
+        yd::proto::TaskState state;
+        state.id = 0;
+        state.state = 0;
+        state.process_states.clear();
 
-      YDDgHelper::getTaskState(id, &state);
-      o->setState(state);
+        YDDgHelper::getTaskState(id, &state);
+        o->setState(state);
+      }
     }
   }
 }
@@ -1617,6 +1717,7 @@ void MainWindow::setControlEnabled(bool enable) {
   ui->a_dellway->setEnabled(enable);
   ui->a_ttalkset->setEnabled(enable);
   ui->a_timingSave->setEnabled(enable);
+  ui->property_tree->setEnabled(enable);
 }
 
 void MainWindow::screenShot() {
@@ -1859,6 +1960,8 @@ void MainWindow::slotUpdateVar() {
           break;
         case 3:
           var->init_value = std::string(list[2].toLocal8Bit().data());
+          var->min_value = "";
+          var->max_value = "";
           break;
         case 4: {
           memset(&m_coords, 0, sizeof(yd::COORDS));
@@ -1875,6 +1978,8 @@ void MainWindow::slotUpdateVar() {
           std::string stdjson;
           yd::CRapidJsonHelper::AxisCoords2Json(&m_coords, stdjson);
           var->init_value = stdjson;
+          var->min_value = "";
+          var->max_value = "";
         } break;
       }
 
@@ -1912,6 +2017,8 @@ void MainWindow::slotUpdateReciVar() {
           break;
         case 3:
           var->init_value = std::string(list[2].toLocal8Bit().data());
+          var->min_value = "";
+          var->max_value = "";
           break;
         case 4: {
           memset(&m_coords, 0, sizeof(yd::COORDS));
@@ -1928,6 +2035,8 @@ void MainWindow::slotUpdateReciVar() {
           std::string stdjson;
           yd::CRapidJsonHelper::AxisCoords2Json(&m_coords, stdjson);
           var->init_value = stdjson;
+          var->min_value = "";
+          var->max_value = "";
         } break;
       }
       YDLogger::info(MainWindow::tr("修改配方变量: %1 成功").arg(list[0]));
@@ -1964,6 +2073,8 @@ void MainWindow::slotUpdateTempVar() {
           break;
         case 3:
           var->init_value = std::string(list[2].toLocal8Bit().data());
+          var->min_value = "";
+          var->max_value = "";
           break;
         case 4: {
           memset(&m_coords, 0, sizeof(yd::COORDS));
@@ -1980,6 +2091,8 @@ void MainWindow::slotUpdateTempVar() {
           std::string stdjson;
           yd::CRapidJsonHelper::AxisCoords2Json(&m_coords, stdjson);
           var->init_value = stdjson;
+          var->min_value = "";
+          var->max_value = "";
         } break;
       }
       YDLogger::info(MainWindow::tr("修改临时变量: %1 成功").arg(list[0]));
@@ -1992,6 +2105,7 @@ void MainWindow::slotUpdateTempVar() {
 void MainWindow::on_addSafeVar_clicked() {
   if (m_addSafeVarDlg) delete m_addSafeVarDlg;
   m_addSafeVarDlg = new YDAddSafeVarDialog(this);
+  m_addSafeVarDlg->setWindowTitle(YDAddSafeVarDialog::tr("添加安全变量"));
   connect(m_addSafeVarDlg, &YDAddSafeVarDialog::finished, this,
           &MainWindow::slotAddSafeVarFinished);
   m_addSafeVarDlg->open();
@@ -2455,6 +2569,7 @@ void MainWindow::slotSafeVarDoubleClick(const QModelIndex &index) {
 
     if (m_addSafeVarDlg) delete m_addSafeVarDlg;
     m_addSafeVarDlg = new YDAddSafeVarDialog(this);
+    m_addSafeVarDlg->setWindowTitle(YDAddSafeVarDialog::tr("修改安全变量"));
     m_addSafeVarDlg->setTextList(textList);
     connect(m_addSafeVarDlg, &YDAddSafeVarDialog::finished, this,
             &MainWindow::slotUpdateSafeVar);
@@ -2501,24 +2616,51 @@ void MainWindow::slotCratePFinished() {
     auto name = QSTRTSTR(m_createPDlg->getName());
     setBtnState(true);
     YDProjectManage::CreateProject(name);
-    YDProjectManage::openProject(name);
-    initOpenMenu();
+    bool result = YDProjectManage::openProject(name);
+    if (result) {
+      YDLogger::info(QString("%1%2%3").arg(MainWindow::tr("新建项目:"),
+                                           m_createPDlg->getName(),
+                                           MainWindow::tr("成功!")));
+      initOpenMenu();
+    } else {
+      YDLogger::info(QString("%1%2%3").arg(MainWindow::tr("新建项目:"),
+                                           m_createPDlg->getName(),
+                                           MainWindow::tr("失败!")));
+    }
   }
 }
 
 void MainWindow::slotChangeNFinished() {
   if (QDialog::Accepted == m_changeDlg->result()) {
     auto name = QSTRTSTR(m_changeDlg->getName());
-    YDProjectManage::renameProject(name);
-    initOpenMenu();
+    bool result = YDProjectManage::renameProject(name);
+    if (result) {
+      YDLogger::info(QString("%1%2%3").arg(MainWindow::tr("重命名项目:"),
+                                           m_changeDlg->getName(),
+                                           MainWindow::tr("成功!")));
+      initOpenMenu();
+    } else {
+      YDLogger::info(QString("%1%2%3").arg(MainWindow::tr("重命名项目:"),
+                                           m_changeDlg->getName(),
+                                           MainWindow::tr("失败!")));
+    }
   }
 }
 
 void MainWindow::slotSaveasFinished() {
   if (QDialog::Accepted == m_saveasDlg->result()) {
     auto name = QSTRTSTR(m_saveasDlg->getName());
-    YDProjectManage::saveProjectAs(name);
-    initOpenMenu();
+    bool result = YDProjectManage::saveProjectAs(name);
+    if (result) {
+      YDLogger::info(QString("%1%2%3").arg(MainWindow::tr("保存项目:"),
+                                           m_saveasDlg->getName(),
+                                           MainWindow::tr("成功!")));
+      initOpenMenu();
+    } else {
+      YDLogger::info(QString("%1%2%3").arg(MainWindow::tr("保存项目:"),
+                                           m_saveasDlg->getName(),
+                                           MainWindow::tr("失败!")));
+    }
   }
 }
 
@@ -2527,18 +2669,33 @@ void MainWindow::slotActionTriggered(bool) {
   auto name = QSTRTSTR(ac->text());
   YDProjectManage::closeProject();
   setBtnState(true);
-  YDProjectManage::openProject(name);
+  bool result = YDProjectManage::openProject(name);
 
-  initOpenMenu();
+  if (result) {
+    YDLogger::info(QString("%1%2%3").arg(MainWindow::tr("打开项目:"),
+                                         ac->text(), MainWindow::tr("成功.")));
+    initOpenMenu();
+  } else {
+    YDLogger::info(QString("%1%2%3").arg(MainWindow::tr("打开项目:"),
+                                         ac->text(), MainWindow::tr("失败.")));
+  }
 }
 
 void MainWindow::slotWayActionTriggered(bool) {
   QAction *ac = qobject_cast<QAction *>(sender());
   auto name = QSTRTSTR(ac->text());
-  YDProjectManage::openRecipe(name);
-  initReciWidget();
-  initOpenWayMenu();
-  m_reciVarModel->updateData();
+  bool result = YDProjectManage::openRecipe(name);
+  if (result) {
+    YDLogger::info(QString("%1%2%3").arg(MainWindow::tr("打开配方:"),
+                                         ac->text(), MainWindow::tr("成功.")));
+
+    initReciWidget();
+    initOpenWayMenu();
+    m_reciVarModel->updateData();
+  } else {
+    YDLogger::info(QString("%1%2%3").arg(MainWindow::tr("打开配方:"),
+                                         ac->text(), MainWindow::tr("失败.")));
+  }
 }
 
 void MainWindow::slotDelActionTriggered(bool) {
@@ -2549,9 +2706,16 @@ void MainWindow::slotDelActionTriggered(bool) {
       MainWindow::tr("确认"), MainWindow::tr("取消"));
 
   if (0 == rb) {
-    YDProjectManage::deleteProject(name);
+    bool result = YDProjectManage::deleteProject(name);
+    if (result) {
+      YDLogger::info(QString("%1%2%3").arg(
+          MainWindow::tr("删除项目:"), ac->text(), MainWindow::tr("成功.")));
+      initOpenMenu();
+    } else {
+      YDLogger::info(QString("%1%2%3").arg(
+          MainWindow::tr("删除项目:"), ac->text(), MainWindow::tr("失败.")));
+    }
   }
-  initOpenMenu();
 }
 
 void MainWindow::slotDelWayActionTriggered(bool) {
@@ -2562,33 +2726,68 @@ void MainWindow::slotDelWayActionTriggered(bool) {
       MainWindow::tr("确认"), MainWindow::tr("取消"));
 
   if (0 == rb) {
-    YDProjectManage::deleteRecipe(name);
+    bool result = YDProjectManage::deleteRecipe(name);
+    if (result) {
+      YDLogger::info(QString("%1%2%3").arg(
+          MainWindow::tr("删除配方:"), ac->text(), MainWindow::tr("成功.")));
+      initOpenWayMenu();
+    } else {
+      YDLogger::info(QString("%1%2%3").arg(
+          MainWindow::tr("删除配方:"), ac->text(), MainWindow::tr("失败.")));
+    }
   }
-  initOpenWayMenu();
 }
 
 void MainWindow::slotCreateReciFinished() {
   if (QDialog::Accepted == m_createReciDlg->result()) {
     auto name = QSTRTSTR(m_createReciDlg->getName());
     YDProjectManage::createRecipe(name);
-    YDProjectManage::openRecipe(name);
-    initOpenWayMenu();
+    bool result = YDProjectManage::openRecipe(name);
+    if (result) {
+      YDLogger::info(QString("%1%2%3").arg(MainWindow::tr("新建配方:"),
+                                           m_createReciDlg->getName(),
+                                           MainWindow::tr("成功.")));
+      initOpenMenu();
+    } else {
+      YDLogger::info(QString("%1%2%3").arg(MainWindow::tr("新建配方:"),
+                                           m_createReciDlg->getName(),
+                                           MainWindow::tr("失败.")));
+    }
   }
 }
 
 void MainWindow::slotChangeReciFinished() {
   if (QDialog::Accepted == m_changeReciDlg->result()) {
     auto name = QSTRTSTR(m_changeReciDlg->getName());
-    YDProjectManage::renameRecipe(name);
-    initOpenWayMenu();
+    bool result = YDProjectManage::renameRecipe(name);
+    if (result) {
+      YDLogger::info(QString("%1%2%3").arg(MainWindow::tr("重命名配方:"),
+                                           m_changeReciDlg->getName(),
+                                           MainWindow::tr("成功.")));
+
+      initOpenWayMenu();
+    } else {
+      YDLogger::info(QString("%1%2%3").arg(MainWindow::tr("重命名配方:"),
+                                           m_changeReciDlg->getName(),
+                                           MainWindow::tr("失败.")));
+    }
   }
 }
 
 void MainWindow::slotSaveasReciFinished() {
   if (QDialog::Accepted == m_saveasReciDlg->result()) {
     auto name = QSTRTSTR(m_saveasReciDlg->getName());
-    YDProjectManage::saveRecipeAs(name);
-    initOpenWayMenu();
+    bool result = YDProjectManage::saveRecipeAs(name);
+    if (result) {
+      YDLogger::info(QString("%1%2%3").arg(MainWindow::tr("另存为配方:"),
+                                           m_saveasReciDlg->getName(),
+                                           MainWindow::tr("成功.")));
+      initOpenWayMenu();
+    } else {
+      YDLogger::info(QString("%1%2%3").arg(MainWindow::tr("另存为配方:"),
+                                           m_saveasReciDlg->getName(),
+                                           MainWindow::tr("失败.")));
+    }
   }
 }
 
@@ -2604,13 +2803,25 @@ void MainWindow::slotBPDialogFinished() {
   }
 }
 
-void MainWindow::slotTabClosed(int index) {
-  if (index >= 0) {
-    ui->tabWidget->removeTab(index);
+void MainWindow::slotTabClosed() {
+  if (m_curTabIndex >= 0) {
+    ui->tabWidget->tabBar()->setTabButton(m_curTabIndex, QTabBar::RightSide,
+                                          nullptr);
+    m_curTabIndex = m_curTabIndex + 1;
+    ui->tabWidget->removeTab(m_curTabIndex - 1);
   }
 }
 
-void MainWindow::showHardConfig() { m_deviceSetDlg->open(); }
+void MainWindow::slotDebugFinished() { m_debugWindowType = -1; }
+
+void MainWindow::showHardConfig() {
+  if (YDProjectManage::IsOnlineDebugOpened()) {
+    m_deviceSetDlg->setControlEnabled(false);
+  } else {
+    m_deviceSetDlg->setControlEnabled(true);
+  }
+  m_deviceSetDlg->open();
+}
 
 void MainWindow::showVarConfig(int type) {
   switch (type) {
@@ -2727,6 +2938,12 @@ void MainWindow::slotWidgetAction(bool b) {
     } else {
       ui->MenuDock->hide();
     }
+  } else if (ui->a_property == ac) {
+    if (b) {
+      ui->PropertyDock->show();
+    } else {
+      ui->PropertyDock->hide();
+    }
   } else if (ui->a_wgbvar == ac) {
     if (b) {
       ui->VarDock->show();
@@ -2769,6 +2986,18 @@ void MainWindow::slotWidgetAction(bool b) {
     if (b) {
     } else {
     }
+  } else if (ui->a_logOut == ac) {
+    if (b) {
+      ui->InputDock->show();
+    } else {
+      ui->InputDock->hide();
+    }
+  } else if (ui->a_debugInfo == ac) {
+    if (b) {
+      ui->DebugDock->show();
+    } else {
+      ui->DebugDock->hide();
+    }
   }
 }
 
@@ -2784,8 +3013,10 @@ void MainWindow::showMotionMonitoring(int type) {
         m_axisWidget = new YDDAxisControl(this);
         m_axisWidget->setWindowFlags(Qt::Dialog);
         m_axisWidget->setWindowModality(Qt::ApplicationModal);
-        m_axisWidget->resize(1700, 950);
-        m_axisWidget->show();
+        m_axisWidget->resize(1100, 760);
+        connect(m_axisWidget, &YDDAxisControl::finished, this,
+                &MainWindow::slotDebugFinished);
+        m_axisWidget->open();
       } break;
 
       case 1: {  //气油缸控制
@@ -2793,7 +3024,9 @@ void MainWindow::showMotionMonitoring(int type) {
         m_cylinderWidget = new YDDCylinderWidget(this);
         m_cylinderWidget->setWindowFlags(Qt::Dialog);
         m_cylinderWidget->setWindowModality(Qt::ApplicationModal);
-        m_cylinderWidget->resize(1700, 950);
+        m_cylinderWidget->resize(1100, 760);
+        connect(m_cylinderWidget, &YDDCylinderWidget::toclose, this,
+                &MainWindow::slotDebugFinished);
         m_cylinderWidget->show();
       } break;
 
@@ -2802,7 +3035,9 @@ void MainWindow::showMotionMonitoring(int type) {
         m_inputWidget = new YDDInputWidget(this);
         m_inputWidget->setWindowFlags(Qt::Dialog);
         m_inputWidget->setWindowModality(Qt::ApplicationModal);
-        m_inputWidget->resize(1700, 950);
+        m_inputWidget->resize(1100, 760);
+        connect(m_inputWidget, &YDDInputWidget::toclose, this,
+                &MainWindow::slotDebugFinished);
         m_inputWidget->show();
       } break;
 
@@ -2811,7 +3046,9 @@ void MainWindow::showMotionMonitoring(int type) {
         m_outputWidget = new YDDOutputWidget(this);
         m_outputWidget->setWindowFlags(Qt::Dialog);
         m_outputWidget->setWindowModality(Qt::ApplicationModal);
-        m_outputWidget->resize(1700, 950);
+        m_outputWidget->resize(1100, 760);
+        connect(m_outputWidget, &YDDOutputWidget::toclose, this,
+                &MainWindow::slotDebugFinished);
         m_outputWidget->show();
       } break;
       case 4: {
@@ -2819,8 +3056,10 @@ void MainWindow::showMotionMonitoring(int type) {
         m_varWidget = new YDDVarWidget(this);
         m_varWidget->setWindowFlags(Qt::Dialog);
         m_varWidget->setWindowModality(Qt::ApplicationModal);
-        m_varWidget->resize(1700, 950);
-        m_varWidget->show();
+        m_varWidget->resize(1300, 760);
+        connect(m_varWidget, &YDDVarWidget::finished, this,
+                &MainWindow::slotDebugFinished);
+        m_varWidget->open();
       } break;
       default:
         break;
@@ -2828,24 +3067,46 @@ void MainWindow::showMotionMonitoring(int type) {
   }
 }
 
+void MainWindow::slotTabChanged(int index) {
+  QCoreApplication::removePostedEvents(m_tabButton);
+  if (!YDHelper::getTestStart()) {
+    if (index >= 0 && (m_curTabIndex != index)) {
+      auto tabwb = ui->tabWidget->tabBar();
+      auto count = ui->tabWidget->count();
+      if (m_curTabIndex >= 0 && (m_curTabIndex < count))
+        tabwb->setTabButton(m_curTabIndex, QTabBar::RightSide, nullptr);
+      tabwb->setTabButton(index, QTabBar::RightSide, m_tabButton);
+    }
+    m_curTabIndex = index;
+  }
+}
+
 //菜单栏
 
 void MainWindow::on_a_new_triggered() {
   m_createPDlg->clear();
+  m_createPDlg->setWindowTitle(YDNameDialog::tr("新建项目"));
   m_createPDlg->open();
 }
 
 void MainWindow::on_a_close_triggered() {
-  YDProjectManage::closeProject();
-  setBtnState(false);
-  ui->a_new->setEnabled(true);
-  ui->a_open->setEnabled(true);
+  bool result = YDProjectManage::closeProject();
+  if (result) {
+    YDLogger::info(MainWindow::tr("关闭项目成功."));
 
-  initOpenMenu();
+    setBtnState(false);
+    ui->a_new->setEnabled(true);
+    ui->a_open->setEnabled(true);
+
+    initOpenMenu();
+  } else {
+    YDLogger::info(MainWindow::tr("关闭项目失败."));
+  }
 }
 
 void MainWindow::on_a_rename_triggered() {
   m_changeDlg->clear();
+  m_changeDlg->setWindowTitle(YDNameDialog::tr("重命名项目"));
   m_changeDlg->open();
 }
 
@@ -2860,20 +3121,38 @@ void MainWindow::on_a_saveall_triggered() {
   YDProjectManage::saveProject();
 }
 
-void MainWindow::on_a_saveoth_triggered() { m_saveasDlg->open(); }
+void MainWindow::on_a_saveoth_triggered() {
+  m_saveasDlg->setWindowTitle(YDNameDialog::tr("项目另存为"));
+  m_saveasDlg->open();
+}
 
 void MainWindow::on_a_exit_triggered() { exit(0); }
 
 void MainWindow::on_a_newway_triggered() {
   m_createReciDlg->open();
+  m_createReciDlg->setWindowTitle(YDNameDialog::tr("新建配方"));
   initReciWidget();
 }
 
-void MainWindow::on_a_changeWay_triggered() { m_changeReciDlg->open(); }
+void MainWindow::on_a_changeWay_triggered() {
+  m_changeReciDlg->open();
+  m_changeReciDlg->setWindowTitle(YDNameDialog::tr("重命名配方"));
+}
 
-void MainWindow::on_a_saveway_triggered() { m_saveasReciDlg->open(); }
+void MainWindow::on_a_saveway_triggered() {
+  m_saveasReciDlg->open();
+  m_saveasReciDlg->setWindowTitle(YDNameDialog::tr("配方另存为"));
+}
 
-void MainWindow::on_a_saveow_triggered() { YDProjectManage::saveRecipe(); }
+void MainWindow::on_a_saveow_triggered() {
+  bool result = YDProjectManage::saveRecipe();
+  if (result) {
+    YDLogger::info(MainWindow::tr("保存配方成功."));
+    initOpenMenu();
+  } else {
+    YDLogger::info(MainWindow::tr("保存配方失败."));
+  }
+}
 
 void MainWindow::on_a_dupload_triggered() {}
 
@@ -3022,7 +3301,7 @@ void MainWindow::on_a_closeDebug_triggered() {
   ui->a_closeDebug->setEnabled(false);
   initDebugActionEnable(false);
   YDProjectManage::OpenOnlineDebug(false);
-  YDLogger::info(MainWindow::tr("关闭在线调试."));
+  if (YDDgHelper::Disconnect()) YDLogger::info(MainWindow::tr("关闭在线调试."));
   emit stop();
 }
 
@@ -3051,17 +3330,43 @@ void MainWindow::on_a_doldebug_triggered(bool checked) {
 }
 
 void MainWindow::on_a_LogicStart_triggered() {
-  ui->a_LogicStart->setEnabled(false);
-  ui->a_LogicStop->setEnabled(true);
+  //  ui->a_LogicStart->setEnabled(false);
+  //  ui->a_LogicStop->setEnabled(true);
+  uint8 ucStatus = 0, ucMode = 0;
+  YDDgHelper::getLogicControllerStatus(ucStatus, ucMode);
+
+  switch (ucStatus) {
+    case SYSTEM_STATUS_RUNNING:
+    case SYSTEM_STATUS_RESTORED:
+      break;
+    case SYSTEM_STATUS_STOPED:
+      QMessageBox::information(nullptr, MainWindow::tr("提示"),
+                               MainWindow::tr("服务器状态:已停止"));
+      return;
+    case SYSTEM_STATUS_SUSPENDED:
+      QMessageBox::information(nullptr, MainWindow::tr("提示"),
+                               MainWindow::tr("服务器状态:已挂起"));
+      return;
+    default:
+      QMessageBox::information(nullptr, MainWindow::tr("提示"),
+                               MainWindow::tr("服务器状态:未知"));
+      return;
+  }
+  m_logicStart->setEnabled(false);
+  m_logicStop->setEnabled(true);
 
   YDHelper::setTestStart(true);
   m_isLogicTaskStart = true;
-  auto index = m_logicTree->currentIndex();
-  if (index.isValid()) {
-    YDTask *o = reinterpret_cast<YDTask *>(index.internalPointer());
+  auto index = ui->tabWidget->currentIndex();
+  if (index >= 0) {
+    auto w = static_cast<YDTabWidget *>(ui->tabWidget->widget(index));
+    YDTask *o = w->getTask();
     if (o) {
       std::string xmlstr;
       m_taskId = o->id();
+
+      updateTaskData();
+      emit updateTask(1000, m_taskId);
       YDProjectManage::getTaskXmlizedProcesses(m_taskId, xmlstr);
       YDDgHelper::startLogicTaskDebug(m_taskId, xmlstr);
     }
@@ -3069,8 +3374,10 @@ void MainWindow::on_a_LogicStart_triggered() {
 }
 
 void MainWindow::on_a_LogicStop_triggered() {
-  ui->a_LogicStart->setEnabled(true);
-  ui->a_LogicStop->setEnabled(false);
+  //  ui->a_LogicStart->setEnabled(true);
+  //  ui->a_LogicStop->setEnabled(false);
+  m_logicStart->setEnabled(true);
+  m_logicStop->setEnabled(false);
   YDHelper::setTestStart(false);
 
   m_isLogicTaskStart = false;
@@ -3082,29 +3389,69 @@ void MainWindow::SlotTimingSave() {
   YDProjectManage::saveProject();
 }
 
+void MainWindow::SlotTaskState(quint8 state) {
+  if (m_isLogicTaskStart) {
+    if (YDProjectManage::IsOnlineDebugOpened()) {
+      if (state != DEBUG_STATE_IN_PROCESSING && state != DEBUG_STATE_STOPPED) {
+        emit stopTask();
+        on_a_LogicStop_triggered();
+      }
+    } else {
+      emit stopTask();
+    }
+  }
+}
+
 void MainWindow::on_a_notSave_triggered() {
   setSelectTime(0);
   emit stopTiming();
+  YDLogger::info(MainWindow::tr("关闭定时保存."));
 }
 
 void MainWindow::on_a_save5_triggered() {
   setSelectTime(1);
   emit updateTiming(5 * 60 * 1000);
+  YDLogger::info(MainWindow::tr("打开定时保存:5分钟."));
 }
 
 void MainWindow::on_a_save10_triggered() {
   setSelectTime(2);
   emit updateTiming(10 * 60 * 1000);
+  YDLogger::info(MainWindow::tr("打开定时保存:10分钟."));
 }
 
 void MainWindow::on_a_save20_triggered() {
   setSelectTime(3);
   emit updateTiming(20 * 60 * 1000);
+  YDLogger::info(MainWindow::tr("打开定时保存:20分钟."));
 }
 
 void MainWindow::on_a_save30_triggered() {
   setSelectTime(4);
   emit updateTiming(30 * 60 * 1000);
+  YDLogger::info(MainWindow::tr("关闭定时保存:30分钟."));
 }
 
 void MainWindow::on_a_habout_triggered() { m_aboutDlg->open(); }
+
+void MainWindow::on_m_save_triggered() {
+  setFocus();
+  YDProjectManage::saveProject();
+}
+
+void MainWindow::on_GasDel_clicked() {
+  if (m_cylinderIndex.isValid()) {
+    auto rb = QMessageBox::information(
+        this, MainWindow::tr("提示"), MainWindow::tr("是否删除?"),
+        MainWindow::tr("确认"), MainWindow::tr("取消"));
+    if (0 == rb) {
+      QMap map = m_cylinderModel->itemData(m_cylinderIndex);
+      QVariant tmpName = map.begin().value();
+      YDProjectManage::deleteCylinder(QSTRTSTR(tmpName.toString()));
+      m_cylinderModel->updateModel();
+    }
+  } else {
+    QMessageBox::warning(nullptr, MainWindow::tr("提示"),
+                         MainWindow::tr("请选择要删除的气油缸!"));
+  }
+}
